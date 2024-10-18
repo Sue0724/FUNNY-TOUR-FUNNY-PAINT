@@ -1,0 +1,109 @@
+/* pages/monitor/monitor.wxss */
+
+page {
+    height: 100%;
+}
+
+.monitor-page {
+    background-color: #ededed;
+    height: 100%;
+    /* overflow-y: hidden; */
+    display: grid;
+    grid-template-rows: auto auto 1fr; 
+}
+
+/* 上方过滤工具条 */
+.monitor-bar {
+    display: grid;
+    grid-gap: 5rpx;
+    grid-template-columns: 1fr auto;
+}
+
+.monitor-bar-button {
+    background-color: #fff;
+    width: auto!important;
+    margin: 8px 8px 8px 0px;
+    padding: 5px 8px;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.monitor-bar-image {
+    width: 40rpx;
+    height: 40rpx;
+}
+
+/* 过滤面板 */
+.monitor-filter {
+    display: none;
+}
+
+.monitor-filter.monitor-filter-active {
+    display: block;
+    background-color: #fff;
+    margin: 0px 8px 8px 8px;
+}
+
+.monitor-filter > view {
+    padding: 5px;
+}
+
+.monitor-filter-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 55px);
+    grid-gap: 3px;
+}
+
+.monitor-filter-items button[size=mini] {
+    font-size: 12px;
+}
+  
+/* 卡片 */
+.monitor-container {
+    background-color: #fff;
+    padding: 10px;
+    /* overflow-y: auto; */
+}
+
+.monitor-card {
+    position: relative;
+    border: 1px solid #f0f0f0;
+    box-shadow: 2px 4px 4px #eee;
+    padding: 10px 10px;
+    border-radius: 5px;
+    display: grid;
+    grid-template-rows: auto auto auto;
+    grid-gap: 3px;
+    margin-bottom: 5px;
+}
+
+.monitor-card .monitor-title {
+    font-size: 14px;
+    display: grid;
+    grid-gap: 5px;
+    grid-template-columns: 1fr auto auto;
+}
+  
+.monitor-card .monitor-title-image {
+    width: 16px;
+    height: 16px;
+}
+  
+.monitor-card .monitor-date {
+    color: #333;
+    font-size: 12px;
+}
+  
+.monitor-card .monitor-data {
+    color: #333;
+    font-size: 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 5px;
+    justify-content: end;
+}
+  
+.monitor-card .monitor-data-item-value {
+    color: #26C9FF;
+}

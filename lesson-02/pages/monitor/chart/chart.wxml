@@ -1,0 +1,2 @@
+<!--pages/monitor/chart/chart.wxml-->
+<ec-canvas id="mychart-dom-line" canvas-id="mychart-line" ec="{{ ec }}"></ec-canvas>

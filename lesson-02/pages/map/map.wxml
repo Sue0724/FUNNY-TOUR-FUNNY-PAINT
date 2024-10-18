@@ -1,0 +1,53 @@
+<!--pages/map/map.wxml-->
+<view style="width: 100%; height: 100%;">
+  <map id="map" 
+    subkey="{{subKey}}"
+    style="width: 100%; height: 70%;"
+    latitude="{{latitude}}"
+    longitude="{{longitude}}"
+    scale="{{18}}"
+    markers="{{markers}}"
+    circles="{{circles}}"
+    polyline="{{polylines}}"
+    polygons="{{polygons}}"
+    enable-3D="{{enable3d}}"
+    show-location="{{showLocation}}"
+    show-compass="{{showCompass}}"
+    enable-zoom="{{enableZoom}}"
+    enable-rotate="{{enableRotate}}"
+    enable-satellite="{{enableSatellite}}"
+    enable-traffic="{{enableTraffic}}"
+    enable-overlooking="{{enableOverlooking}}"
+    enable-scroll="{{enableScroll}}"
+    bindmarkertap = "handleMarkerTap"
+  >
+  </map>
+  
+  <mp-halfScreenDialog show="{{showDialog}}">
+    <view slot="title">{{currentMarker.name}}</view>
+    <view slot="desc"></view>
+    <view slot="footer">
+      <button type="primary" class="weui-btn" bindtap="navi1">外部导航</button>
+      <button type="primary" class="weui-btn" bindtap="navi2">内部导航</button>
+    </view>
+  </mp-halfScreenDialog>
+
+  <view class="task-body">
+    <mp-cells title="基本信息" >
+      <mp-cell title="放置地点坐标" ext-class="">
+        <mp-icon slot="icon" icon="pencil" size="18" color="#333"></mp-icon>
+        <text slot="footer">经度{{set_point.longitude}}，纬度{{set_point.latitude}}</text>
+      </mp-cell>
+      <mp-cell title="地址反解析" ext-class="">
+        <mp-icon slot="icon" icon="keyboard" size="18" color="#333"></mp-icon>
+        <text slot="footer">{{set_point.address}}</text>
+      </mp-cell>
+      <mp-cell title="周边地点" ext-class="">
+        <mp-icon slot="icon" icon="me" size="18" color="#333"></mp-icon>
+        <view slot="footer">
+          <text style="margin-left: 5px;">item_name</text>
+        </view>
+      </mp-cell>
+    </mp-cells>
+  </view>
+</view>

@@ -1,0 +1,62 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/me/index",
+    "pages/logs/logs",
+    "pages/map/map",
+    "pages/monitor/monitor",
+    "pages/monitor/chart/chart",
+    "pages/canvas/canvas"
+  ],
+  "window": {
+    "navigationBarTextStyle": "@navigationBarTextStyle",
+    "navigationBarTitleText": "趣游绘",
+    "navigationBarBackgroundColor": "@navigationBarBackgroundColor",
+    "backgroundColor": "@backgroundColor"
+  },
+  "tabBar": {
+    "color": "@tabBarColor",
+    "selectedColor": "@tabBarSelectedColor",
+    "borderStyle": "@tabBarBorderStyle",
+    "backgroundColor": "@tabBarBackgroundColor",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "iconPath": "@iconPathHome",
+        "selectedIconPath": "@selectedIconPathHome",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/map/map",
+        "iconPath": "@iconPathMap",
+        "selectedIconPath": "@selectedIconPathMap",
+        "text": "地图"
+      },
+      {
+        "pagePath": "pages/canvas/canvas",
+        "iconPath": "@iconPathMap",
+        "selectedIconPath": "@selectedIconPathMap",
+        "text": "画布"
+      },
+      {
+        "pagePath": "pages/me/index",
+        "iconPath": "@iconPathMe",
+        "selectedIconPath": "@selectedIconPathMe",
+        "text": "我的"
+      }
+    ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序定位"
+    }
+  },
+  "plugins": {},
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "themeLocation": "demo.theme.json",
+  "darkmode": true,
+  "useExtendedLib": {
+    "weui": true
+  }
+}

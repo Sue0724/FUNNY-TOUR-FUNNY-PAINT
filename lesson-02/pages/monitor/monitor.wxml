@@ -1,0 +1,35 @@
+<!--pages/monitor/monitor.wxml-->
+<wxs src="../../utils/format.wxs" module="format" />
+<view class="monitor-page">
+  <view class="monitor-bar">
+    <mp-searchbar bindinput="filter" bindclear="clear" cancel="{{false}}"></mp-searchbar>
+    <view class="monitor-bar-button">
+      <image class="monitor-bar-image" src="../../images/classify.png" bindtap="switch"></image>
+    </view>
+  </view>
+
+  <view class="monitor-filter {{show ? 'monitor-filter-active' : ''}}">
+    <view class="monitor-filter-items">
+      <button type="{{type == 'all' ? 'primary' : 'default'}}" size="mini" data-code="all" bindtap="changeType">全部</button>
+      <button type="{{type == item.code ? 'primary' : 'default'}}" size="mini" data-code="{{item.code}}" wx:for="{{types}}" wx:key="_id" bindtap="changeType">{{item.name}}</button>
+    </view>
+  </view>
+
+  <view class="monitor-container">
+    <view class="monitor-card" wx:for="{{monitors}}" wx:key="_id" data-id="{{item._id}}" bindtap="naviMonitor">
+      <view class="monitor-title">
+        <text style="margin-left: 2px;">{{item.name}}</text>
+        <image class="monitor-title-image" src="{{item.enable ? '../../images/monitor/link.svg' : '../../images/monitor/unlink.svg'}}"></image>
+        <image class="monitor-title-image" src="{{item.enable ? '../../images/monitor/battery-3.svg' : '../../images/monitor/battery-0.svg'}}"></image>
+      </view>
+      <text class="monitor-date">最后通讯时间：{{item.enable ? (item.latest ? item.latest.date : '已断开')  : '未启用' }}
+      </text>
+      <view class="monitor-data">
+        <view class="monitor-data-item" wx:for="{{item.display}}">
+          <text class="monitor-data-item-name">{{item.name + ": "}}</text>
+          <text class="monitor-data-item-value">{{item.value}}</text>
+        </view>
+      </view>     
+    </view>
+  </view>
+</view>

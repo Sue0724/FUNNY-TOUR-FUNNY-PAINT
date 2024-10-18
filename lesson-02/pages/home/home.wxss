@@ -1,0 +1,70 @@
+/* pages/home/home.wxss */
+
+.swiper-item {
+  height: 100%;
+  width: 100%;
+}
+
+swiper {
+  height: 180px;
+}
+
+.weui-media-box_appmsg .weui-media-box__hd {
+  width: 80px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-rows: 100px 100px;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.grid-panel-1 {
+  padding: 5px;
+  margin: 10px 10px 10px 10px;
+  border: 1px solid #f0f0f0;
+  box-shadow: 2px 4px 4px #eeeeee;
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.grid-panel-2 {
+  padding: 5px;
+  margin: 10px 10px 10px 10px;
+  border: 1px solid #f0f0f0;
+  box-shadow: 2px 4px 4px #eeeeee;
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.grid-item-2 {
+  display: grid;
+  grid-template-rows: 10px 40px 30px 10px;
+  align-items: center;
+  justify-items: center;
+  text-align: center;
+}
+
+.grid-item {
+  display: grid;
+  grid-template-rows: 10px 64px 30px 10px;
+  align-items: center;
+  justify-items: center;
+  text-align: center;
+}
+
+
+.grid-item-illustration {
+  width: 64px;
+  height: 64px;
+}
+
+.grid-item-image {
+  width: 24px;
+  height: 24px;
+}
+.grid-item-text {
+  font-size: 14px;
+}

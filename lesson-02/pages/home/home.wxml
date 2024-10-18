@@ -1,0 +1,75 @@
+<!--pages/home/home.wxml-->
+<swiper indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+  <block wx:for="{{background}}" wx:key="*this">
+    <swiper-item>
+      <image class="swiper-item" src="{{item}}"></image>
+    </swiper-item>
+  </block>
+</swiper>
+
+<view class="grid-panel-1">
+  <view class="grid-item" style="border-right: 1px solid #eee" bindtap="navigate" data-url="/pages/logs/logs" >
+    <view></view>
+    <image class="grid-item-illustration" src="../../images/home/job2.svg"></image>
+    <text class="grid-item-text">项目任务</text>
+    <view></view>
+  </view>
+  <view class="grid-item" bindtap="navigate" data-url="/pages/logs/logs" >
+    <view></view>
+    <image class="grid-item-illustration" src="../../images/home/project2.svg"></image>
+    <text class="grid-item-text">项目管理</text>
+    <view></view>
+  </view>
+</view>
+
+<view class="grid-panel-2">
+  <view class="grid-item" bindtap="navigate" data-url="/pages/patrol/patrol" >
+    <view></view>
+    <image class="grid-item-image" src="../../images/home/task.svg"></image>
+    <text class="grid-item-text">巡查工单</text>
+    <view></view>
+  </view>
+  <view class="grid-item" bindtap="navigate" data-url="/pages/maintain/maintain" >
+    <view></view>
+    <image class="grid-item-image" src="../../images/home/task.svg"></image>
+    <text class="grid-item-text">养护工单</text>
+    <view></view>
+  </view>
+  <view class="grid-item" bindtap="navigate" data-url="/pages/emergency/emergency" >
+    <view></view>
+    <image class="grid-item-image" src="../../images/home/task.svg"></image>
+    <text class="grid-item-text">应急工单</text>
+    <view></view>
+  </view>
+</view>
+
+<view class="grid-panel-1">
+  <view class="grid-item" style="border-right: 1px solid #eee" bindtap="navigate" data-url="/pages/logs/logs" >
+    <view></view>
+    <image class="grid-item-illustration" src="../../images/home/asset_map.svg"></image>
+    <text class="grid-item-text">设施地图</text>
+    <view></view>
+  </view>
+  <view class="grid-item" bindtap="scan">
+    <view></view>
+    <image class="grid-item-illustration" src="../../images/home/asset_qrcode.svg"></image>
+    <text class="grid-item-text">设施扫码</text>
+    <view></view>
+  </view>
+</view>
+
+<view class="grid-panel-1">
+  <view class="grid-item" style="border-right: 1px solid #eee" bindtap="navigate" data-url="/pages/logs/logs" >
+    <view></view>
+    <image class="grid-item-illustration" src="../../images/home/monitor_map.svg"></image>
+    <text class="grid-item-text">监测地图</text>
+    <view></view>
+  </view>
+  <view class="grid-item" bindtap="navigate" data-url="/pages/monitor/monitor" >
+    <view></view>
+    <image class="grid-item-illustration" src="../../images/home/monitor_live.svg"></image>
+    <text class="grid-item-text">实时监测</text>
+    <view></view>
+  </view>
+</view>
+
