@@ -18,9 +18,9 @@ Page({
     screenYDiff: 0,
     lastLatLng: {},
     lastScreenXY: {},
-
     currentTool: 'brush', // 默认工具为画笔
 
+    showNearbyPlaces: false,
     set_point: {
       longitude: '',
       latitude: '',
@@ -39,23 +39,7 @@ Page({
     enableTraffic: false,
     latitude: '30.512066262970436',
     longitude: '114.40805769497365',
-    markers: [{
-      'id': 1,
-      'name': '立功路',
-      'latitude': 30.875376759784945,
-      'longitude': 120.12579917907715,
-      'iconPath': '../../images/location.png',
-      'width': 32,
-      'height': 32
-    },{
-      'id': 2,
-      'name': '曲园路',
-      'latitude': 30.876813260148158,
-      'longitude': 120.13030529022217,
-      'iconPath': '../../images/location.png',
-      'width': 32,
-      'height': 32
-    }],
+    markers: [],
     circles: [],
     polylines: [],
     polygons: [],
@@ -67,9 +51,22 @@ Page({
   // 切换绘画模式
   toggleDrawMode() {
     this.setData({
-      drawMode: !this.data.drawMode, // 切换绘画模式的布尔值
+      drawMode: !this.data.drawMode,
       currentTool: 'brush' // 进入绘画模式时重置工具为画笔
     });
+  },
+
+  toggleShowNearbyPlaces() {
+    this.setData({
+      showNearbyPlaces: !this.data.showNearbyPlaces,
+    })
+
+    if (this.data.showNearbyPlaces) {
+      this.searchNearbyPlaces();
+    }
+    else {
+      this.setData({ markers: [], currentMarker: null });
+    }
   },
 
   // 获取地图左上角经纬度
@@ -135,16 +132,33 @@ Page({
   },
 
   onLoad: async function () {
-    // 初始化画布上下文
-    wx.createSelectorQuery()
-      .select('#myCanvas')   // 选择 Canvas 节点
-      .fields({
-        node: true,
-        size: true,
-      })
-      .exec(this.init.bind(this));
-    
-      await this.setCurrentCoordinate();
+    // 获取用户当前位置
+    wx.getLocation({
+      type: 'gcj02',
+      success: async (res) => {
+        const { latitude, longitude } = res;
+
+        // 更新纬度和经度
+        this.setData({
+          latitude: latitude,
+          longitude: longitude,
+        });
+
+        // 初始化画布上下文
+        wx.createSelectorQuery()
+          .select('#myCanvas')   // 选择 Canvas 节点
+          .fields({
+            node: true,
+            size: true,
+          })
+          .exec(this.init.bind(this));
+
+        await this.setCurrentCoordinate();
+      },
+      fail: (err) => {
+        console.error("获取当前位置失败:", err);
+      }
+    });
   },
 
   init(res) {
@@ -196,7 +210,8 @@ Page({
   async onMapMove(e) {
     // console.log(e.type);
     if (e.type == "begin") {
-      this.data.ctx.clearRect(0, 0, this.data.w, this.data.h);  // 清空画布
+      const ctx = this.data.ctx;
+      ctx.clearRect(0, 0, this.data.w, this.data.h);  // 清空画布
     }
     else if (e.type == "end") {
       await this.setCurrentCoordinate();
@@ -251,7 +266,8 @@ Page({
     });
 
     this.setData({ paths: newPaths });
-    this.data.ctx.clearRect(0, 0, this.data.w, this.data.h); // 清空画布
+    const ctx = this.data.ctx;
+    ctx.clearRect(0, 0, this.data.w, this.data.h); // 清空画布
     this.renderPaths(this.data.ctx); // 重新渲染路径
   },
 
@@ -318,9 +334,8 @@ Page({
       };
 
       // 保存路径并更新
-      const newPaths = this.data.paths.concat(newPath);
+      this.data.paths.push(newPath); // 直接推入数组，减少setData调用
       this.setData({
-        paths: newPaths,
         lastLatLng: latLng,
         lastScreenXY: {x: x, y: y}
       });
@@ -336,6 +351,7 @@ Page({
 
   // 清空画布
   clearCanvas() {
+    if (!this.data.drawMode) return;
     const ctx = this.data.ctx;
     ctx.clearRect(0, 0, this.data.w, this.data.h); // 清空画布
     this.setData({ paths: [] }); // 清空路径记录
@@ -350,8 +366,6 @@ Page({
   selectEraser() {
     this.setData({ currentTool: 'eraser' });
   },
-
-
 
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -402,13 +416,67 @@ Page({
 
   },
 
+  // 周边搜索函数
+  async searchNearbyPlaces() {
+    const latitude = this.data.latitude;
+    const longitude = this.data.longitude;
+
+    const key = this.data.subKey;
+    const radius = 500; // 搜索半径，单位为米
+    const url = `https://apis.map.qq.com/ws/place/v1/explore?boundary=nearby(${latitude},${longitude},${radius})&policy=1&page_size=10&page_index=1&key=${key}`;
+
+    try {
+        const res = await new Promise((resolve, reject) => {
+            wx.request({
+                url: url,
+                method: 'GET',
+                header: {
+                    'Content-Type': 'application/json'
+                },
+                success: resolve,
+                fail: reject
+            });
+        });
+
+        if (res.data && res.data.status === 0) {
+            const markers = res.data.data.map((place, index) => ({
+                id: index + 1, // 自增ID
+                name: place.title,
+                latitude: place.location.lat,
+                longitude: place.location.lng,
+                iconPath: '../../images/location.png',
+                width: 32,
+                height: 32,
+            }));
+
+            this.setData({ markers: markers });
+        } else {
+            console.error("周边搜索失败:", res.data ? res.data.message : "无响应数据");
+        }
+    } catch (error) {
+        console.error("请求失败:", error);
+    }
+  },
+
+  // 显示对话框
+  onShowDialog() {
+    this.setData({ showDialog: true });
+    const ctx = this.data.ctx;
+    ctx.clearRect(0, 0, this.data.w, this.data.h); // 清空画布
+  },
+
+  // 隐藏对话框
+  onHideDialog() {
+    this.setData({ showDialog: false });
+    this.renderPaths(this.data.ctx);
+  },
+
   handleMarkerTap(e) {
-    console.log(e);
     const marker = this.data.markers.find(item => item.id == e.markerId);
     marker && this.setData({
-      currentMarker: marker,
-      showDialog: true
+      currentMarker: marker
     });
+    this.onShowDialog();
   },
 
   navi1() {
