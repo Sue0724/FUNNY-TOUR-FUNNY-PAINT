@@ -28,4 +28,20 @@
   <view class="sidebar">
     <button bindtap="toggleDrawMode">{{drawMode ? '退出绘画模式' : '进入绘画模式'}}</button>
   </view>
+
+  <!-- 画布工具栏 -->
+  <view class="toolbar">
+    <button bindtap="clearCanvas">清空画布</button>
+    <button bindtap="selectBrush" class="{{currentTool === 'brush' ? 'active' : ''}}">画笔</button>
+    <button bindtap="selectEraser" class="{{currentTool === 'eraser' ? 'active' : ''}}">橡皮擦</button>
+  </view>
+
+  <mp-halfScreenDialog show="{{showDialog}}">
+    <view slot="title">{{currentMarker.name}}</view>
+    <view slot="desc"></view>
+    <view slot="footer">
+      <button type="primary" class="weui-btn" bindtap="navi1">外部导航</button>
+      <button type="primary" class="weui-btn" bindtap="navi2">内部导航</button>
+    </view>
+  </mp-halfScreenDialog>
 </view>

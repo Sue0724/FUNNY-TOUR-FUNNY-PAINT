@@ -17,6 +17,9 @@ Page({
     screenXDiff: 0,
     screenYDiff: 0,
     lastLatLng: {},
+    lastScreenXY: {},
+
+    currentTool: 'brush', // 默认工具为画笔
 
     set_point: {
       longitude: '',
@@ -64,7 +67,8 @@ Page({
   // 切换绘画模式
   toggleDrawMode() {
     this.setData({
-      drawMode: !this.data.drawMode // 切换绘画模式的布尔值
+      drawMode: !this.data.drawMode, // 切换绘画模式的布尔值
+      currentTool: 'brush' // 进入绘画模式时重置工具为画笔
     });
   },
 
@@ -93,7 +97,7 @@ Page({
     });
   },
 
-  // 获取地图中心点经纬度的封装函数
+  // 获取地图中心点经纬度
   getMapCenterLatLng() {
     return new Promise((resolve, reject) => {
       const mapCtx = wx.createMapContext('map');
@@ -200,7 +204,7 @@ Page({
     }
   },
 
-  // 渲染路径
+  // 渲染全部路径
   renderPaths(ctx) {
     ctx.strokeStyle = "#1b76c0";
     ctx.lineWidth = 5;
@@ -220,6 +224,66 @@ Page({
     });
   },
 
+  // 根据当前工具渲染新增路径
+  renderNewPath(ctx, x, y) {
+    ctx.strokeStyle = "#1b76c0"; // 画笔颜色
+    ctx.lineWidth = 5;
+    // ctx.lineCap = "round"; // 设置线条端点样式
+    // ctx.lineJoin = "round"; // 设置线条连接样式
+
+    // 绘制路径
+    ctx.beginPath();
+    ctx.moveTo(this.data.lastScreenXY.x, this.data.lastScreenXY.y);
+    ctx.lineTo(x, y);
+    ctx.stroke();
+  },
+
+  // 检测并擦除接触的路径
+  erasePath(x, y) {
+    const tolerance = 10; // 碰撞检测的容忍度
+    const newPaths = this.data.paths.filter(path => {
+        const start = this.convertLatLngToScreen(path.startLng, path.startLat);
+        const end = this.convertLatLngToScreen(path.endLng, path.endLat);
+
+        // 计算线段到点的距离
+        const dist = this.pointToLineDistance({ x, y }, start, end);
+        return dist > tolerance; // 仅保留未接触的路径
+    });
+
+    this.setData({ paths: newPaths });
+    this.data.ctx.clearRect(0, 0, this.data.w, this.data.h); // 清空画布
+    this.renderPaths(this.data.ctx); // 重新渲染路径
+  },
+
+  // 计算点到线段的距离
+  pointToLineDistance(point, start, end) {
+    const A = point.x - start.x;
+    const B = point.y - start.y;
+    const C = end.x - start.x;
+    const D = end.y - start.y;
+
+    const dot = A * C + B * D;
+    const len_sq = C * C + D * D;
+    const param = len_sq !== 0 ? dot / len_sq : -1;
+
+    let xx, yy;
+
+    if (param < 0) {
+        xx = start.x;
+        yy = start.y;
+    } else if (param > 1) {
+        xx = end.x;
+        yy = end.y;
+    } else {
+        xx = start.x + param * C;
+        yy = start.y + param * D;
+    }
+
+    const dx = point.x - xx;
+    const dy = point.y - yy;
+    return Math.sqrt(dx * dx + dy * dy); // 返回距离
+  },
+
   // 用户触摸画布开始时触发（开始绘制）
   touchStart: function (e) {
     const x = e.touches[0].x;
@@ -230,31 +294,37 @@ Page({
     this.setData({
       isDrawing: true,
       lastLatLng: latLng,  // 保存起点的经纬度
+      lastScreenXY: {x: x, y: y}
     });
   },
 
-  // 用户在画布上滑动手指时触发（绘制过程）
+  // 用户在画布上滑动手指时触发（绘制或擦除过程）
   touchMove: function (e) {
     const x = e.touches[0].x;  // 获取当前触摸点的 X 坐标
     const y = e.touches[0].y;  // 获取当前触摸点的 Y 坐标
 
-    const latLng = this.convertScreenToLatLng(x, y);
-    const newPath = {
-      startLat: this.data.lastLatLng.latitude,
-      startLng: this.data.lastLatLng.longitude,
-      endLat: latLng.latitude,
-      endLng: latLng.longitude
-    };
+    if (this.data.currentTool === 'eraser') {
+      this.erasePath(x, y);
+    } else {
+      // 渲染新增绘制路径
+      this.renderNewPath(this.data.ctx, x, y);
 
-    // 保存路径并更新
-    const newPaths = this.data.paths.concat(newPath);
-    this.setData({
-      paths: newPaths,
-      lastLatLng: latLng // 更新最后的经纬度
-    }, () => {
-      // 渲染绘制路径
-      this.renderPaths(this.data.ctx);
-    });
+      const latLng = this.convertScreenToLatLng(x, y);
+      const newPath = {
+        startLat: this.data.lastLatLng.latitude,
+        startLng: this.data.lastLatLng.longitude,
+        endLat: latLng.latitude,
+        endLng: latLng.longitude
+      };
+
+      // 保存路径并更新
+      const newPaths = this.data.paths.concat(newPath);
+      this.setData({
+        paths: newPaths,
+        lastLatLng: latLng,
+        lastScreenXY: {x: x, y: y}
+      });
+    }
   },
 
   // 用户触摸结束时触发（结束绘制）
@@ -263,6 +333,25 @@ Page({
       isDrawing: false  // 停止绘画，但不关闭绘画模式
     });
   },
+
+  // 清空画布
+  clearCanvas() {
+    const ctx = this.data.ctx;
+    ctx.clearRect(0, 0, this.data.w, this.data.h); // 清空画布
+    this.setData({ paths: [] }); // 清空路径记录
+  },
+
+  // 选择画笔工具
+  selectBrush() {
+    this.setData({ currentTool: 'brush' });
+  },
+
+  // 选择橡皮擦工具
+  selectEraser() {
+    this.setData({ currentTool: 'eraser' });
+  },
+
+
 
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -310,6 +399,29 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage() {
+
+  },
+
+  handleMarkerTap(e) {
+    console.log(e);
+    const marker = this.data.markers.find(item => item.id == e.markerId);
+    marker && this.setData({
+      currentMarker: marker,
+      showDialog: true
+    });
+  },
+
+  navi1() {
+    const latitude = this.data.currentMarker.latitude;
+    const longitude = this.data.currentMarker.longitude;
+    wx.openLocation({
+      latitude,
+      longitude,
+      scale: 18
+    });
+  },
+
+  navi2() {
 
   }
 })

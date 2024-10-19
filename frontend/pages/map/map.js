@@ -95,59 +95,59 @@ Page({
   onReady: function () {
     // const map = wx.createMapContext("map");
     // map.moveToLocation();
-    const markers = this.data.features.filter(item => item.category == 'XN').map((feature,index) => {
-      return {
-        id: index,
-        latitude: feature.geometry.coordinates[1],
-        longitude: feature.geometry.coordinates[0],
-        properties: {
-          name: feature.name,
-          code: feature.code
-        },
-        width: 24,
-        height: 24,
-        iconPath: '../../images/location.png',
-        label: {
-          content: feature.name
-        }
-      }
-    });
-    const circles = this.data.features.filter(item => item.category == 'ND').map((feature,index) => {
-      return {
-        id: index,
-        latitude: feature.geometry.coordinates[1],
-        longitude: feature.geometry.coordinates[0],
-        color: '#26C9FF',
-        radius: 3,
-        fillColor: '#26C9FF80',
-        strokeWidth: 1
-      }
-    });
-    const polylines = this.data.features.filter(item => item.category == 'PL').map((feature,index) => {
-      return {
-        id: index,
-        points: feature.geometry.coordinates.map(item => {return{longitude: item[0], latitude: item[1]}}),
-        arrowLine: true,
-        dottedLine: false,
-        color: '#26C9FF',
-        width: 2
-      }
-    });
-    const polygons = this.data.features.filter(item => item.category == 'LR').map((feature,index) => {
-      return {
-        id: index,
-        points: feature.geometry.coordinates[0].map(item => {return{longitude: item[0], latitude: item[1]}}),
-        strokeColor: '#26C9FF',
-        fillColor: '#26C9FF80',
-        strokeWidth: 1
-      }
-    });
-    this.setData({
-      markers: markers,
-      circles: circles,
-      polylines: polylines,
-      polygons: polygons
-    });
+    // const markers = this.data.features.filter(item => item.category == 'XN').map((feature,index) => {
+    //   return {
+    //     id: index,
+    //     latitude: feature.geometry.coordinates[1],
+    //     longitude: feature.geometry.coordinates[0],
+    //     properties: {
+    //       name: feature.name,
+    //       code: feature.code
+    //     },
+    //     width: 24,
+    //     height: 24,
+    //     iconPath: '../../images/location.png',
+    //     label: {
+    //       content: feature.name
+    //     }
+    //   }
+    // });
+    // const circles = this.data.features.filter(item => item.category == 'ND').map((feature,index) => {
+    //   return {
+    //     id: index,
+    //     latitude: feature.geometry.coordinates[1],
+    //     longitude: feature.geometry.coordinates[0],
+    //     color: '#26C9FF',
+    //     radius: 3,
+    //     fillColor: '#26C9FF80',
+    //     strokeWidth: 1
+    //   }
+    // });
+    // const polylines = this.data.features.filter(item => item.category == 'PL').map((feature,index) => {
+    //   return {
+    //     id: index,
+    //     points: feature.geometry.coordinates.map(item => {return{longitude: item[0], latitude: item[1]}}),
+    //     arrowLine: true,
+    //     dottedLine: false,
+    //     color: '#26C9FF',
+    //     width: 2
+    //   }
+    // });
+    // const polygons = this.data.features.filter(item => item.category == 'LR').map((feature,index) => {
+    //   return {
+    //     id: index,
+    //     points: feature.geometry.coordinates[0].map(item => {return{longitude: item[0], latitude: item[1]}}),
+    //     strokeColor: '#26C9FF',
+    //     fillColor: '#26C9FF80',
+    //     strokeWidth: 1
+    //   }
+    // });
+    // this.setData({
+    //   markers: markers,
+    //   circles: circles,
+    //   polylines: polylines,
+    //   polygons: polygons
+    // });
   },
 
   /**
