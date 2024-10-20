@@ -5,6 +5,8 @@ Page({
   data: {
     isDrawing: false,  // 当前是否正在绘画
     drawMode: false,   // 绘画编辑模式是否开启
+    hideDrawing: false, // 是否隐藏绘画
+
     ctx: "",           // 画布上下文
     w: 0,              // 画布宽度
     h: 0,              // 画布高度
@@ -37,8 +39,10 @@ Page({
     drawPolygon: false,
     enableSatellite: false,
     enableTraffic: false,
-    latitude: '30.512066262970436',
-    longitude: '114.40805769497365',
+    latitude: 0, // 中心纬度
+    longitude: 0, // 中心经度
+    moveStep: 0.001, // 基础移动步长
+    moveInterval: null, // 定时器的引用
     markers: [],
     circles: [],
     polylines: [],
@@ -56,6 +60,7 @@ Page({
     });
   },
 
+  // 切换是否显示周边地点
   toggleShowNearbyPlaces() {
     this.setData({
       showNearbyPlaces: !this.data.showNearbyPlaces,
@@ -67,6 +72,21 @@ Page({
     else {
       this.setData({ markers: [], currentMarker: null });
     }
+  },
+
+  // 切换是否隐藏绘画
+  toggleHideDrawing() {
+      this.setData({
+        hideDrawing: !this.data.hideDrawing,
+      })
+
+      const ctx = this.data.ctx;
+      if (this.data.hideDrawing) {
+        ctx.clearRect(0, 0, this.data.w, this.data.h);  // 清空画布
+      }
+      else {
+        this.renderPaths(ctx);
+      }
   },
 
   // 获取地图左上角经纬度
@@ -129,6 +149,70 @@ Page({
     const resY = (lat - this.data.topLeft.latitude) / this.data.latDiff * this.data.screenYDiff;
 
     return { x: resX, y: resY };
+  },
+
+  // 开始移动（按下按钮时触发）
+  startMove(direction) {
+    const mapCtx = wx.createMapContext('map');
+    this.data.moveInterval = setInterval(() => {
+      let newLatitude = this.data.latitude;
+      let newLongitude = this.data.longitude;
+
+      // 根据方向更新经纬度
+      switch (direction) {
+        case 'up':
+          newLatitude -= this.data.moveStep;
+          break;
+        case 'down':
+          newLatitude += this.data.moveStep;
+          break;
+        case 'left':
+          newLongitude += this.data.moveStep;
+          break;
+        case 'right':
+          newLongitude -= this.data.moveStep;
+          break;
+      }
+
+      this.setData({
+        latitude: newLatitude,
+        longitude: newLongitude
+      }, () => {
+        // 移动地图到新的位置
+        mapCtx.moveToLocation({
+          latitude: this.data.latitude,
+          longitude: this.data.longitude
+        });
+      });
+    }, 100); // 每 100ms 移动一次
+  },
+
+  // 停止移动（松开按钮时触发）
+  stopMove() {
+    clearInterval(this.data.moveInterval); // 停止定时器
+    this.setData({
+      moveInterval: null
+    });
+  },
+
+  // 左移地图
+  moveLeft() {
+    this.startMove('left');
+  },
+
+  // 右移地图
+  moveRight() {
+    this.startMove('right');
+  },
+
+  // 上移地图
+  moveUp() {
+    this.startMove('up');
+  },
+
+  // 下移地图
+  moveDown() {
+    this.startMove('down');
   },
 
   onLoad: async function () {

@@ -28,9 +28,18 @@
   <view class="sidebar">
     <button bindtap="toggleDrawMode">{{drawMode ? '退出绘画模式' : '进入绘画模式'}}</button>
     <button bindtap="toggleShowNearbyPlaces">{{showNearbyPlaces ? '隐藏周边地点' : '显示周边地点'}}</button>
+    <button bindtap="toggleHideDrawing">{{hideDrawing ? '显示绘画' : '隐藏绘画'}}</button>
     <button bindtap="clearCanvas">清空画布</button>
     <button bindtap="selectBrush" class="{{currentTool === 'brush' ? 'active' : ''}}">画笔</button>
     <button bindtap="selectEraser" class="{{currentTool === 'eraser' ? 'active' : ''}}">橡皮擦</button>
+  </view>
+
+  <!-- 移动控制按钮 -->
+  <view class="sidebar2">
+    <button bindlongpress="moveUp" bindtouchend="stopMove">上移</button>
+    <button bindlongpress="moveDown" bindtouchend="stopMove">下移</button>
+    <button bindlongpress="moveLeft" bindtouchend="stopMove">左移</button>
+    <button bindlongpress="moveRight" bindtouchend="stopMove">右移</button>
   </view>
 
   <mp-halfScreenDialog show="{{showDialog}}" bindtap="onHideDialog">
