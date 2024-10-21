@@ -13,6 +13,40 @@ map {
   z-index: 1;
 }
 
+/* 地点列表样式 */
+.place-list {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 33%; /* 占屏幕三分之一高度 */
+  background-color: white;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  padding: 10px;
+  overflow: hidden;
+}
+
+.place-item {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  font-size: 16px;
+}
+
+.place-item.active {
+  background-color: #ffeb3b; /* 选中后的高亮背景色 */
+  font-weight: bold; /* 加粗字体 */
+}
+
+scroll-view {
+  height: 100%; /* 确保可滚动区域占满列表 */
+}
+
+mp-halfScreenDialog {
+  position: absolute;
+  z-index: 20; /* 较高 z-index，确保在最上层 */
+}
+
 /*************************************************************/
 
 canvas {
@@ -34,17 +68,8 @@ canvas {
   padding: 10px;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-.sidebar2 {
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  z-index: 9;
-  background-color: white;
-  padding: 10px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  max-height: 20%; /* 固定高度 */
+  overflow-y: auto; /* 启用垂直滚动 */
 }
 
 button {
@@ -54,15 +79,12 @@ button {
   color: #1b76c0;
   border: none;
   border-radius: 4px;
-  font-size: 5px;
+  font-size: 15px;
   z-index: 8;
+  margin-bottom: 5px; /* 添加按钮之间的间距 */
 }
 
-.button.active {
+button:active {
   background-color: #ff9800; /* 高亮选中的工具 */
-}
-
-mp-halfScreenDialog {
-  position: absolute;
-  z-index: 20; /* 较高 z-index，确保在最上层 */
+  color: white;
 }

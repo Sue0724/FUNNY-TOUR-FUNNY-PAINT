@@ -4,20 +4,25 @@
     subkey="{{subKey}}"
     latitude="{{latitude}}"
     longitude="{{longitude}}"
-    scale="14"
+    scale="{{scale}}"
     markers="{{markers}}"
     circles="{{circles}}"
     polyline="{{polylines}}"
     polygons="{{polygons}}"
     enable-3D="{{enable3d}}"
     show-location="{{showLocation}}"
+    show-scale="{{showScale}}"
+    show-compass="{{showCompass}}"
     enable-zoom="{{enableZoom}}"
     enable-scroll="{{enableScroll}}"
+    enable-rotate="{{enableRotate}}"
     enable-overlooking="{{enableOverlooking}}"
     enable-satellite="{{enableSatellite}}"
     enable-traffic="{{enableTraffic}}"
-    bindmarkertap="handleMarkerTap"
+    bindmarkertap="onMarkerTap"
     bindregionchange="onMapMove"
+    bindtap="onTapMap"
+		bindpoitap="onTapPoi"
   >
   </map>
 
@@ -27,19 +32,17 @@
   <!-- 边栏&画布工具栏 -->
   <view class="sidebar">
     <button bindtap="toggleDrawMode">{{drawMode ? '退出绘画模式' : '进入绘画模式'}}</button>
-    <button bindtap="toggleShowNearbyPlaces">{{showNearbyPlaces ? '隐藏周边地点' : '显示周边地点'}}</button>
+    <button bindtap="searchNearbyPlaces">显示周边地点</button>
+    <button bindtap="toggleShowMarkers">{{showMarkers ? '隐藏地点标记' : '显示地点标记'}}</button>
+    <button bindtap="toggleShowPlaceList">{{showPlaceList ? '隐藏地点列表' : '显示地点列表'}}</button>
     <button bindtap="toggleHideDrawing">{{hideDrawing ? '显示绘画' : '隐藏绘画'}}</button>
     <button bindtap="clearCanvas">清空画布</button>
-    <button bindtap="selectBrush" class="{{currentTool === 'brush' ? 'active' : ''}}">画笔</button>
-    <button bindtap="selectEraser" class="{{currentTool === 'eraser' ? 'active' : ''}}">橡皮擦</button>
-  </view>
-
-  <!-- 移动控制按钮 -->
-  <view class="sidebar2">
-    <button bindlongpress="moveUp" bindtouchend="stopMove">上移</button>
-    <button bindlongpress="moveDown" bindtouchend="stopMove">下移</button>
-    <button bindlongpress="moveLeft" bindtouchend="stopMove">左移</button>
-    <button bindlongpress="moveRight" bindtouchend="stopMove">右移</button>
+    <button bindtap="selectBrush">画笔</button>
+    <button bindtap="selectEraser">橡皮擦</button>
+    <button bindtap="moveUp">上移</button>
+    <button bindtap="moveDown">下移</button>
+    <button bindtap="moveLeft">左移</button>
+    <button bindtap="moveRight">右移</button>
   </view>
 
   <mp-halfScreenDialog show="{{showDialog}}" bindtap="onHideDialog">
@@ -50,4 +53,16 @@
       <button type="primary" class="weui-btn" bindtap="navi2">内部导航</button>
     </view>
   </mp-halfScreenDialog>
+
+  <!-- 地点列表 -->
+  <view wx:if="{{showPlaceList}}" class="place-list">
+    <scroll-view scroll-y="true" style="height: 100%;">
+      <view wx:for="{{markers}}" wx:key="id" 
+            bindtap="selectPlace"
+            class="place-item {{selectedPlaceId === item.id ? 'active' : ''}}"
+            data-id="{{item.id}}">
+        <text>{{item.name}}</text>
+      </view>
+    </scroll-view>
+  </view>
 </view>

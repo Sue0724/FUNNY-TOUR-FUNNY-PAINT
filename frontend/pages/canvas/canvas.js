@@ -22,28 +22,36 @@ Page({
     lastScreenXY: {},
     currentTool: 'brush', // 默认工具为画笔
 
-    showNearbyPlaces: false,
+    showMarkers: true, // 需要保证在showMarkers=false时不放置点
+    nearbyPlaces: [], // 搜索到的周边地点
+    showPlaceList: false, // 是否显示地点列表
+    selectedPlaceId: null, // 选中的地点 ID
+    latitude: 0, // 中心纬度
+    longitude: 0, // 中心经度
+    moveStep: 0, // 基础移动步长
+
+    subKey: 'ZFJBZ-NDACQ-5X45Z-4HUVI-G2NZH-IDFMV',
+    scale: 14,
+    enable3d: false,
+    showLocation: true,
+    showCompass: true,
+    showScale: true,
+    enableOverlooking: false,
+    enableZoom: true,
+    enableScroll: true,
+    enableRotate: true,
+    drawPolygon: false,
+    enableSatellite: false,
+    enableTraffic: false,
+
     set_point: {
       longitude: '',
       latitude: '',
       address: ''
     },
-    subKey: 'ZFJBZ-NDACQ-5X45Z-4HUVI-G2NZH-IDFMV',
-    enable3d: false,
-    showLocation: true,
-    showCompass: false,
-    enableOverlooking: false,
-    enableZoom: true,
-    enableScroll: true,
-    enableRotate: false,
-    drawPolygon: false,
-    enableSatellite: false,
-    enableTraffic: false,
-    latitude: 0, // 中心纬度
-    longitude: 0, // 中心经度
-    moveStep: 0.001, // 基础移动步长
-    moveInterval: null, // 定时器的引用
+    markerId: -1,
     markers: [],
+    markers_backup: [],
     circles: [],
     polylines: [],
     polygons: [],
@@ -60,17 +68,23 @@ Page({
     });
   },
 
-  // 切换是否显示周边地点
-  toggleShowNearbyPlaces() {
+  // 切换是否显示地点标记
+  toggleShowMarkers() {
     this.setData({
-      showNearbyPlaces: !this.data.showNearbyPlaces,
+      showMarkers: !this.data.showMarkers,
     })
 
-    if (this.data.showNearbyPlaces) {
-      this.searchNearbyPlaces();
+    if (this.data.showMarkers) {
+      this.setData({
+        markers: this.data.markers_backup
+      });
     }
     else {
-      this.setData({ markers: [], currentMarker: null });
+      this.setData({ 
+        markers_backup: this.data.markers,
+        markers: [],
+        currentMarker: null,
+      });
     }
   },
 
@@ -87,6 +101,13 @@ Page({
       else {
         this.renderPaths(ctx);
       }
+  },
+
+  // 切换是否显示地点列表
+  toggleShowPlaceList() {
+    this.setData({
+      showPlaceList: !this.data.showPlaceList,
+    });
   },
 
   // 获取地图左上角经纬度
@@ -154,44 +175,35 @@ Page({
   // 开始移动（按下按钮时触发）
   startMove(direction) {
     const mapCtx = wx.createMapContext('map');
-    this.data.moveInterval = setInterval(() => {
-      let newLatitude = this.data.latitude;
-      let newLongitude = this.data.longitude;
 
-      // 根据方向更新经纬度
-      switch (direction) {
-        case 'up':
-          newLatitude -= this.data.moveStep;
-          break;
-        case 'down':
+    let newLatitude = this.data.latitude;
+    let newLongitude = this.data.longitude;
+
+    // 根据方向更新经纬度
+    switch (direction) {
+      case 'up':
           newLatitude += this.data.moveStep;
           break;
-        case 'left':
-          newLongitude += this.data.moveStep;
+      case 'down':
+          newLatitude -= this.data.moveStep;
           break;
-        case 'right':
+      case 'left':
           newLongitude -= this.data.moveStep;
           break;
-      }
+      case 'right':
+          newLongitude += this.data.moveStep;
+          break;
+    }
 
-      this.setData({
+    this.setData({
         latitude: newLatitude,
         longitude: newLongitude
-      }, () => {
+    }, () => {
         // 移动地图到新的位置
         mapCtx.moveToLocation({
           latitude: this.data.latitude,
           longitude: this.data.longitude
         });
-      });
-    }, 100); // 每 100ms 移动一次
-  },
-
-  // 停止移动（松开按钮时触发）
-  stopMove() {
-    clearInterval(this.data.moveInterval); // 停止定时器
-    this.setData({
-      moveInterval: null
     });
   },
 
@@ -283,7 +295,8 @@ Page({
         latDiff: latDiff,
         lngDiff: lngDiff,
         screenXDiff: screenXDiff,
-        screenYDiff: screenYDiff
+        screenYDiff: screenYDiff,
+        moveStep: 0.3 * Math.abs(lngDiff),
       });
     } catch (err) {
       console.error("Error in setCurrentCoordinate:", err);
@@ -298,8 +311,10 @@ Page({
       ctx.clearRect(0, 0, this.data.w, this.data.h);  // 清空画布
     }
     else if (e.type == "end") {
-      await this.setCurrentCoordinate();
-      this.renderPaths(this.data.ctx);
+      if (!this.data.hideDrawing) {
+        await this.setCurrentCoordinate();
+        this.renderPaths(this.data.ctx);
+      }
     }
   },
 
@@ -435,7 +450,7 @@ Page({
 
   // 清空画布
   clearCanvas() {
-    if (!this.data.drawMode) return;
+    this.setData({ currentTool: 'clear' });
     const ctx = this.data.ctx;
     ctx.clearRect(0, 0, this.data.w, this.data.h); // 清空画布
     this.setData({ paths: [] }); // 清空路径记录
@@ -501,45 +516,53 @@ Page({
   },
 
   // 周边搜索函数
-  async searchNearbyPlaces() {
+  searchNearbyPlaces() {
     const latitude = this.data.latitude;
     const longitude = this.data.longitude;
 
     const key = this.data.subKey;
-    const radius = 500; // 搜索半径，单位为米
+    const radius = 3000; // 搜索半径，单位为米
     const url = `https://apis.map.qq.com/ws/place/v1/explore?boundary=nearby(${latitude},${longitude},${radius})&policy=1&page_size=10&page_index=1&key=${key}`;
 
-    try {
-        const res = await new Promise((resolve, reject) => {
-            wx.request({
-                url: url,
-                method: 'GET',
-                header: {
-                    'Content-Type': 'application/json'
-                },
-                success: resolve,
-                fail: reject
-            });
+    wx.request({
+      url: url,
+      method: 'GET',
+      success: res => {
+        const places = res.data.data;
+
+        // 先保存当前的 markerId
+        let currentMarkerId = this.data.markerId;
+
+        const newMarkers = res.data.data.map(place => ({
+          id: ++currentMarkerId,
+          name: place.title,
+          latitude: place.location.lat,
+          longitude: place.location.lng,
+          iconPath: '../../images/marker/bubble.png',
+          width: 30,
+          height: 30,
+        }));
+
+        const updatedMarkers = this.data.markers.concat(newMarkers);
+
+        this.setData({
+          makerId: currentMarkerId,
+          markers: updatedMarkers,
+          nearbyPlaces: places,
         });
+      },
+      fail: err => {
+        console.error(err);
+      }
+    });
+  },
 
-        if (res.data && res.data.status === 0) {
-            const markers = res.data.data.map((place, index) => ({
-                id: index + 1, // 自增ID
-                name: place.title,
-                latitude: place.location.lat,
-                longitude: place.location.lng,
-                iconPath: '../../images/location.png',
-                width: 32,
-                height: 32,
-            }));
-
-            this.setData({ markers: markers });
-        } else {
-            console.error("周边搜索失败:", res.data ? res.data.message : "无响应数据");
-        }
-    } catch (error) {
-        console.error("请求失败:", error);
-    }
+  // 切换选中地点
+  selectPlace(event) {
+    const placeId = event.currentTarget.dataset.id;
+    this.setData({
+      selectedPlaceId: placeId
+    });
   },
 
   // 显示对话框
@@ -555,7 +578,8 @@ Page({
     this.renderPaths(this.data.ctx);
   },
 
-  handleMarkerTap(e) {
+  // 处理点击标注
+  onMarkerTap(e) {
     const marker = this.data.markers.find(item => item.id == e.markerId);
     marker && this.setData({
       currentMarker: marker
@@ -563,6 +587,66 @@ Page({
     this.onShowDialog();
   },
 
+  // 处理点击地图（地图选点）
+  onTapMap(e) {
+    const latitude = e.detail.latitude;
+    const longitude = e.detail.longitude;
+
+    const key = this.data.subKey;
+    const url = `https://apis.map.qq.com/ws/geocoder/v1/?location=${latitude},${longitude}&key=${key}&get_poi=0`;
+
+    wx.request({
+      url: url,
+      method: 'GET',
+      success: res => {
+        const newMarker = {
+          id: this.data.markerId + 1,
+          name: res.data.result.formatted_addresses.recommend,
+          iconPath: '../../images/marker/pin.png',
+          latitude: latitude,
+          longitude: longitude,
+          width: 30,
+          height: 30
+        };
+
+        const updatedMarkers = this.data.markers.concat(newMarker);
+
+        this.setData({
+          markerId: this.data.markerId + 1,
+          markers: updatedMarkers
+        });
+      },
+      fail: err => {
+        console.error(err);
+      }
+    });
+  },
+
+  // 处理poi点击
+	onTapPoi (e) {
+		const name = e.detail.name.length <= 8 ? e.detail.name : e.detail.name.substring(0, 8)+'...';
+		const latitude = e.detail.latitude;
+		const longitude = e.detail.longitude;
+
+    const newMarker = {
+      id: this.data.markerId + 1,
+      name: name,
+      iconPath: '../../images/marker/pin.png',
+      latitude: latitude,
+      longitude: longitude,
+      width: 30,
+      height: 30
+    };
+
+    const updatedMarkers = this.data.markers.concat(newMarker);
+
+		this.setData({
+			markerId: this.data.markerId + 1,
+      markers: updatedMarkers
+		});
+	},
+
+  // 跳转外部导航
   navi1() {
     const latitude = this.data.currentMarker.latitude;
     const longitude = this.data.currentMarker.longitude;
