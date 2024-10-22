@@ -58,10 +58,13 @@
   <view wx:if="{{showPlaceList}}" class="place-list">
     <scroll-view scroll-y="true" style="height: 100%;">
       <view wx:for="{{markers}}" wx:key="id" 
-            bindtap="selectPlace"
-            class="place-item {{selectedPlaceId === item.id ? 'active' : ''}}"
+            bindtap="onPlaceTap"
+            class="place-item {{selectedMarkerId === item.id ? 'active' : ''}}"
             data-id="{{item.id}}">
-        <text>{{item.name}}</text>
+        <view class="place-info">
+          <text class="place-name">{{item.name}}</text>
+          <text class="place-category">{{item.distance}}米 | {{item.category || '自选地点'}}</text>
+        </view>
       </view>
     </scroll-view>
   </view>

@@ -3,9 +3,10 @@ const app = getApp();
 
 Page({
   data: {
-    isDrawing: false,  // 当前是否正在绘画
     drawMode: false,   // 绘画编辑模式是否开启
     hideDrawing: false, // 是否隐藏绘画
+    showMarkers: true, // 需要保证在showMarkers=false时不放置点
+    showPlaceList: false, // 是否显示地点列表
 
     ctx: "",           // 画布上下文
     w: 0,              // 画布宽度
@@ -22,16 +23,17 @@ Page({
     lastScreenXY: {},
     currentTool: 'brush', // 默认工具为画笔
 
-    showMarkers: true, // 需要保证在showMarkers=false时不放置点
     nearbyPlaces: [], // 搜索到的周边地点
-    showPlaceList: false, // 是否显示地点列表
-    selectedPlaceId: null, // 选中的地点 ID
     latitude: 0, // 中心纬度
     longitude: 0, // 中心经度
     moveStep: 0, // 基础移动步长
+    chosenFixedLatitude: 0, // 日程中心纬度
+    chosenFixedLongitude: 0, // 日程中心经度
 
     subKey: 'ZFJBZ-NDACQ-5X45Z-4HUVI-G2NZH-IDFMV',
-    scale: 14,
+    scale: 16,
+    defaultScale: 16,   // 默认地图缩放等级
+    selectedScale: 18,  // 地点点击后的缩放等级
     enable3d: false,
     showLocation: true,
     showCompass: true,
@@ -44,12 +46,8 @@ Page({
     enableSatellite: false,
     enableTraffic: false,
 
-    set_point: {
-      longitude: '',
-      latitude: '',
-      address: ''
-    },
     markerId: -1,
+    selectedMarkerId: -1,
     markers: [],
     markers_backup: [],
     circles: [],
@@ -57,7 +55,6 @@ Page({
     polygons: [],
     showDialog: false,
     currentMarker: null,
-    features: []
   },
 
   // 切换绘画模式
@@ -108,6 +105,37 @@ Page({
     this.setData({
       showPlaceList: !this.data.showPlaceList,
     });
+
+    if (!this.data.showPlaceList) {
+      // 隐藏地点列表时，恢复默认地图缩放和中心点
+      this.setData({
+        scale: this.data.defaultScale,
+        latitude: this.data.chosenFixedLatitude,
+        longitude: this.data.chosenFixedLongitude
+      });
+      const mapCtx = wx.createMapContext('map');
+      mapCtx.moveToLocation({
+        latitude: this.data.chosenFixedLatitude,  // 恢复为固定的纬度
+        longitude: this.data.chosenFixedLongitude // 恢复为固定的经度
+      });
+    }
+  },
+
+  // 计算两个经纬度之间的距离（单位：米）
+  getDistance(lat1, lng1, lat2, lng2) {
+    const R = 6371e3; // 地球半径，单位为米
+    const rad = Math.PI / 180;
+    const φ1 = lat1 * rad;
+    const φ2 = lat2 * rad;
+    const Δφ = (lat2 - lat1) * rad;
+    const Δλ = (lng2 - lng1) * rad;
+
+    const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+              Math.cos(φ1) * Math.cos(φ2) *
+              Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    return R * c; // 距离，单位为米
   },
 
   // 获取地图左上角经纬度
@@ -234,8 +262,10 @@ Page({
       success: async (res) => {
         const { latitude, longitude } = res;
 
-        // 更新纬度和经度
+        // 更新纬度和经度（自选日程中心经纬度需改为页面间传参）
         this.setData({
+          chosenFixedLatitude: latitude,
+          chosenFixedLongitude: longitude,
           latitude: latitude,
           longitude: longitude,
         });
@@ -291,6 +321,8 @@ Page({
 
       // 更新数据
       this.setData({
+        latitude: center.latitude,
+        longitude: center.longitude,
         topLeft: topLeft,
         latDiff: latDiff,
         lngDiff: lngDiff,
@@ -407,7 +439,6 @@ Page({
     // 将屏幕坐标转换为经纬度并保存
     const latLng = this.convertScreenToLatLng(x, y);
     this.setData({
-      isDrawing: true,
       lastLatLng: latLng,  // 保存起点的经纬度
       lastScreenXY: {x: x, y: y}
     });
@@ -443,9 +474,7 @@ Page({
 
   // 用户触摸结束时触发（结束绘制）
   touchEnd: function () {
-    this.setData({
-      isDrawing: false  // 停止绘画，但不关闭绘画模式
-    });
+
   },
 
   // 清空画布
@@ -521,8 +550,12 @@ Page({
     const longitude = this.data.longitude;
 
     const key = this.data.subKey;
-    const radius = 3000; // 搜索半径，单位为米
-    const url = `https://apis.map.qq.com/ws/place/v1/explore?boundary=nearby(${latitude},${longitude},${radius})&policy=1&page_size=10&page_index=1&key=${key}`;
+    const radius = 2000; // 搜索半径，单位为米
+    const policy = 1;
+    const page_size = 20;
+    const page_index = 1;
+    // const filter=category=xx,xx
+    const url = `https://apis.map.qq.com/ws/place/v1/explore?boundary=nearby(${latitude},${longitude},${radius})&policy=${policy}&page_size=${page_size}&page_index=${page_index}&key=${key}`;
 
     wx.request({
       url: url,
@@ -533,15 +566,30 @@ Page({
         // 先保存当前的 markerId
         let currentMarkerId = this.data.markerId;
 
-        const newMarkers = res.data.data.map(place => ({
-          id: ++currentMarkerId,
-          name: place.title,
-          latitude: place.location.lat,
-          longitude: place.location.lng,
-          iconPath: '../../images/marker/bubble.png',
-          width: 30,
-          height: 30,
-        }));
+        const newMarkers = res.data.data.map(place => {
+          const distance = this.getDistance(latitude, longitude, place.location.lat, place.location.lng); // 计算距离
+
+          return {
+            id: ++currentMarkerId,
+            name: place.title,
+            category: place.category,
+            latitude: place.location.lat,
+            longitude: place.location.lng,
+            distance: Math.round(distance),
+            iconPath: '../../images/marker/bubble.png',
+            width: 30,
+            height: 30,
+            callout: {
+              content: place.title.length <= 8 ? place.title : place.title.substring(0, 8) + '...',
+              display: "ALWAYS",  // 始终显示
+              padding: 5,
+              borderRadius: 5,
+              bgColor: "#ffffff",
+              color: "#000000",
+              fontSize: 12
+            }
+          };
+        });
 
         const updatedMarkers = this.data.markers.concat(newMarkers);
 
@@ -557,11 +605,24 @@ Page({
     });
   },
 
-  // 切换选中地点
-  selectPlace(event) {
-    const placeId = event.currentTarget.dataset.id;
+  // 地点点击事件
+  onPlaceTap(e) {
+    const id = e.currentTarget.dataset.id; // 获取点击的 marker 的 id
+    const marker = this.data.markers.find(item => item.id === id); // 查找对应的 marker
+    const latitude = marker.latitude;
+    const longitude = marker.longitude;
+
+    const mapCtx = wx.createMapContext('map');
     this.setData({
-      selectedPlaceId: placeId
+      selectedMarkerId: id,
+      scale: this.data.selectedScale,
+      latitude: latitude,
+      longitude: longitude
+    });
+    // 更新地图的中心点和缩放等级
+    mapCtx.moveToLocation({
+      latitude: latitude,
+      longitude: longitude,
     });
   },
 
@@ -599,14 +660,27 @@ Page({
       url: url,
       method: 'GET',
       success: res => {
+        const distance = this.getDistance(latitude, longitude, this.data.chosenFixedLatitude, this.data.chosenFixedLongitude); // 计算距离
+        const address = res.data.result.formatted_addresses.recommend;
+
         const newMarker = {
           id: this.data.markerId + 1,
-          name: res.data.result.formatted_addresses.recommend,
+          name: address,
           iconPath: '../../images/marker/pin.png',
           latitude: latitude,
           longitude: longitude,
+          distance: Math.round(distance),
           width: 30,
-          height: 30
+          height: 30,
+          callout: {
+            content: address.length > 8 ? address.substring(0, 8) + '...' : address,
+            display: "ALWAYS",  // 始终显示
+            padding: 5,
+            borderRadius: 5,
+            bgColor: "#ffffff",
+            color: "#000000",
+            fontSize: 12
+          }
         };
 
         const updatedMarkers = this.data.markers.concat(newMarker);
@@ -624,9 +698,11 @@ Page({
 
   // 处理poi点击
 	onTapPoi (e) {
-		const name = e.detail.name.length <= 8 ? e.detail.name : e.detail.name.substring(0, 8)+'...';
+		const name = e.detail.name;
 		const latitude = e.detail.latitude;
 		const longitude = e.detail.longitude;
+
+    const distance = this.getDistance(latitude, longitude, this.data.chosenFixedLatitude, this.data.chosenFixedLongitude); // 计算距离
 
     const newMarker = {
       id: this.data.markerId + 1,
@@ -634,8 +710,18 @@ Page({
       iconPath: '../../images/marker/pin.png',
       latitude: latitude,
       longitude: longitude,
+      distance: Math.round(distance),
       width: 30,
-      height: 30
+      height: 30,
+      callout: {
+        content: name.length <= 8 ? name : name.substring(0, 8) + '...',
+        display: "ALWAYS",  // 始终显示
+        padding: 5,
+        borderRadius: 5,
+        bgColor: "#ffffff",
+        color: "#000000",
+        fontSize: 12
+      }
     };
 
     const updatedMarkers = this.data.markers.concat(newMarker);

@@ -19,23 +19,42 @@ map {
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 33%; /* 占屏幕三分之一高度 */
+  height: 33%;
   background-color: white;
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
   z-index: 10;
   padding: 10px;
   overflow: hidden;
+  border-radius: 10px 10px 0 0; /* 圆角 */
 }
 
 .place-item {
   padding: 10px;
   border-bottom: 1px solid #ddd;
   font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .place-item.active {
   background-color: #ffeb3b; /* 选中后的高亮背景色 */
-  font-weight: bold; /* 加粗字体 */
+}
+
+.place-info {
+  display: block; /* 确保子元素占据整行 */
+}
+
+.place-name {
+  font-weight: bold;
+  color: #333;
+  display: block; /* 确保在单独一行 */
+}
+
+.place-category {
+  font-size: 14px;
+  color: #666;
+  display: block; /* 确保在单独一行 */
 }
 
 scroll-view {
