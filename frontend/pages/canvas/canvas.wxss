@@ -13,13 +13,15 @@ map {
   z-index: 1;
 }
 
+/***********************************/
+
 /* 地点列表样式 */
 .place-list {
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 33%;
+  height: 40%;
   background-color: white;
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
   z-index: 10;
@@ -61,6 +63,35 @@ scroll-view {
   height: 100%; /* 确保可滚动区域占满列表 */
 }
 
+/*****************/
+
+.icon-switcher {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  background-color: #fff;
+  flex-wrap: nowrap; /* 防止换行 */
+}
+
+.icon-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 20%; /* 控制每个按钮的宽度 */
+}
+
+.icon-button image {
+  width: 24px; /* 调整图标大小 */
+  height: 24px; /* 调整图标大小 */
+}
+
+.icon-button text {
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/*****************/
+
 mp-halfScreenDialog {
   position: absolute;
   z-index: 20; /* 较高 z-index，确保在最上层 */
@@ -80,7 +111,7 @@ canvas {
 
 .sidebar {
   position: absolute;
-  top: 5px;
+  top: 50px;
   right: 5px;
   z-index: 10;
   background-color: white;
@@ -104,6 +135,48 @@ button {
 }
 
 button:active {
+  background-color: #ff9800; /* 高亮选中的工具 */
+  color: white;
+}
+
+/************************************************/
+
+.search-bar {
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 40px;
+  background-color: #fff;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 999; /* 确保搜索栏在地图上方显示 */
+}
+
+.search-bar input {
+  flex: 1;
+  height: 100%;
+  border: none;
+  outline: none;
+  padding-left: 10px;
+  font-size: 16px;
+}
+
+.search-bar button {
+  background-color: #fff;
+  color: #1b76c0;
+  border: none;
+  padding: 0 0px;
+  height: 80%;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.search-bar button:active {
   background-color: #ff9800; /* 高亮选中的工具 */
   color: white;
 }
