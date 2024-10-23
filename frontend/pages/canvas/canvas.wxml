@@ -3,7 +3,8 @@
   <!-- 搜索栏 -->
   <view class="search-bar">
     <input type="text" placeholder="搜索地点或输入关键字" bindinput="onSearchInput" />
-    <image src="{{searchIcon}}" mode="widthFix" class="search-icon" bindtap="onSearchSubmit" />
+    <image src="{{searchIcon}}" mode="widthFix" class="search-icon" bindtap="onSearchNearbySubmit" />
+    <image src="{{searchIcon}}" mode="widthFix" class="search-icon" bindtap="onSearchRegionSubmit" />
   </view>
 
   <map id="map" 
@@ -39,6 +40,7 @@
   <view class="sidebar">
     <button bindtap="chooseCenter">设定日程中心</button>
     <button bindtap="toggleShowPlaceList">{{showPlaceList ? '隐藏地点列表' : '显示地点列表'}}</button>
+    <button bindtap="choosePlace">自选地点</button>
     <button bindtap="toggleShowMarkers">{{showMarkers ? '隐藏地点标记' : '显示地点标记'}}</button>
     <button bindtap="toggleDrawMode">{{drawMode ? '退出绘画模式' : '进入绘画模式'}}</button>
     <button bindtap="toggleHideDrawing">{{hideDrawing ? '显示绘画' : '隐藏绘画'}}</button>

@@ -2,7 +2,9 @@
   "pages": [
     "pages/canvas/canvas",
     "pages/me/index",
-    "pages/logs/logs"
+    "pages/logs/logs",
+    "pages/day_trip/day_trip",
+    "pages/AI/AI"
   ],
   "window": {
     "navigationBarTextStyle": "@navigationBarTextStyle",
@@ -21,6 +23,18 @@
         "iconPath": "@iconPathMap",
         "selectedIconPath": "@selectedIconPathMap",
         "text": "画布"
+      },
+      {
+        "pagePath": "pages/AI/AI",
+        "iconPath": "images/search/search_dark.png",
+        "selectedIconPath": "images/search/search.png",
+        "text": "AI问答"
+      },
+      {
+        "pagePath": "pages/day_trip/day_trip",
+        "iconPath": "@iconPathMe",
+        "selectedIconPath": "@selectedIconPathMe",
+        "text": "日程"
       },
       {
         "pagePath": "pages/me/index",

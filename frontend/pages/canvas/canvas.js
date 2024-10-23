@@ -78,7 +78,7 @@ Page({
   },
 
   // 设定日程中心
-  chooseCenter() {
+  async chooseCenter() {
     const that = this;
     wx.chooseLocation({
       success(res) {
@@ -111,6 +111,24 @@ Page({
         const updatedAllMarkers = that.data.allMarkers.filter(marker => marker.id !== 0);
 
         const newId = Math.max(that.data.markerId, 0);
+        if (newId > 0) {
+          // 重新计算距离
+          updatedAllMarkers.forEach(marker => {
+            marker.distance = Math.round(that.getDistance(marker.latitude, marker.longitude, latitude, longitude));
+          });
+          that.data.selfAddedMarkers.forEach(marker => {
+            marker.distance = Math.round(that.getDistance(marker.latitude, marker.longitude, latitude, longitude));
+          });
+          that.data.recommendMarkers.forEach(marker => {
+            marker.distance = Math.round(that.getDistance(marker.latitude, marker.longitude, latitude, longitude));
+          });
+          that.data.tripCollectedMarkers.forEach(marker => {
+            marker.distance = Math.round(that.getDistance(marker.latitude, marker.longitude, latitude, longitude));
+          });
+          that.data.tripPlanMarkers.forEach(marker => {
+            marker.distance = Math.round(that.getDistance(marker.latitude, marker.longitude, latitude, longitude));
+          });
+        }
 
         // 更新纬度和经度
         that.setData({
@@ -119,8 +137,53 @@ Page({
           latitude: latitude,
           longitude: longitude,
           markerId: newId,
-          markers: updatedMarkers.concat(newMarker),
-          allMarkers: updatedAllMarkers.concat(newMarker)
+          markers: [newMarker].concat(updatedMarkers),
+          allMarkers: [newMarker].concat(updatedAllMarkers)
+        });
+      }
+    });
+
+    await this.setCurrentCoordinate();
+  },
+
+  // 自选地点
+  choosePlace() {
+    const that = this;
+    wx.chooseLocation({
+      success(res) {
+        console.log(res);
+        const {latitude, longitude, name} = res;
+        const newId = that.data.markerId + 1;
+        const distance = that.getDistance(latitude, longitude, that.data.chosenFixedLatitude, that.data.chosenFixedLongitude); // 计算距离
+
+        const newMarker = {
+          id: newId,
+          name: name,
+          iconPath: '../../images/marker/pin.png',
+          latitude: latitude,
+          longitude: longitude,
+          distance: Math.round(distance),
+          width: 30,
+          height: 30,
+          callout: {
+            content: name.length > 8 ? name.substring(0, 8) + '...' : name,
+            display: "BYCLICK",
+            padding: 5,
+            borderRadius: 5,
+            bgColor: "#ffffff",
+            color: "#000000",
+            fontSize: 12
+          }
+        };
+
+        // 更新纬度和经度
+        that.setData({
+          latitude: latitude,
+          longitude: longitude,
+          markerId: newId,
+          markers: [newMarker].concat(that.data.markers),
+          allMarkers: [newMarker].concat(that.data.allMarkers),
+          selfAddedMarkers: [newMarker].concat(that.data.selfAddedMarkers)
         });
       }
     });
@@ -133,8 +196,8 @@ Page({
     });
   },
 
-  // 处理搜索按钮点击事件
-  onSearchSubmit() {
+  // 处理搜索按钮点击事件（搜索周边）
+  onSearchNearbySubmit() {
     // 更换图标
     this.setData({
       searchIcon: '../../images/search/search.png',
@@ -148,6 +211,11 @@ Page({
     this.setData({
       searchIcon: '../../images/search/search_dark.png',
     });
+  },
+
+  // 处理搜索按钮点击事件（搜索城市/区县）
+  onSearchRegionSubmit() {
+
   },
 
   // 切换绘画模式
