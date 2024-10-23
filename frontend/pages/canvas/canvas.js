@@ -5,7 +5,7 @@ Page({
   data: {
     drawMode: false,   // 绘画编辑模式是否开启
     hideDrawing: false, // 是否隐藏绘画
-    showMarkers: true, // 需要保证在showMarkers=false时不放置点
+    showMarkers: true, // 需要保证在showMarkers=false时不放置点，可以设置为只有绘画模式下才能隐藏
     showPlaceList: false, // 是否显示地点列表
 
     ctx: "",           // 画布上下文
@@ -23,6 +23,7 @@ Page({
     lastScreenXY: {},
     currentTool: 'brush', // 默认工具为画笔
 
+    mapCtx: "",
     latitude: 0, // 中心纬度
     longitude: 0, // 中心经度
     moveStep: 0, // 基础移动步长
@@ -69,10 +70,10 @@ Page({
     showDialog: false,
     currentMarker: null,
     actions: [
-      { text: '收藏地点', value: 'collect' },
-      { text: '加入日程', value: 'add' },
-      { text: '外部导航', value: 'outerNavigate' },
       { text: '查看详情', value: 'showDetail' },
+      { text: '加入日程', value: 'add' },
+      { text: '收藏地点', value: 'collect' },
+      { text: '外部导航', value: 'outerNavigate' },
     ],
   },
 
@@ -159,11 +160,16 @@ Page({
     });
 
     if (!this.data.showPlaceList) {
-      // 隐藏地点列表时，恢复默认地图缩放和中心点
+      // 隐藏地点列表时，恢复默认地图缩放和中心点，恢复默认图标
       this.setData({
         scale: this.data.defaultScale,
         latitude: this.data.chosenFixedLatitude,
-        longitude: this.data.chosenFixedLongitude
+        longitude: this.data.chosenFixedLongitude,
+        [`markersIcons.${this.data.selectedType}`]: this.getDarkIcon(this.data.selectedType),
+        [`markersIcons.allMarkers`]: this.getLightIcon('allMarkers'),
+        selectedType: 'allMarkers',
+        markers: this.data.allMarkers,
+        selectedMarkerId : -1
       });
       const mapCtx = wx.createMapContext('map');
       mapCtx.moveToLocation({
@@ -320,7 +326,7 @@ Page({
           chosenFixedLongitude: longitude,
           latitude: latitude,
           longitude: longitude,
-          markers: this.data.selfAddedMarkers // 默认显示自选地点
+          markers: this.data.allMarkers
         });
 
         // 初始化画布上下文
@@ -338,6 +344,9 @@ Page({
         console.error("获取当前位置失败:", err);
       }
     });
+
+    const mapCtx = wx.createMapContext('map');
+    this.setData({ mapCtx: mapCtx });
   },
 
   init(res) {
@@ -651,8 +660,13 @@ Page({
 
   // 处理地图点击（地图选点）
   onTapMap(e) {
+    if (this.data.showPlaceList){
+      this.toggleShowPlaceList();
+    }
+
     const latitude = e.detail.latitude;
     const longitude = e.detail.longitude;
+    const newId = this.data.markerId + 1;
 
     const key = this.data.subKey;
     const url = `https://apis.map.qq.com/ws/geocoder/v1/?location=${latitude},${longitude}&key=${key}&get_poi=0`;
@@ -665,7 +679,7 @@ Page({
         const address = res.data.result.formatted_addresses.recommend;
 
         const newMarker = {
-          id: this.data.markerId + 1,
+          id: newId,
           name: address,
           iconPath: '../../images/marker/pin.png',
           latitude: latitude,
@@ -675,7 +689,7 @@ Page({
           height: 30,
           callout: {
             content: address.length > 8 ? address.substring(0, 8) + '...' : address,
-            display: "ALWAYS",  // 始终显示
+            display: "BYCLICK",
             padding: 5,
             borderRadius: 5,
             bgColor: "#ffffff",
@@ -685,7 +699,7 @@ Page({
         };
 
         this.setData({
-          markerId: this.data.markerId + 1,
+          markerId: newId,
           selfAddedMarkers: [newMarker].concat(this.data.selfAddedMarkers),
           markers: [newMarker].concat(this.data.markers),
           allMarkers: [newMarker].concat(this.data.allMarkers)
@@ -699,14 +713,19 @@ Page({
 
   // 处理poi点击
 	onTapPoi (e) {
+    if (this.data.showPlaceList){
+      this.toggleShowPlaceList();
+    }
+
 		const name = e.detail.name;
 		const latitude = e.detail.latitude;
 		const longitude = e.detail.longitude;
+    const newId = this.data.markerId + 1;
 
     const distance = this.getDistance(latitude, longitude, this.data.chosenFixedLatitude, this.data.chosenFixedLongitude); // 计算距离
 
     const newMarker = {
-      id: this.data.markerId + 1,
+      id: newId,
       name: name,
       iconPath: '../../images/marker/pin.png',
       latitude: latitude,
@@ -716,7 +735,7 @@ Page({
       height: 30,
       callout: {
         content: name.length <= 8 ? name : name.substring(0, 8) + '...',
-        display: "ALWAYS",  // 始终显示
+        display: "BYCLICK",
         padding: 5,
         borderRadius: 5,
         bgColor: "#ffffff",
@@ -726,7 +745,7 @@ Page({
     };
 
 		this.setData({
-			markerId: this.data.markerId + 1,
+			markerId: newId,
       selfAddedMarkers: [newMarker].concat(this.data.selfAddedMarkers),
       markers: [newMarker].concat(this.data.markers),
       allMarkers: [newMarker].concat(this.data.allMarkers)
@@ -734,7 +753,7 @@ Page({
 	},
 
   // 周边搜索功能
-  searchNearbyWithQuery: function(lat, lng, keyword) {
+  searchNearbyWithQuery(lat, lng, keyword) {
     const latitude = this.data.chosenFixedLatitude;
     const longitude = this.data.chosenFixedLongitude;
 
@@ -769,7 +788,7 @@ Page({
               height: 30,
               callout: {
                 content: place.title.length <= 8 ? place.title : place.title.substring(0, 8) + '...',
-                display: "ALWAYS",  // 始终显示
+                display: "BYCLICK",
                 padding: 5,
                 borderRadius: 5,
                 bgColor: "#ffffff",
@@ -782,7 +801,7 @@ Page({
           newMarkers.sort((a, b) => b.id - a.id);
 
           this.setData({
-            makerId: currentMarkerId,
+            markerId: currentMarkerId,
             recommendMarkers: newMarkers.concat(this.data.recommendMarkers),
             markers: newMarkers.concat(this.data.markers),
             allMarkers: newMarkers.concat(this.data.allMarkers)
@@ -798,7 +817,11 @@ Page({
   },
 
   // 调用周边搜索功能
-  onSearchNearby: function() {
+  onSearchNearby() {
+    if (this.data.showPlaceList){
+      this.toggleShowPlaceList();
+    }
+
     const lat = this.data.chosenFixedLatitude;
     const lng = this.data.chosenFixedLongitude;
     const keyword = this.data.searchQuery;
@@ -809,6 +832,7 @@ Page({
   onPlaceTap(e) {
     const id = e.currentTarget.dataset.id; // 获取点击的 marker 的 id
     const marker = this.data.markers.find(item => item.id === id); // 查找对应的 marker
+    console.log(this.data.markers);
     const latitude = marker.latitude;
     const longitude = marker.longitude;
 
