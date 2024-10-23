@@ -1,5 +1,4 @@
 // app.js
-const moment = require('moment');
 
 App({
   onLaunch() {
@@ -8,7 +7,6 @@ App({
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
 
-    moment.locale("zh-cn");
     // 登录
     wx.login({
       success: res => {
@@ -17,12 +15,6 @@ App({
     })
   },
   globalData: {
-    userInfo: null,
-    "api": {
-      "business_api": "https://water.ispongecity.com/api/business",
-      "monitor_api": "https://water.ispongecity.com/api/monitor",
-      "user_api": "https://water.ispongecity.com/api/user",
-      "map_api": "https://water.ispongecity.com/api/map"
-    }
+    userInfo: null
   }
 })
