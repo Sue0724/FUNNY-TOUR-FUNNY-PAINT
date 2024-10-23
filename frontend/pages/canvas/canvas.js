@@ -24,11 +24,11 @@ Page({
     currentTool: 'brush', // 默认工具为画笔
 
     mapCtx: "",
-    latitude: 0, // 中心纬度
-    longitude: 0, // 中心经度
+    latitude: 30.512015580071605, // 中心纬度
+    longitude: 114.40807827869122, // 中心经度
     moveStep: 0, // 基础移动步长
-    chosenFixedLatitude: 0, // 日程中心纬度
-    chosenFixedLongitude: 0, // 日程中心经度
+    chosenFixedLatitude: 30.512015580071605, // 日程中心纬度
+    chosenFixedLongitude: 114.40807827869122, // 日程中心经度
     searchQuery: '地点',
 
     subKey: 'ZFJBZ-NDACQ-5X45Z-4HUVI-G2NZH-IDFMV',
@@ -75,6 +75,55 @@ Page({
       { text: '收藏地点', value: 'collect' },
       { text: '外部导航', value: 'outerNavigate' },
     ],
+  },
+
+  // 设定日程中心
+  chooseCenter() {
+    const that = this;
+    wx.chooseLocation({
+      success(res) {
+        console.log(res);
+        const {latitude, longitude, name} = res;
+
+        const newMarker = {
+          id: 0,
+          name: name,
+          iconPath: '../../images/marker/center.png',
+          latitude: latitude,
+          longitude: longitude,
+          category: "日程中心",
+          distance: 0,
+          width: 50,
+          height: 50,
+          callout: {
+            content: name.length > 8 ? name.substring(0, 8) + '...' : name,
+            display: "BYCLICK",
+            padding: 5,
+            borderRadius: 5,
+            bgColor: "#ffffff",
+            color: "#000000",
+            fontSize: 12
+          }
+        };
+
+        // 删除 id 为 0 的 marker
+        const updatedMarkers = that.data.markers.filter(marker => marker.id !== 0);
+        const updatedAllMarkers = that.data.allMarkers.filter(marker => marker.id !== 0);
+
+        const newId = Math.max(that.data.markerId, 0);
+
+        // 更新纬度和经度
+        that.setData({
+          chosenFixedLatitude: latitude,
+          chosenFixedLongitude: longitude,
+          latitude: latitude,
+          longitude: longitude,
+          markerId: newId,
+          markers: updatedMarkers.concat(newMarker),
+          allMarkers: updatedAllMarkers.concat(newMarker)
+        });
+      }
+    });
   },
 
   // 监听搜索框输入并保存到 searchQuery 中
@@ -314,36 +363,16 @@ Page({
   },
 
   onLoad: async function () {
-    // 获取用户当前位置
-    wx.getLocation({
-      type: 'gcj02',
-      success: async (res) => {
-        const { latitude, longitude } = res;
+    // 初始化画布上下文
+    wx.createSelectorQuery()
+      .select('#myCanvas')   // 选择 Canvas 节点
+      .fields({
+        node: true,
+        size: true,
+      })
+      .exec(this.init.bind(this));
 
-        // 更新纬度和经度（自选日程中心经纬度需改为页面间传参）
-        this.setData({
-          chosenFixedLatitude: latitude,
-          chosenFixedLongitude: longitude,
-          latitude: latitude,
-          longitude: longitude,
-          markers: this.data.allMarkers
-        });
-
-        // 初始化画布上下文
-        wx.createSelectorQuery()
-          .select('#myCanvas')   // 选择 Canvas 节点
-          .fields({
-            node: true,
-            size: true,
-          })
-          .exec(this.init.bind(this));
-
-        await this.setCurrentCoordinate();
-      },
-      fail: (err) => {
-        console.error("获取当前位置失败:", err);
-      }
-    });
+    await this.setCurrentCoordinate();
 
     const mapCtx = wx.createMapContext('map');
     this.setData({ mapCtx: mapCtx });
