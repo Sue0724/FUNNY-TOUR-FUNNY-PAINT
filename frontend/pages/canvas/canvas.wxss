@@ -90,13 +90,6 @@ scroll-view {
   margin-top: 4px;
 }
 
-/*****************/
-
-mp-halfScreenDialog {
-  position: absolute;
-  z-index: 20; /* 较高 z-index，确保在最上层 */
-}
-
 /*************************************************************/
 
 canvas {
@@ -143,16 +136,16 @@ button:active {
 
 .search-bar {
   position: absolute;
-  top: 5px;
-  left: 50%;
+  top: 0px;
+  left: 58%;
   transform: translateX(-50%);
-  width: 100%;
+  width: 80%;
   height: 40px;
   background-color: #fff;
   border-radius: 5px;
   display: flex;
   align-items: center;
-  padding: 0 10px;
+  padding: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   z-index: 999; /* 确保搜索栏在地图上方显示 */
 }
@@ -166,17 +159,9 @@ button:active {
   font-size: 16px;
 }
 
-.search-bar button {
-  background-color: #fff;
-  color: #1b76c0;
-  border: none;
-  padding: 0 0px;
-  height: 80%;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.search-bar button:active {
-  background-color: #ff9800; /* 高亮选中的工具 */
-  color: white;
+.search-icon {
+  width: 24px;
+  height: 24px;
+  margin-left: 8px;
+  cursor: pointer; /* 鼠标悬停显示为可点击 */
 }

@@ -1,12 +1,8 @@
 {
   "pages": [
-    "pages/home/home",
+    "pages/canvas/canvas",
     "pages/me/index",
-    "pages/logs/logs",
-    "pages/map/map",
-    "pages/monitor/monitor",
-    "pages/monitor/chart/chart",
-    "pages/canvas/canvas"
+    "pages/logs/logs"
   ],
   "window": {
     "navigationBarTextStyle": "@navigationBarTextStyle",
@@ -20,18 +16,6 @@
     "borderStyle": "@tabBarBorderStyle",
     "backgroundColor": "@tabBarBackgroundColor",
     "list": [
-      {
-        "pagePath": "pages/home/home",
-        "iconPath": "@iconPathHome",
-        "selectedIconPath": "@selectedIconPathHome",
-        "text": "首页"
-      },
-      {
-        "pagePath": "pages/map/map",
-        "iconPath": "@iconPathMap",
-        "selectedIconPath": "@selectedIconPathMap",
-        "text": "地图"
-      },
       {
         "pagePath": "pages/canvas/canvas",
         "iconPath": "@iconPathMap",

@@ -56,6 +56,8 @@ Page({
       tripPlanMarkers: '../../images/marker/add_dark.png',
       allMarkers: '../../images/marker/all.png'
     },
+    searchIcon: '../../images/search/search_dark.png',
+
     allMarkers: [], // 全部地点
     selfAddedMarkers: [],  // 自选地点
     recommendMarkers: [],  // 推荐地点
@@ -63,8 +65,15 @@ Page({
     tripPlanMarkers: [],  // 当前日程添加的地点
     markers: [],
     markers_backup: [],
+
     showDialog: false,
     currentMarker: null,
+    actions: [
+      { text: '收藏地点', value: 'collect' },
+      { text: '加入日程', value: 'add' },
+      { text: '外部导航', value: 'outerNavigate' },
+      { text: '查看详情', value: 'showDetail' },
+    ],
   },
 
   // 监听搜索框输入并保存到 searchQuery 中
@@ -76,11 +85,19 @@ Page({
 
   // 处理搜索按钮点击事件
   onSearchSubmit() {
-    const query = this.data.searchQuery;
-    if (query) {
-      // console.log('搜索关键词:', query);
-      // 可以根据此搜索关键词执行其他操作，比如请求 API 或过滤地点
+    // 更换图标
+    this.setData({
+      searchIcon: '../../images/search/search.png',
+    });
+
+    if (this.data.searchQuery) {
+      this.onSearchNearby();
     }
+
+    // 更换图标
+    this.setData({
+      searchIcon: '../../images/search/search_dark.png',
+    });
   },
 
   // 切换绘画模式
@@ -632,6 +649,90 @@ Page({
     return icons[type];
   },
 
+  // 处理地图点击（地图选点）
+  onTapMap(e) {
+    const latitude = e.detail.latitude;
+    const longitude = e.detail.longitude;
+
+    const key = this.data.subKey;
+    const url = `https://apis.map.qq.com/ws/geocoder/v1/?location=${latitude},${longitude}&key=${key}&get_poi=0`;
+
+    wx.request({
+      url: url,
+      method: 'GET',
+      success: res => {
+        const distance = this.getDistance(latitude, longitude, this.data.chosenFixedLatitude, this.data.chosenFixedLongitude); // 计算距离
+        const address = res.data.result.formatted_addresses.recommend;
+
+        const newMarker = {
+          id: this.data.markerId + 1,
+          name: address,
+          iconPath: '../../images/marker/pin.png',
+          latitude: latitude,
+          longitude: longitude,
+          distance: Math.round(distance),
+          width: 30,
+          height: 30,
+          callout: {
+            content: address.length > 8 ? address.substring(0, 8) + '...' : address,
+            display: "ALWAYS",  // 始终显示
+            padding: 5,
+            borderRadius: 5,
+            bgColor: "#ffffff",
+            color: "#000000",
+            fontSize: 12
+          }
+        };
+
+        this.setData({
+          markerId: this.data.markerId + 1,
+          selfAddedMarkers: [newMarker].concat(this.data.selfAddedMarkers),
+          markers: [newMarker].concat(this.data.markers),
+          allMarkers: [newMarker].concat(this.data.allMarkers)
+        });
+      },
+      fail: err => {
+        console.error(err);
+      }
+    });
+  },
+
+  // 处理poi点击
+	onTapPoi (e) {
+		const name = e.detail.name;
+		const latitude = e.detail.latitude;
+		const longitude = e.detail.longitude;
+
+    const distance = this.getDistance(latitude, longitude, this.data.chosenFixedLatitude, this.data.chosenFixedLongitude); // 计算距离
+
+    const newMarker = {
+      id: this.data.markerId + 1,
+      name: name,
+      iconPath: '../../images/marker/pin.png',
+      latitude: latitude,
+      longitude: longitude,
+      distance: Math.round(distance),
+      width: 30,
+      height: 30,
+      callout: {
+        content: name.length <= 8 ? name : name.substring(0, 8) + '...',
+        display: "ALWAYS",  // 始终显示
+        padding: 5,
+        borderRadius: 5,
+        bgColor: "#ffffff",
+        color: "#000000",
+        fontSize: 12
+      }
+    };
+
+		this.setData({
+			markerId: this.data.markerId + 1,
+      selfAddedMarkers: [newMarker].concat(this.data.selfAddedMarkers),
+      markers: [newMarker].concat(this.data.markers),
+      allMarkers: [newMarker].concat(this.data.allMarkers)
+		});
+	},
+
   // 周边搜索功能
   searchNearbyWithQuery: function(lat, lng, keyword) {
     const latitude = this.data.chosenFixedLatitude;
@@ -724,19 +825,6 @@ Page({
     });
   },
 
-  // 显示对话框
-  onShowDialog() {
-    this.setData({ showDialog: true });
-    const ctx = this.data.ctx;
-    ctx.clearRect(0, 0, this.data.w, this.data.h); // 清空画布
-  },
-
-  // 隐藏对话框
-  onHideDialog() {
-    this.setData({ showDialog: false });
-    this.renderPaths(this.data.ctx);
-  },
-
   // 处理点击标注
   onMarkerTap(e) {
     const marker = this.data.markers.find(item => item.id == e.markerId);
@@ -746,92 +834,42 @@ Page({
     this.onShowDialog();
   },
 
-  // 处理点击地图（地图选点）
-  onTapMap(e) {
-    const latitude = e.detail.latitude;
-    const longitude = e.detail.longitude;
+  // 处理操作菜单对话框操作点击
+  onActionTap(e) {
+    const { value } = e.detail;
+    switch (value) {
+      case 'collect':
+        this.collectPlace();
+        break;
+      case 'add':
+        this.addPlace();
+        break;
+      case 'outerNavigate':
+        this.outerNavigate();
+        break;
+      case 'showDetail':
+        this.showDetail();
+        break;
+    }
+    this.setData({ showDialog: false });
+  },
 
-    const key = this.data.subKey;
-    const url = `https://apis.map.qq.com/ws/geocoder/v1/?location=${latitude},${longitude}&key=${key}&get_poi=0`;
-
-    wx.request({
-      url: url,
-      method: 'GET',
-      success: res => {
-        const distance = this.getDistance(latitude, longitude, this.data.chosenFixedLatitude, this.data.chosenFixedLongitude); // 计算距离
-        const address = res.data.result.formatted_addresses.recommend;
-
-        const newMarker = {
-          id: this.data.markerId + 1,
-          name: address,
-          iconPath: '../../images/marker/pin.png',
-          latitude: latitude,
-          longitude: longitude,
-          distance: Math.round(distance),
-          width: 30,
-          height: 30,
-          callout: {
-            content: address.length > 8 ? address.substring(0, 8) + '...' : address,
-            display: "ALWAYS",  // 始终显示
-            padding: 5,
-            borderRadius: 5,
-            bgColor: "#ffffff",
-            color: "#000000",
-            fontSize: 12
-          }
-        };
-
-        this.setData({
-          markerId: this.data.markerId + 1,
-          selfAddedMarkers: [newMarker].concat(this.data.selfAddedMarkers),
-          markers: [newMarker].concat(this.data.markers),
-          allMarkers: [newMarker].concat(this.data.allMarkers)
-        });
-      },
-      fail: err => {
-        console.error(err);
-      }
+  // 收藏地点
+  collectPlace() {
+    this.setData({
+      tripCollectedMarkers: [this.data.currentMarker].concat(this.data.tripCollectedMarkers)
     });
   },
 
-  // 处理poi点击
-	onTapPoi (e) {
-		const name = e.detail.name;
-		const latitude = e.detail.latitude;
-		const longitude = e.detail.longitude;
-
-    const distance = this.getDistance(latitude, longitude, this.data.chosenFixedLatitude, this.data.chosenFixedLongitude); // 计算距离
-
-    const newMarker = {
-      id: this.data.markerId + 1,
-      name: name,
-      iconPath: '../../images/marker/pin.png',
-      latitude: latitude,
-      longitude: longitude,
-      distance: Math.round(distance),
-      width: 30,
-      height: 30,
-      callout: {
-        content: name.length <= 8 ? name : name.substring(0, 8) + '...',
-        display: "ALWAYS",  // 始终显示
-        padding: 5,
-        borderRadius: 5,
-        bgColor: "#ffffff",
-        color: "#000000",
-        fontSize: 12
-      }
-    };
-
-		this.setData({
-			markerId: this.data.markerId + 1,
-      selfAddedMarkers: [newMarker].concat(this.data.selfAddedMarkers),
-      markers: [newMarker].concat(this.data.markers),
-      allMarkers: [newMarker].concat(this.data.allMarkers)
-		});
-	},
+  // 加入日程
+  addPlace() {
+    this.setData({
+      tripPlanMarkers: [this.data.currentMarker].concat(this.data.tripPlanMarkers)
+    });
+  },
 
   // 跳转外部导航
-  navi1() {
+  outerNavigate() {
     const latitude = this.data.currentMarker.latitude;
     const longitude = this.data.currentMarker.longitude;
     wx.openLocation({
@@ -841,7 +879,18 @@ Page({
     });
   },
 
-  navi2() {
+  // 查看地点详情（跳转大众点评小程序）
+  showDetail() {
 
-  }
+  },
+
+  // 显示对话框
+  onShowDialog() {
+    this.setData({ showDialog: true });
+  },
+
+  // 隐藏对话框
+  onHideDialog() {
+    this.setData({ showDialog: false });
+  },
 })

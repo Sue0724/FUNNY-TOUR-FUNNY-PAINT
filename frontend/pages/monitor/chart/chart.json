@@ -1,6 +1,0 @@
-{
-  "pageOrientation": "auto",
-  "usingComponents": {
-    "ec-canvas": "../../../libs/ec-canvas/ec-canvas"
-  }
-}

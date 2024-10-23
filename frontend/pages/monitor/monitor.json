@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "实时监测",
-  "usingComponents": {
-    "mp-searchbar": "weui-miniprogram/searchbar/searchbar"
-  }
-}

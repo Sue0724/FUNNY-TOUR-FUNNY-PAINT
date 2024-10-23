@@ -3,7 +3,7 @@
   <!-- 搜索栏 -->
   <view class="search-bar">
     <input type="text" placeholder="搜索地点或输入关键字" bindinput="onSearchInput" />
-    <button bindtap="onSearchSubmit">搜索</button>
+    <image src="{{searchIcon}}" mode="widthFix" class="search-icon" bindtap="onSearchSubmit" />
   </view>
 
   <map id="map" 
@@ -37,10 +37,9 @@
 
   <!-- 边栏&画布工具栏 -->
   <view class="sidebar">
-    <button bindtap="toggleDrawMode">{{drawMode ? '退出绘画模式' : '进入绘画模式'}}</button>
-    <button bindtap="onSearchNearby">显示周边地点</button>
-    <button bindtap="toggleShowMarkers">{{showMarkers ? '隐藏地点标记' : '显示地点标记'}}</button>
     <button bindtap="toggleShowPlaceList">{{showPlaceList ? '隐藏地点列表' : '显示地点列表'}}</button>
+    <button bindtap="toggleShowMarkers">{{showMarkers ? '隐藏地点标记' : '显示地点标记'}}</button>
+    <button bindtap="toggleDrawMode">{{drawMode ? '退出绘画模式' : '进入绘画模式'}}</button>
     <button bindtap="toggleHideDrawing">{{hideDrawing ? '显示绘画' : '隐藏绘画'}}</button>
     <button bindtap="clearCanvas">清空画布</button>
     <button bindtap="selectBrush">画笔</button>
@@ -50,15 +49,6 @@
     <button bindtap="moveLeft">左移</button>
     <button bindtap="moveRight">右移</button>
   </view>
-
-  <mp-halfScreenDialog show="{{showDialog}}" bindtap="onHideDialog">
-    <view slot="title">{{currentMarker.name}}</view>
-    <view slot="desc"></view>
-    <view slot="footer">
-      <button type="primary" class="weui-btn" bindtap="navi1">外部导航</button>
-      <button type="primary" class="weui-btn" bindtap="navi2">内部导航</button>
-    </view>
-  </mp-halfScreenDialog>
 
   <!-- 地点列表 -->
   <view wx:if="{{showPlaceList}}" class="place-list">
@@ -97,4 +87,13 @@
       </view>
     </scroll-view>
   </view>
+  
+  <!-- 地点操作菜单 -->
+  <mp-actionSheet 
+    show="{{showDialog}}" 
+    bindactiontap="onActionTap" 
+    title="{{currentMarker.name}}" 
+    actions="{{actions}}" 
+    show-cancel="true">
+  </mp-actionSheet>
 </view>
