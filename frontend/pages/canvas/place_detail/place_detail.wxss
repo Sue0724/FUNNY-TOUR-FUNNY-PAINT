@@ -1,0 +1,6 @@
+/* pages/canvas/place_detail/place_detail.wxss */
+
+.container {
+    height: 100%;
+    width: 100%;
+}

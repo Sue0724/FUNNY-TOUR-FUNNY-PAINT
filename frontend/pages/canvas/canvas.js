@@ -213,11 +213,6 @@ Page({
     });
   },
 
-  // 处理搜索按钮点击事件（搜索城市/区县）
-  onSearchRegionSubmit() {
-
-  },
-
   // 切换绘画模式
   async toggleDrawMode() {
     this.setData({
@@ -1002,7 +997,10 @@ Page({
 
   // 查看地点详情（跳转大众点评小程序）
   showDetail() {
-
+    const markerName = this.data.currentMarker.name;
+    wx.navigateTo({
+      url: `/pages/canvas/place_detail/place_detail?name=${encodeURIComponent(markerName)}` // 构建跳转 URL，并编码参数
+    });
   },
 
   // 显示对话框

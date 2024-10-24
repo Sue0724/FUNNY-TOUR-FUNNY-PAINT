@@ -4,7 +4,6 @@
   <view class="search-bar">
     <input type="text" placeholder="搜索地点或输入关键字" bindinput="onSearchInput" />
     <image src="{{searchIcon}}" mode="widthFix" class="search-icon" bindtap="onSearchNearbySubmit" />
-    <image src="{{searchIcon}}" mode="widthFix" class="search-icon" bindtap="onSearchRegionSubmit" />
   </view>
 
   <map id="map" 

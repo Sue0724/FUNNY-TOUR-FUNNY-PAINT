@@ -1,0 +1,5 @@
+<!--pages/canvas/place_detail/place_detail.wxml-->
+
+<view class="container">
+  <web-view src="https://cn.bing.com/search?q={{name}}"></web-view>
+</view>

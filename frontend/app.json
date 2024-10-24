@@ -4,7 +4,8 @@
     "pages/me/index",
     "pages/logs/logs",
     "pages/day_trip/day_trip",
-    "pages/AI/AI"
+    "pages/AI/AI",
+    "pages/canvas/place_detail/place_detail"
   ],
   "window": {
     "navigationBarTextStyle": "@navigationBarTextStyle",
