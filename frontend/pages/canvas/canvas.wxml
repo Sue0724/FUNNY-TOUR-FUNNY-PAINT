@@ -52,6 +52,25 @@
     <button bindtap="moveRight">右移</button>
   </view>
 
+  <view class="toolbar">
+    <!-- 颜色选择器 -->
+    <view class="color-picker">
+      <text>R</text>
+      <slider min="0" max="255" value="{{r}}" show-value bindchange="changeColor" data-type="r"></slider>
+      <text>G</text>
+      <slider min="0" max="255" value="{{g}}" show-value bindchange="changeColor" data-type="g"></slider>
+      <text>B</text>
+      <slider min="0" max="255" value="{{b}}" show-value bindchange="changeColor" data-type="b"></slider>
+      <view class="color-preview" style="background-color: rgb({{r}}, {{g}}, {{b}});"></view>
+    </view>
+
+    <!-- 线条粗细选择 -->
+    <view class="line-width-picker">
+      <text>粗细</text>
+      <slider min="1" max="10" value="{{lineWidth}}" show-value bindchange="changeLineWidth"></slider>
+    </view>
+  </view>
+
   <!-- 地点列表 -->
   <view wx:if="{{showPlaceList}}" class="place-list">
     <view class="icon-switcher">

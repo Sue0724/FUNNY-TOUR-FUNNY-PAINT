@@ -22,6 +22,10 @@ Page({
     lastLatLng: {},
     lastScreenXY: {},
     currentTool: 'brush', // 默认工具为画笔
+    r: 0, // 画笔颜色
+    g: 0,
+    b: 0,
+    lineWidth: 5, // 画笔粗细
 
     mapCtx: "",
     latitude: 30.512015580071605, // 中心纬度
@@ -502,17 +506,26 @@ Page({
     }
   },
 
+  changeColor: function (e) {
+    const colorType = e.currentTarget.dataset.type;
+    this.setData({ [colorType]: e.detail.value });
+  },
+
+  changeLineWidth: function (e) {
+    this.setData({ lineWidth: e.detail.value });
+  },
+
   // 渲染全部路径
   renderPaths(ctx) {
-    ctx.strokeStyle = "#1b76c0";
-    ctx.lineWidth = 5;
-    ctx.lineCap = "round";
-    ctx.lineJoin = "round";
+    // ctx.lineCap = "round";
+    // ctx.lineJoin = "round";
 
     this.data.paths.forEach(path => {
       // 将路径的起点和终点经纬度转换为屏幕坐标
       const start = this.convertLatLngToScreen(path.startLng, path.startLat);
       const end = this.convertLatLngToScreen(path.endLng, path.endLat);
+      ctx.strokeStyle = path.strokeStyle;
+      ctx.lineWidth = path.lineWidth;
 
       // 绘制路径
       ctx.beginPath();
@@ -524,8 +537,8 @@ Page({
 
   // 根据当前工具渲染新增路径
   renderNewPath(ctx, x, y) {
-    ctx.strokeStyle = "#1b76c0"; // 画笔颜色
-    ctx.lineWidth = 5;
+    ctx.strokeStyle = `rgb(${this.data.r}, ${this.data.g}, ${this.data.b})`; // 画笔颜色
+    ctx.lineWidth = this.data.lineWidth; // 画笔粗细
     // ctx.lineCap = "round"; // 设置线条端点样式
     // ctx.lineJoin = "round"; // 设置线条连接样式
 
@@ -612,7 +625,9 @@ Page({
         startLat: this.data.lastLatLng.latitude,
         startLng: this.data.lastLatLng.longitude,
         endLat: latLng.latitude,
-        endLng: latLng.longitude
+        endLng: latLng.longitude,
+        strokeStyle: `rgb(${this.data.r}, ${this.data.g}, ${this.data.b})`,
+        lineWidth: this.data.lineWidth
       };
 
       // 保存路径并更新
