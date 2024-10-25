@@ -1,11 +1,13 @@
 {
   "pages": [
-    "pages/canvas/canvas",
+    "pages/map/map_index/map_index",
     "pages/me/index",
     "pages/logs/logs",
     "pages/AI/AI",
-    "pages/canvas/place_detail/place_detail",
-    "pages/canvas/trip/trip"
+    "pages/map/map_canvas/map_canvas",
+    "pages/map/map_choose_places/map_choose_places",
+    "pages/map/map_choose_places/place_detail/place_detail",
+    "pages/map/trip/trip"
   ],
   "window": {
     "navigationBarTextStyle": "@navigationBarTextStyle",
@@ -20,10 +22,10 @@
     "backgroundColor": "@tabBarBackgroundColor",
     "list": [
       {
-        "pagePath": "pages/canvas/canvas",
+        "pagePath": "pages/map/map_index/map_index",
         "iconPath": "@iconPathMap",
         "selectedIconPath": "@selectedIconPathMap",
-        "text": "画布"
+        "text": "地图"
       },
       {
         "pagePath": "pages/AI/AI",

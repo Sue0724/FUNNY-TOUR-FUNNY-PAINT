@@ -1,0 +1,26 @@
+<!--pages/map/map_index/map_index.wxml-->
+<view class="main">
+    <map id="map" 
+        latitude="{{latitude}}"
+        longitude="{{longitude}}"
+        scale="{{scale}}"
+        enable-3D="{{enable3d}}"
+        show-location="{{showLocation}}"
+        show-scale="{{showScale}}"
+        show-compass="{{showCompass}}"
+        enable-zoom="{{enableZoom}}"
+        enable-scroll="{{enableScroll}}"
+        enable-rotate="{{enableRotate}}"
+        enable-overlooking="{{enableOverlooking}}"
+        enable-satellite="{{enableSatellite}}"
+        enable-traffic="{{enableTraffic}}"
+    >
+    </map>
+
+    <!-- 边栏 -->
+    <view class="sidebar">
+        <button bindtap="navigateToPlaceMode">地点选择模式</button>
+        <button bindtap="navigateToDrawMode">绘画模式</button>
+        <button bindtap="navigateToTripMode">行程模式</button>
+    </view>
+</view>

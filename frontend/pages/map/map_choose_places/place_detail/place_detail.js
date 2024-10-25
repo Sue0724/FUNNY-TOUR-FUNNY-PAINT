@@ -1,4 +1,4 @@
-// pages/canvas/place_detail/place_detail.js
+// pages/map/map_choose_places/place_detail/place_detail.js
 Page({
 
   /**

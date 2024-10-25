@@ -15,6 +15,18 @@ App({
     })
   },
   globalData: {
-    userInfo: null
-  }
+    userInfo: null,
+    tripMarkers: "[]", // 初始化为空数组的 JSON 字符串
+    fixedLatitude: 0,
+    fixedLongitude: 0
+  },
+  setTripMarkers(value) {
+    this.globalData.tripMarkers = value;
+  },
+  setFixedLatitude(value) {
+    this.globalData.fixedLatitude = value;
+  },
+  setFixedLongitude(value) {
+    this.globalData.fixedLongitude = value;
+  },
 })

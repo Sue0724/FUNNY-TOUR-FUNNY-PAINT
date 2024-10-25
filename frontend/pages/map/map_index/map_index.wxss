@@ -1,0 +1,45 @@
+/* pages/map/map_index/map_index.wxss */
+
+.main {
+    position: fixed;
+    width: 100%;
+    height: 100%; /* 让页面占满整个视口 */
+    overflow: hidden; /* 避免内容超出 */
+  }
+  
+  map {
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+  
+  .sidebar {
+    position: absolute;
+    top: 0px;
+    right: 5px;
+    z-index: 10;
+    background-color: white;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    max-height: 20%; /* 固定高度 */
+    overflow-y: auto; /* 启用垂直滚动 */
+  }
+  
+  button {
+    width: 100px;
+    height: 40px;
+    background-color: white;
+    color: #1b76c0;
+    border: none;
+    border-radius: 4px;
+    font-size: 15px;
+    z-index: 8;
+    margin-bottom: 5px; /* 添加按钮之间的间距 */
+  }
+  
+  button:active {
+    background-color: #ff9800; /* 高亮选中的工具 */
+    color: white;
+  }
+

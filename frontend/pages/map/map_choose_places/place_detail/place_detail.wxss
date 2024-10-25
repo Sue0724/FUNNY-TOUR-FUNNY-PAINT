@@ -1,0 +1,6 @@
+/* pages/map/map_choose_places/place_detail/place_detail.wxss */
+
+.container {
+    height: 100%;
+    width: 100%;
+}

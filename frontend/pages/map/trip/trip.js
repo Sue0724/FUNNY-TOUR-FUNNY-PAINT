@@ -1,24 +1,18 @@
-// pages/canvas/trip/trip.js
+// pages/map/trip/trip.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    markers: [],
+
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    const markers = JSON.parse(decodeURIComponent(options.markers));  // 反序列化 markers
-  
-    this.setData({
-      markers: markers,
-    });
 
-    console.log(markers);
   },
 
   /**
@@ -32,7 +26,12 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-
+    // 传参
+    const app = getApp();
+    const tripMarkers = JSON.parse(app.globalData.tripMarkers || '[]');
+    this.setData({
+      markers: tripMarkers,
+    });
   },
 
   /**

@@ -1,0 +1,61 @@
+<!--pages/map/map_canvas/map_canvas.wxml-->
+<view class="main">
+  <map id="map" 
+    subkey="{{subKey}}"
+    latitude="{{latitude}}"
+    longitude="{{longitude}}"
+    scale="{{scale}}"
+    markers="{{markers}}"
+    circles="{{circles}}"
+    polyline="{{polylines}}"
+    polygons="{{polygons}}"
+    enable-3D="{{enable3d}}"
+    show-location="{{showLocation}}"
+    show-scale="{{showScale}}"
+    show-compass="{{showCompass}}"
+    enable-zoom="{{enableZoom}}"
+    enable-scroll="{{enableScroll}}"
+    enable-rotate="{{enableRotate}}"
+    enable-overlooking="{{enableOverlooking}}"
+    enable-satellite="{{enableSatellite}}"
+    enable-traffic="{{enableTraffic}}"
+    bindregionchange="onMapMove"
+  >
+  </map>
+
+  <!-- Canvas 透明层覆盖在地图上 -->
+  <canvas type="2d" id="myCanvas" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd" style="pointer-events: {{drawMode ? 'all' : 'none'}};"></canvas>
+
+  <!-- 边栏&画布工具栏 -->
+  <view class="sidebar">
+    <button bindtap="toggleShowMarkers">{{showMarkers ? '隐藏地点标记' : '显示地点标记'}}</button>
+    <button bindtap="toggleDrawMode">{{drawMode ? '退出编辑' : '进入编辑'}}</button>
+    <button bindtap="toggleHideDrawing">{{hideDrawing ? '显示绘画' : '隐藏绘画'}}</button>
+    <button bindtap="clearCanvas">清空画布</button>
+    <button bindtap="selectBrush">画笔</button>
+    <button bindtap="selectEraser">橡皮擦</button>
+    <button bindtap="moveUp">上移</button>
+    <button bindtap="moveDown">下移</button>
+    <button bindtap="moveLeft">左移</button>
+    <button bindtap="moveRight">右移</button>
+  </view>
+
+  <view class="toolbar">
+    <!-- 颜色选择器 -->
+    <view class="color-picker">
+      <text>R</text>
+      <slider min="0" max="255" value="{{r}}" show-value bindchange="changeColor" data-type="r"></slider>
+      <text>G</text>
+      <slider min="0" max="255" value="{{g}}" show-value bindchange="changeColor" data-type="g"></slider>
+      <text>B</text>
+      <slider min="0" max="255" value="{{b}}" show-value bindchange="changeColor" data-type="b"></slider>
+      <view class="color-preview" style="background-color: rgb({{r}}, {{g}}, {{b}});"></view>
+    </view>
+
+    <!-- 线条粗细选择 -->
+    <view class="line-width-picker">
+      <text>粗细</text>
+      <slider min="1" max="10" value="{{lineWidth}}" show-value bindchange="changeLineWidth"></slider>
+    </view>
+  </view>
+</view>

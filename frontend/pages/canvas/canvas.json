@@ -1,7 +1,0 @@
-{
-  "usingComponents": {
-    "mp-actionSheet": "weui-miniprogram/actionsheet/actionsheet",
-    "mp-cells": "weui-miniprogram/cells/cells",
-    "mp-cell": "weui-miniprogram/cell/cell"
-  }
-}
