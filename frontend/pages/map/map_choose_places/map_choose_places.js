@@ -259,14 +259,23 @@ Page({
     const mapCtx = wx.createMapContext('map');
     this.setData({ mapCtx: mapCtx });
 
+    // 传参
     const app = getApp();
-    const tripMarkers = JSON.parse(app.globalData.tripMarkers || '[]'); // 确保解析
+    const tripMarkers = JSON.parse(app.globalData.tripMarkers);
+    const allMarkers = JSON.parse(app.globalData.allMarkers);
+    const selfAddedMarkers = JSON.parse(app.globalData.selfAddedMarkers);
+    const recommendMarkers = JSON.parse(app.globalData.recommendMarkers);
+    const collectMarkers = JSON.parse(app.globalData.collectMarkers);
     const fixedLat = app.globalData.fixedLatitude;
     const fixedLng = app.globalData.fixedLongitude;
 
     this.setData({
-      markers: tripMarkers,
+      markers: allMarkers,
       tripPlanMarkers: tripMarkers,
+      allMarkers: allMarkers,
+      selfAddedMarkers: selfAddedMarkers,
+      recommendMarkers: recommendMarkers,
+      tripCollectedMarkers: collectMarkers,
       chosenFixedLongitude: fixedLng,
       chosenFixedLatitude: fixedLat,
       latitude: fixedLat,
@@ -292,18 +301,7 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide() {
-    const app = getApp();
-    // 如果需要在页面显示时更新数据，可以在这里获取最新的全局变量
-    const markers = JSON.parse(app.globalData.tripMarkers || '[]');
-    const fixedLatitude = app.globalData.fixedLatitude;
-    const fixedLongitude = app.globalData.fixedLongitude;
 
-    // 进行相应的更新
-    this.setData({
-      tripMarkers: markers,
-      setFixedLatitude: fixedLatitude,
-      setFixedLongitude: fixedLongitude,
-    });
   },
 
   /**
@@ -313,6 +311,10 @@ Page({
     const app = getApp();
     // 将 tripMarkers 转换为 JSON 字符串并存储
     app.setTripMarkers(JSON.stringify(this.data.tripPlanMarkers));
+    app.setAllMarkers(JSON.stringify(this.data.allMarkers));
+    app.setSelfAddedMarkers(JSON.stringify(this.data.selfAddedMarkers));
+    app.setRecommendMarkers(JSON.stringify(this.data.recommendMarkers));
+    app.setCollectMarkers(JSON.stringify(this.data.tripCollectedMarkers));
     app.setFixedLatitude(this.data.chosenFixedLatitude);
     app.setFixedLongitude(this.data.chosenFixedLongitude);
   },

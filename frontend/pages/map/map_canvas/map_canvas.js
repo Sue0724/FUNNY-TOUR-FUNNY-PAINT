@@ -238,6 +238,21 @@ Page({
       })
       .exec(this.init.bind(this));
 
+    // 传参
+    const app = getApp();
+    const tripMarkers = JSON.parse(app.globalData.tripMarkers);
+    const fixedLat = app.globalData.fixedLatitude;
+    const fixedLng = app.globalData.fixedLongitude;
+    const paths = JSON.parse(app.globalData.paths);
+    this.setData({
+      markers: tripMarkers,
+      chosenFixedLongitude: fixedLng,
+      chosenFixedLatitude: fixedLat,
+      latitude: fixedLat,
+      longitude: fixedLng,
+      paths: paths
+    });
+
     await this.setCurrentCoordinate();
   },
 
@@ -426,9 +441,8 @@ Page({
         lineWidth: this.data.lineWidth
       };
 
-      // 保存路径并更新
-      this.data.paths.push(newPath); // 直接推入数组，减少setData调用
       this.setData({
+        paths: this.data.paths.concat(newPath),
         lastLatLng: latLng,
         lastScreenXY: {x: x, y: y}
       });
@@ -461,29 +475,15 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  async onReady() {
+  onReady() {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  async onShow() {
-    // 传参
-    const app = getApp();
-    console.log(app.globalData);
-    const tripMarkers = JSON.parse(app.globalData.tripMarkers || '[]');
-    const fixedLat = app.globalData.fixedLatitude;
-    const fixedLng = app.globalData.fixedLongitude;
-    this.setData({
-      markers: tripMarkers,
-      chosenFixedLongitude: fixedLng,
-      chosenFixedLatitude: fixedLat,
-      latitude: fixedLat,
-      longitude: fixedLng
-    });
-
-    await this.setCurrentCoordinate();
+  onShow() {
+    
   },
 
   /**
@@ -497,7 +497,8 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload() {
-
+    const app = getApp();
+    app.setPaths(JSON.stringify(this.data.paths));
   },
 
   /**

@@ -4,8 +4,13 @@ App({
   globalData: {
     userInfo: null,
     tripMarkers: "[]", // 初始化为空数组的 JSON 字符串
-    fixedLatitude: 0,
-    fixedLongitude: 0,
+    allMarkers: "[]",
+    selfAddedMarkers: "[]",
+    recommendMarkers: "[]",
+    collectMarkers: "[]",
+    fixedLatitude: 30.512015580071605,
+    fixedLongitude: 114.40807827869122,
+    paths: "[]",
     // 新加的zxy的
     isLoggedIn: false,
     zhanghao: '',
@@ -45,10 +50,25 @@ App({
   setTripMarkers(value) {
     this.globalData.tripMarkers = value;
   },
+  setAllMarkers(value) {
+    this.globalData.allMarkers = value;
+  },
+  setSelfAddedMarkers(value) {
+    this.globalData.selfAddedMarkers = value;
+  },
+  setRecommendMarkers(value) {
+    this.globalData.recommendMarkers = value;
+  },
+  setCollectMarkers(value) {
+    this.globalData.collectMarkers = value;
+  },
   setFixedLatitude(value) {
     this.globalData.fixedLatitude = value;
   },
   setFixedLongitude(value) {
     this.globalData.fixedLongitude = value;
+  },
+  setPaths(value) {
+    this.globalData.paths = value;
   },
 })

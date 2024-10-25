@@ -33,7 +33,7 @@
 
   <!-- 工具栏 -->
   <view class="sidebar">
-    <button bindtap="chooseCenter">设定日程中心</button>
+    <button bindtap="chooseCenter">设定行程中心</button>
     <button bindtap="toggleShowPlaceList">{{showPlaceList ? '隐藏地点列表' : '显示地点列表'}}</button>
     <button bindtap="choosePlace">自选地点</button>
     <button bindtap="toggleShowMarkers">{{showMarkers ? '隐藏地点标记' : '显示地点标记'}}</button>

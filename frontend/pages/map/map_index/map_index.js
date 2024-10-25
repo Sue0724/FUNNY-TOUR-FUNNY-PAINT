@@ -46,12 +46,28 @@ Page({
     });
   },
 
+  // 保存地图
+  saveMap() {
+
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
     const mapCtx = wx.createMapContext('map');
     this.setData({ mapCtx: mapCtx });
+
+    // 传参
+    const app = getApp();
+    const fixedLat = app.globalData.fixedLatitude;
+    const fixedLng = app.globalData.fixedLongitude;
+    this.setData({
+      chosenFixedLongitude: fixedLng,
+      chosenFixedLatitude: fixedLat,
+      latitude: fixedLat,
+      longitude: fixedLng
+    });
   },
 
   /**
@@ -65,16 +81,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-    // 传参
-    const app = getApp();
-    const fixedLat = app.globalData.chosenFixedLatitude;
-    const fixedLng = app.globalData.chosenFixedLongitude;
-    this.setData({
-      chosenFixedLongitude: fixedLng,
-      chosenFixedLatitude: fixedLat,
-      latitude: fixedLat,
-      longitude: fixedLng
-    });
+    
   },
 
   /**
