@@ -1,0 +1,56 @@
+/* pages/changeAvatar/changeAvatar.wxss */
+
+/* 容器，使用flex布局使内容居中 */
+.container {
+  display: flex; /* 使用flex布局 */
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+  flex-direction: column; /* 纵向排列 */
+  margin-top: 50px; /* 上边距 */
+}
+
+/* 头像样式 */
+.avatar {
+  width: 100%; /* 调整头像的宽度为250px */
+  height: 100%; /* 调整头像的高度为250px */
+  border-radius: 50%; /* 保持圆形 */
+  overflow: hidden; /* 超出部分隐藏 */
+  /* border: 2px solid #ddd; 头像边框 */
+  /* margin-bottom: 20px; 下边距 */
+  object-fit: cover; /* 保持图片比例，防止拉伸 */
+}
+
+/* 按钮组的样式 */
+.btn-group {
+  margin-top: 20px; /* 上边距 */
+}
+
+/* 按钮样式 */
+button {
+  width: 100px; /* 按钮宽度 */
+  padding: 10px; /* 内边距 */
+  background-color: #1AAD19; /* 按钮背景颜色 */
+  color: white; /* 按钮字体颜色 */
+  border: none; /* 去除边框 */
+  border-radius: 5px; /* 圆角边框 */
+}
+
+/* logo样式，确保图片占满父容器 */
+.logo image {
+  width: 100%; /* 占满父容器 */
+  height: 100%; /* 占满父容器 */
+  object-fit: cover; /* 保持图片比例，防止拉伸 */
+  border-radius: 50%; /* 确保图片为圆形 */
+}
+
+/* logo容器样式 */
+.logo {
+  width: 250px; /* 确保保持一致 */
+  height: 250px; /* 确保保持一致 */
+  border-radius: 50%; /* 保持圆形 */
+  background: #fff; /* 背景颜色 */
+  overflow: hidden; /* 防止内容溢出 */
+  display: flex; /* 使用 flex 来中心对齐图片 */
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+}

@@ -1,0 +1,32 @@
+/* pages/changePwd/changePwd.wxss */
+.container {
+  padding: 20px;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group text {
+  display: inline-block;
+  width: 100px;
+}
+
+.input-group input {
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: 200px;
+}
+
+.btn-group {
+  margin-top: 20px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #1AAD19;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}

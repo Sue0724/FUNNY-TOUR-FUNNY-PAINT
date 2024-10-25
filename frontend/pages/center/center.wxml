@@ -1,0 +1,62 @@
+<!--pages/center/center.wxml-->
+<view class="header">
+  <view class="user_box" bindtap='tapAvatar'>
+    <view class="logo">
+      <image class="avatar" src="{{avatarUrl}}" mode="aspectFill"></image>
+    </view>
+    <text class='headname'>
+      {{isLoggedIn ? zhanghao : '编辑个人信息'}}
+    </text>
+  </view>
+  <view class="nav">
+    <view class="item">
+      <view class='wallet'>
+        <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+        <image src='../../images/fri.png' class='iimg'></image>
+        <text>我的好友</text>
+      </view>
+    </view>
+    <view class="item">
+      <view class='wallet'>
+        <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+        <image src='../../images/shou.png' class='iimg'></image>
+        <text>我的收藏</text>
+      </view>
+    </view>
+    <view class="item">
+      <view class='wallet'>
+        <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+        <image src='../../images/fuzhu.png' class='iimg'></image>
+        <text>更多设置</text>
+      </view>
+    </view>
+    <view class="item">
+      <view class='wallet' bindtap = 'accountManage'>
+        <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+        <image src='../../images/safe.png' class='iimg'></image>
+        <text>账号管理</text>
+      </view>
+    </view>
+    <view class="item">
+      <view class='wallet'>
+        <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+        <image src='../../images/yijian.png' class='iimg'></image>
+        <text>意见反馈</text>
+      </view>
+    </view>
+    <view class="item">
+      <view class='wallet'>
+        <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+        <image src='../../images/kefu.png' class='iimg'></image>
+        <text>联系客服</text>
+      </view>
+    </view>
+    <view class="item">
+      <view class='wallet' bindtap = 'confirmLogout'>
+        <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+        <image src='../../images/kefu.png' class='iimg'></image>
+        <text>退出登录</text>
+      </view>
+    </view>
+  </view>
+</view>
