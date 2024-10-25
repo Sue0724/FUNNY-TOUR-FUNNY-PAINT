@@ -329,7 +329,6 @@ Page({
   // 渲染全部路径
   renderPaths(ctx) {
     // ctx.lineCap = "round";
-    // ctx.lineJoin = "round";
 
     this.data.paths.forEach(path => {
       // 将路径的起点和终点经纬度转换为屏幕坐标
@@ -337,6 +336,7 @@ Page({
       const end = this.convertLatLngToScreen(path.endLng, path.endLat);
       ctx.strokeStyle = path.strokeStyle;
       ctx.lineWidth = path.lineWidth;
+      ctx.lineJoin = "round";
 
       // 绘制路径
       ctx.beginPath();
@@ -351,7 +351,7 @@ Page({
     ctx.strokeStyle = `rgb(${this.data.r}, ${this.data.g}, ${this.data.b})`; // 画笔颜色
     ctx.lineWidth = this.data.lineWidth; // 画笔粗细
     // ctx.lineCap = "round"; // 设置线条端点样式
-    // ctx.lineJoin = "round"; // 设置线条连接样式
+    ctx.lineJoin = "round"; // 设置线条连接样式
 
     // 绘制路径
     ctx.beginPath();

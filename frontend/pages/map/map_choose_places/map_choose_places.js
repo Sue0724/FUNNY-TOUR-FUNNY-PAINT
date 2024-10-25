@@ -268,6 +268,7 @@ Page({
     const collectMarkers = JSON.parse(app.globalData.collectMarkers);
     const fixedLat = app.globalData.fixedLatitude;
     const fixedLng = app.globalData.fixedLongitude;
+    const markerId = app.globalData.markerId;
 
     this.setData({
       markers: allMarkers,
@@ -279,7 +280,8 @@ Page({
       chosenFixedLongitude: fixedLng,
       chosenFixedLatitude: fixedLat,
       latitude: fixedLat,
-      longitude: fixedLng
+      longitude: fixedLng,
+      markerId: markerId
     });
   },
 
@@ -317,6 +319,7 @@ Page({
     app.setCollectMarkers(JSON.stringify(this.data.tripCollectedMarkers));
     app.setFixedLatitude(this.data.chosenFixedLatitude);
     app.setFixedLongitude(this.data.chosenFixedLongitude);
+    app.setMarkerId(this.data.markerId);
   },
 
   /**
@@ -421,8 +424,8 @@ Page({
           latitude: latitude,
           longitude: longitude,
           distance: Math.round(distance),
-          width: 30,
-          height: 30,
+          width: 40,
+          height: 40,
           callout: {
             content: address.length > 8 ? address.substring(0, 8) + '...' : address,
             display: "BYCLICK",
@@ -467,8 +470,8 @@ Page({
       latitude: latitude,
       longitude: longitude,
       distance: Math.round(distance),
-      width: 30,
-      height: 30,
+      width: 40,
+      height: 40,
       callout: {
         content: name.length <= 8 ? name : name.substring(0, 8) + '...',
         display: "BYCLICK",
@@ -520,8 +523,8 @@ Page({
               longitude: place.location.lng,
               distance: Math.round(distance),
               iconPath: '../../../images/marker/bubble.png',
-              width: 30,
-              height: 30,
+              width: 40,
+              height: 40,
               callout: {
                 content: place.title.length <= 8 ? place.title : place.title.substring(0, 8) + '...',
                 display: "BYCLICK",

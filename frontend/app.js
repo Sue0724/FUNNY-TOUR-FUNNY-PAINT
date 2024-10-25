@@ -10,6 +10,7 @@ App({
     collectMarkers: "[]",
     fixedLatitude: 30.512015580071605,
     fixedLongitude: 114.40807827869122,
+    markerId: 0,
     paths: "[]",
     // 新加的zxy的
     isLoggedIn: false,
@@ -67,6 +68,9 @@ App({
   },
   setFixedLongitude(value) {
     this.globalData.fixedLongitude = value;
+  },
+  setMarkerId(value) {
+    this.globalData.markerId = value;
   },
   setPaths(value) {
     this.globalData.paths = value;
