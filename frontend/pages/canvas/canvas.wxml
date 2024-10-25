@@ -50,6 +50,7 @@
     <button bindtap="moveDown">下移</button>
     <button bindtap="moveLeft">左移</button>
     <button bindtap="moveRight">右移</button>
+    <button bindtap="navigateToTrip">查看行程</button>
   </view>
 
   <view class="toolbar">

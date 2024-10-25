@@ -3,9 +3,9 @@
     "pages/canvas/canvas",
     "pages/me/index",
     "pages/logs/logs",
-    "pages/day_trip/day_trip",
     "pages/AI/AI",
-    "pages/canvas/place_detail/place_detail"
+    "pages/canvas/place_detail/place_detail",
+    "pages/canvas/trip/trip"
   ],
   "window": {
     "navigationBarTextStyle": "@navigationBarTextStyle",
@@ -30,12 +30,6 @@
         "iconPath": "images/search/search_dark.png",
         "selectedIconPath": "images/search/search.png",
         "text": "AI问答"
-      },
-      {
-        "pagePath": "pages/day_trip/day_trip",
-        "iconPath": "@iconPathMe",
-        "selectedIconPath": "@selectedIconPathMe",
-        "text": "日程"
       },
       {
         "pagePath": "pages/me/index",

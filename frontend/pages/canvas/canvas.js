@@ -31,8 +31,8 @@ Page({
     latitude: 30.512015580071605, // 中心纬度
     longitude: 114.40807827869122, // 中心经度
     moveStep: 0, // 基础移动步长
-    chosenFixedLatitude: 30.512015580071605, // 日程中心纬度
-    chosenFixedLongitude: 114.40807827869122, // 日程中心经度
+    chosenFixedLatitude: 30.512015580071605, // 行程中心纬度
+    chosenFixedLongitude: 114.40807827869122, // 行程中心经度
     searchQuery: '地点',
 
     subKey: 'ZFJBZ-NDACQ-5X45Z-4HUVI-G2NZH-IDFMV',
@@ -66,8 +66,8 @@ Page({
     allMarkers: [], // 全部地点
     selfAddedMarkers: [],  // 自选地点
     recommendMarkers: [],  // 推荐地点
-    tripCollectedMarkers: [],  // 当前日程包含的收藏地点
-    tripPlanMarkers: [],  // 当前日程添加的地点
+    tripCollectedMarkers: [],  // 当前行程包含的收藏地点
+    tripPlanMarkers: [],  // 当前行程添加的地点
     markers: [],
     markers_backup: [],
 
@@ -75,10 +75,19 @@ Page({
     currentMarker: null,
     actions: [
       { text: '查看详情', value: 'showDetail' },
-      { text: '加入日程', value: 'add' },
+      { text: '加入行程', value: 'add' },
       { text: '收藏地点', value: 'collect' },
       { text: '外部导航', value: 'outerNavigate' },
     ],
+  },
+
+  // 查看行程
+  navigateToTrip() {
+    const markers = JSON.stringify(this.data.tripPlanMarkers); // 序列化 markers
+    
+    wx.navigateTo({
+      url: `/pages/canvas/trip/trip?markers=${encodeURIComponent(markers)}`  // 使用 encodeURIComponent 处理特殊字符
+    });
   },
 
   // 设定日程中心
@@ -95,7 +104,7 @@ Page({
           iconPath: '../../images/marker/center.png',
           latitude: latitude,
           longitude: longitude,
-          category: "日程中心",
+          category: "行程中心",
           distance: 0,
           width: 50,
           height: 50,
@@ -992,7 +1001,7 @@ Page({
     });
   },
 
-  // 加入日程
+  // 加入行程
   addPlace() {
     this.setData({
       tripPlanMarkers: [this.data.currentMarker].concat(this.data.tripPlanMarkers)
