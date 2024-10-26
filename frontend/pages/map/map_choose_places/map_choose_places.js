@@ -571,7 +571,6 @@ Page({
   onPlaceTap(e) {
     const id = e.currentTarget.dataset.id; // 获取点击的 marker 的 id
     const marker = this.data.markers.find(item => item.id === id); // 查找对应的 marker
-    console.log(this.data.markers);
     const latitude = marker.latitude;
     const longitude = marker.longitude;
 
@@ -642,11 +641,11 @@ Page({
     });
   },
 
-  // 查看地点详情（跳转大众点评小程序）
+  // 查看地点详情
   showDetail() {
     const markerName = this.data.currentMarker.name;
     wx.navigateTo({
-      url: `/pages/map_choose_places/place_detail/place_detail?name=${encodeURIComponent(markerName)}` // 构建跳转 URL，并编码参数
+      url: `/pages/map/map_choose_places/place_detail/place_detail?name=${encodeURIComponent(markerName)}` // 构建跳转 URL，并编码参数
     });
   },
 

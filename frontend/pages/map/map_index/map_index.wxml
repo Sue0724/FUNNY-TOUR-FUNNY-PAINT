@@ -15,11 +15,12 @@
         enable-overlooking="{{enableOverlooking}}"
         enable-satellite="{{enableSatellite}}"
         enable-traffic="{{enableTraffic}}"
+        bindregionchange="onMapMove"
     >
     </map>
 
     <!-- Canvas 透明层覆盖在地图上 -->
-    <canvas type="2d" id="myCanvas" style="pointer-events: 'none';"></canvas>
+    <canvas type="2d" id="myCanvas" style="pointer-events: none;"></canvas>
 
     <!-- 边栏 -->
     <view class="sidebar">
