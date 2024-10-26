@@ -4,6 +4,7 @@
         latitude="{{latitude}}"
         longitude="{{longitude}}"
         scale="{{scale}}"
+        markers="{{markers}}"
         enable-3D="{{enable3d}}"
         show-location="{{showLocation}}"
         show-scale="{{showScale}}"
@@ -16,6 +17,9 @@
         enable-traffic="{{enableTraffic}}"
     >
     </map>
+
+    <!-- Canvas 透明层覆盖在地图上 -->
+    <canvas type="2d" id="myCanvas" style="pointer-events: 'none';"></canvas>
 
     <!-- 边栏 -->
     <view class="sidebar">

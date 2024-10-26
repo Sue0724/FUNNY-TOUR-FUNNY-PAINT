@@ -29,7 +29,7 @@ Page({
     enableSatellite: false,
     enableTraffic: false,
 
-    markerId: -1,
+    markerId: 0,
     selectedMarkerId: -1,
     selectedType: 'allMarkers',
     markersIcons: {
@@ -44,7 +44,7 @@ Page({
     allMarkers: [], // 全部地点
     selfAddedMarkers: [],  // 自选地点
     recommendMarkers: [],  // 推荐地点
-    tripCollectedMarkers: [],  // 当前日程包含的收藏地点
+    tripCollectedMarkers: [],  // 当前行程包含的收藏地点
     tripPlanMarkers: [],  // 当前行程添加的地点
     markers: [],
     markers_backup: [],
@@ -59,7 +59,7 @@ Page({
     ],
   },
 
-  // 设定日程中心
+  // 设定行程中心
   async chooseCenter() {
     const that = this;
     wx.chooseLocation({

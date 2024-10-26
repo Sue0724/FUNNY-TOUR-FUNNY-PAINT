@@ -15,7 +15,7 @@ Page({
     lastX: 0,          // 上一次绘画时的 X 坐标
     lastY: 0,          // 上一次绘画时的 Y 坐标
     paths: [],         // 用于存储所有绘制路径的数组
-    topLeft: 0,
+    topLeft: {},
     latDiff: 0,
     lngDiff: 0,
     screenXDiff: 0,
@@ -254,6 +254,8 @@ Page({
     });
 
     await this.setCurrentCoordinate();
+
+    this.renderPaths(this.data.ctx);
   },
 
   init(res) {
