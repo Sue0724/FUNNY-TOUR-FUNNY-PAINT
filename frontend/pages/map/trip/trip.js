@@ -31,11 +31,14 @@ Page({
     showPlaceList: false, // 是否显示地点列表
     selectedMarkerId: -1,
     editId: -1,
+    editId2: -1,
     newDayValue: '',     // 输入框的日程值
+    newDaySeqValue: '',
     showDialog: false,
     currentMarker: null,
     actions: [
       { text: '修改所属日程', value: 'editDay' },
+      { text: '修改游览顺序', value: 'editDaySeq' },
       { text: '删除日程地点', value: 'delete' },
       { text: '设为导航起点', value: 'setStart' },
       { text: '设为导航终点', value: 'setEnd' },
@@ -124,6 +127,9 @@ Page({
       case 'setEnd':
         this.setEnd();
         break;
+      case 'editDaySeq':
+        this.editDaySeq();
+        break;
     }
     this.setData({ showDialog: false });
   },
@@ -136,11 +142,17 @@ Page({
   // 提交输入并更新 day 属性
   submitDay() {
     const { markers, currentMarker } = this.data;
+    const newDayValue = parseInt(this.data.newDayValue);
     const updatedMarkers = markers.map(marker => {
       if (marker.id === currentMarker.id) {
-        return { ...marker, day: this.data.newDayValue };
+        return { ...marker, day: newDayValue };
       }
       return marker;
+    }).sort((a, b) => {
+      if (a.day === b.day) {
+        return a.daySeq - b.daySeq; // 如果 day 相同，按 daySeq 排序
+      }
+      return a.day - b.day; // 否则按 day 排序
     });
 
     this.setData({
@@ -153,6 +165,39 @@ Page({
   // 编辑所属日程
   editDay() {
     this.setData({ editId: this.data.currentMarker.id});
+  },
+
+  // 监听输入框的变化
+  onDaySeqInputChange(e) {
+    this.setData({ newDaySeqValue: e.detail.value });
+  },
+
+  // 提交输入并更新 daySeq 属性
+  submitDaySeq() {
+    const { markers, currentMarker } = this.data;
+    const newDaySeqValue = parseInt(this.data.newDaySeqValue);
+    const updatedMarkers = markers.map(marker => {
+      if (marker.id === currentMarker.id) {
+        return { ...marker, daySeq: newDaySeqValue };
+      }
+      return marker;
+    }).sort((a, b) => {
+      if (a.day === b.day) {
+        return a.daySeq - b.daySeq; // 如果 day 相同，按 daySeq 排序
+      }
+      return a.day - b.day; // 否则按 day 排序
+    });
+
+    this.setData({
+      markers: updatedMarkers,
+      newDaySeqValue: '',    // 清空输入值
+      editId2: -1,  // 隐藏输入框
+    });
+  },
+
+  // 编辑游览顺序
+  editDaySeq() {
+    this.setData({ editId2: this.data.currentMarker.id});
   },
 
   // 删除日程地点

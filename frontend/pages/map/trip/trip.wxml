@@ -49,7 +49,7 @@
             data-id="{{item.id}}">
         <view class="place-info">
           <text class="place-name">{{item.name}}</text>
-          <text class="place-category">{{item.category || '自选地点'}} | 日程: {{item.day || '未指定'}}</text>
+          <text class="place-category">{{item.category || '自选地点'}} | 日程: {{item.day || '未指定'}} | 游览顺序: {{item.daySeq || '未指定'}}</text>
 
           <view wx:if="{{editId === item.id}}">
             <input class="day-input" 
@@ -58,6 +58,14 @@
                   bindinput="onDayInputChange"
                   data-id="{{item.id}}"/>
             <button class="submit-day" bindtap="submitDay" data-id="{{item.id}}">提交</button>
+          </view>
+          <view wx:if="{{editId2 === item.id}}">
+            <input class="day-input" 
+                  placeholder="输入游览顺序"
+                  value="{{item.daySeq || ''}}" 
+                  bindinput="onDaySeqInputChange"
+                  data-id="{{item.id}}"/>
+            <button class="submit-day" bindtap="submitDaySeq" data-id="{{item.id}}">提交</button>
           </view>
         </view>
       </view>
