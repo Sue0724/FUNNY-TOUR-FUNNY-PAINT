@@ -29,7 +29,7 @@ Page({
     enableSatellite: false,
     enableTraffic: false,
 
-    markerId: -1,
+    markerId: 0,
     selectedMarkerId: -1,
     selectedType: 'allMarkers',
     markersIcons: {
@@ -44,7 +44,7 @@ Page({
     allMarkers: [], // 全部地点
     selfAddedMarkers: [],  // 自选地点
     recommendMarkers: [],  // 推荐地点
-    tripCollectedMarkers: [],  // 当前日程包含的收藏地点
+    tripCollectedMarkers: [],  // 当前行程包含的收藏地点
     tripPlanMarkers: [],  // 当前行程添加的地点
     markers: [],
     markers_backup: [],
@@ -59,7 +59,7 @@ Page({
     ],
   },
 
-  // 设定日程中心
+  // 设定行程中心
   async chooseCenter() {
     const that = this;
     wx.chooseLocation({
@@ -571,7 +571,6 @@ Page({
   onPlaceTap(e) {
     const id = e.currentTarget.dataset.id; // 获取点击的 marker 的 id
     const marker = this.data.markers.find(item => item.id === id); // 查找对应的 marker
-    console.log(this.data.markers);
     const latitude = marker.latitude;
     const longitude = marker.longitude;
 
@@ -642,11 +641,11 @@ Page({
     });
   },
 
-  // 查看地点详情（跳转大众点评小程序）
+  // 查看地点详情
   showDetail() {
     const markerName = this.data.currentMarker.name;
     wx.navigateTo({
-      url: `/pages/map_choose_places/place_detail/place_detail?name=${encodeURIComponent(markerName)}` // 构建跳转 URL，并编码参数
+      url: `/pages/map/map_choose_places/place_detail/place_detail?name=${encodeURIComponent(markerName)}` // 构建跳转 URL，并编码参数
     });
   },
 
