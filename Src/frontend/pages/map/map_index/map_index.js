@@ -61,7 +61,7 @@ Page({
   saveMap() {
     // 获取全局变量
     const app = getApp();
-    const { tripMarkers, collectMarkers, fixedLatitude, fixedLongitude, markerId, paths, zhanghao } = app.globalData;
+    const { tripMarkers, collectMarkers, fixedLatitude, fixedLongitude, markerId, paths, zhanghao } = app.globalData;  // 如果是协作者，需改为修改collaborators
     const trip_name = 'test'; // 需改为选择的行程的名字
     const _id = `${trip_name}_${zhanghao}`; // 主键
 
@@ -128,7 +128,6 @@ Page({
           app.globalData.fixedLongitude = mapData.fixedLongitude;
           app.globalData.markerId = mapData.markerId;
           app.globalData.paths = mapData.paths;
-          app.globalData.zhanghao = mapData.zhanghao;
 
           wx.showToast({
             title: '历史数据获取成功',
