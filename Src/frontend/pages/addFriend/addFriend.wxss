@@ -1,0 +1,20 @@
+.container {
+  padding: 20rpx; /* 页面内边距 */
+}
+
+.friend-input {
+  width: 100%; /* 输入框宽度 */
+  padding: 10rpx; /* 内边距 */
+  margin-bottom: 20rpx; /* 下边距 */
+  border: 1px solid #ddd; /* 边框 */
+  border-radius: 5px; /* 圆角 */
+}
+
+.add-button {
+  width: 100%; /* 按钮宽度 */
+  padding: 10rpx; /* 内边距 */
+  background-color: #1AAD19; /* 背景颜色 */
+  color: white; /* 字体颜色 */
+  border: none; /* 去除边框 */
+  border-radius: 5px; /* 圆角 */
+}

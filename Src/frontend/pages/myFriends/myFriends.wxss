@@ -1,0 +1,65 @@
+.container {
+  position: relative; /* 相对定位以便于绝对定位边栏 */
+}
+
+.header {
+  display: flex;
+  justify-content: flex-end; /* 右对齐 */
+  padding: 10rpx;
+}
+
+.menu-icon {
+  width: 30rpx; /* 图标大小 */
+  height: 30rpx;
+}
+
+.sidebar {
+  position: absolute; /* 绝对定位 */
+  top: 50px; /* 根据需要调整位置 */
+  right: 10px; /* 根据需要调整位置 */
+  background: white; /* 背景颜色 */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* 阴影效果 */
+  border-radius: 5px; /* 圆角 */
+  z-index: 1000; /* 确保在最上层 */
+}
+
+.sidebar-item {
+  padding: 10rpx; /* 内边距 */
+  border-bottom: 1px solid #e5e5e5; /* 分隔线 */
+  color: #333; /* 文字颜色 */
+}
+
+.sidebar-item:last-child {
+  border-bottom: none; /* 最后一项不显示分隔线 */
+}
+
+/* 好友列表样式 */
+.friends-list {
+  padding: 10rpx;
+}
+
+.friend-item {
+  display: flex;
+  align-items: center;
+  background-color: #f5f5f5; /* 设置背景颜色 */
+  border-radius: 5px;
+  margin: 5px 0; /* 保持好友项之间的间距 */
+  padding: 10rpx; /* 减少内边距以适应更好的布局 */
+  height: 50rpx; /* 设置固定高度 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+}
+
+.friend-info {
+  flex-grow: 1;
+}
+
+.delete-btn {
+  background-color: red;
+  color: white;
+  width: 80rpx;
+  height: 100%; /* 高度与好友项一致 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+}

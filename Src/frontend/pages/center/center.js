@@ -124,5 +124,12 @@ Page({
     wx.navigateTo({
       url: '../accountManage/accountManage',
     });
+  },
+
+  // 导航到我的好友界面
+  myFriends: function(){
+    wx.navigateTo({
+      url: '../myFriends/myFriends',
+    });
   }
 });

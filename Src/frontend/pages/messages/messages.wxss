@@ -1,0 +1,23 @@
+.request-item, .message-item {
+  position: relative;
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin: 5px 0;
+  overflow: hidden;
+}
+
+.swipe-buttons {
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: transform 0.3s ease;
+  width: 100px; /* 根据按钮宽度调整 */
+  height: 100%; /* 按钮的高度与列表项一致 */
+  display: flex;
+  align-items: center;
+  background-color: #f8f8f8; /* 按钮背景色 */
+}
+
+button {
+  margin-left: 5px;
+}

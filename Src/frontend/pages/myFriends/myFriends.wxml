@@ -1,0 +1,23 @@
+<view class="container">
+  <view class="header">
+    <image class="menu-icon" src="../../images/classify.png" bindtap="toggleSidebar" />
+  </view>
+
+  <view class="sidebar" wx:if="{{showSidebar}}">
+    <view class="sidebar-item" bindtap="addFriend">添加好友</view>
+    <view class="sidebar-item" bindtap="navigateToMessages">我的消息</view>
+  </view>
+
+  <view class="friends-list">
+    <block wx:for="{{friendList}}" wx:key="index">
+      <movable-view class="friend-item" direction="horizontal" out-of-bounds="none">
+        <view class="friend-info">
+          <text>{{item}}</text> <!-- 显示好友的账号或名字 -->
+        </view>
+        <view class="delete-btn" bindtap="deleteFriend" data-id="{{item}}">
+          <text>删除</text>
+        </view>
+      </movable-view>
+    </block>
+  </view>
+</view>

@@ -25,7 +25,7 @@ App({
     });
 
     const curretTime = Date.now();
-    const loginDuration = 24*60*60*1000; // 保留时间是一小时，单位为毫秒
+    const loginDuration = 24*60*60*1000; // 保留时间是一天，单位为毫秒
 
     // 检查登录状态
     const isLoggedIn = wx.getStorageSync('isLoggedIn');

@@ -1,0 +1,4 @@
+<view class="container">
+  <input class="input" placeholder="输入好友的账号" bindinput="onInput" />
+  <button bindtap="addFriend">添加好友</button>
+</view>

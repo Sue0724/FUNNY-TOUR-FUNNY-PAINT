@@ -10,7 +10,7 @@
   </view>
   <view class="nav">
     <view class="item">
-      <view class='wallet'>
+      <view class='wallet' bindtap='myFriends'>
         <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
         <image src='../../images/fri.png' class='iimg'></image>
         <text>我的好友</text>

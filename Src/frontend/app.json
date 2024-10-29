@@ -1,6 +1,5 @@
 {
   "pages": [
-
     "pages/center/center",
     "pages/login/login",
     "pages/signup/signup",
@@ -8,14 +7,16 @@
     "pages/accountManage/accountManage",
     "pages/changePwd/changePwd",
     "pages/home/home",
-
     "pages/map/map_index/map_index",
     "pages/logs/logs",
     "pages/AI/AI",
     "pages/map/map_canvas/map_canvas",
     "pages/map/map_choose_places/map_choose_places",
     "pages/map/map_choose_places/place_detail/place_detail",
-    "pages/map/trip/trip"
+    "pages/map/trip/trip",
+    "pages/myFriends/myFriends",
+    "pages/addFriend/addFriend",
+    "pages/messages/messages"
   ],
   "window": {
     "navigationBarTextStyle": "@navigationBarTextStyle",

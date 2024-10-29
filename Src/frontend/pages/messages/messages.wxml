@@ -1,0 +1,16 @@
+<view class="container">
+  <view wx:for="{{requests}}" wx:key="index" class="request-item" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd" data-index="{{index}}" data-type="request">
+    <view class="swipe-buttons" style="transform: translateX({{activeRequestIndex === index ? '-100px' : '0'}});">
+      <button bindtap="acceptRequest" data-id="{{item.from}}">接受</button>
+      <button bindtap="declineRequest" data-id="{{item.from}}">拒绝</button>
+    </view>
+    <text>{{item.from}}</text>
+  </view>
+
+  <view wx:for="{{messages}}" wx:key="index" class="message-item" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd" data-index="{{index}}" data-type="message">
+    <view class="swipe-buttons" style="transform: translateX({{activeMessageIndex === index ? '-100px' : '0'}});">
+      <button bindtap="deleteMessage" data-id="{{item._id}}">删除</button>
+    </view>
+    <text>{{item.content}}</text>
+  </view>
+</view>
