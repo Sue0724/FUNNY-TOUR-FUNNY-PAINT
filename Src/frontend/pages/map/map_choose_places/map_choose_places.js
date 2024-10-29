@@ -39,7 +39,7 @@ Page({
       tripPlanMarkers: '../../../images/marker/add_dark.png',
       allMarkers: '../../../images/marker/all.png'
     },
-    searchIcon: '../../../images/search/search_dark.png',
+    searchIcon: '../../../images/tool/search_dark.png',
 
     allMarkers: [], // 全部地点
     selfAddedMarkers: [],  // 自选地点
@@ -179,7 +179,7 @@ Page({
   onSearchNearbySubmit() {
     // 更换图标
     this.setData({
-      searchIcon: '../../../images/search/search.png',
+      searchIcon: '../../../images/tool/search.png',
     });
 
     if (this.data.searchQuery) {
@@ -188,7 +188,7 @@ Page({
 
     // 更换图标
     this.setData({
-      searchIcon: '../../../images/search/search_dark.png',
+      searchIcon: '../../../images/tool/search_dark.png',
     });
   },
 

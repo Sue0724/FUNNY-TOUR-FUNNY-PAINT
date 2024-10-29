@@ -24,6 +24,8 @@ Page({
     collectMarkers: [],
     chosenFixedLatitude: 30.512015580071605,
     chosenFixedLongitude: 114.40807827869122,
+    trip_name: '',
+    markerId: 0,
 
     ctx: "",           // 画布上下文
     w: 0,              // 画布宽度
@@ -62,45 +64,55 @@ Page({
     // 获取全局变量
     const app = getApp();
     const { tripMarkers, collectMarkers, fixedLatitude, fixedLongitude, markerId, paths, zhanghao } = app.globalData;  // 如果是协作者，需改为修改collaborators
-    const trip_name = 'test'; // 需改为选择的行程的名字
-    const _id = `${trip_name}_${zhanghao}`; // 主键
+    const trip_name = this.data.trip_name;
+
+    if (zhanghao === '') {
+      wx.showToast({
+        title: '保存失败，请先登录！',
+        icon: 'none',
+        duration: 2000
+      });
+      return;
+    }
 
     // 调用云数据库
     const db = wx.cloud.database();
-    const mapsCollection = db.collection('trips');
 
     // 创建保存的数据对象
     const dataToSave = {
-      _id,
       tripMarkers,
       collectMarkers,
       fixedLatitude,
       fixedLongitude,
       markerId,
-      paths,
-      zhanghao,
-      trip_name,
-      saveTime: new Date() // 保存时间戳，可选
+      paths
     };
 
-    // 保存数据到数据库
-    mapsCollection.add({
-      data: dataToSave,
-      success: () => {
+    // 更新数据到数据库
+    db.collection('trips')
+      .where({
+        trip_name: trip_name,
+        zhanghao: zhanghao
+      })
+      .update({
+        data: dataToSave,
+      })
+      .then(() => {
+        // 更新成功
         wx.showToast({
           title: '保存成功',
           icon: 'success',
           duration: 2000
         });
-      },
-      fail: () => {
+      })
+      .catch(() => {
+        // 更新失败
         wx.showToast({
           title: '保存失败',
           icon: 'none',
           duration: 2000
         });
-      }
-    });
+      });
   },
 
   // 从数据库中获取行程数据
@@ -110,52 +122,28 @@ Page({
     const mapsCollection = db.collection('trips');
     const app = getApp();
     const zhanghao = app.globalData.zhanghao;
-    const _id = `${trip_name}_${zhanghao}`; // 主键
 
     // 查询条件
     mapsCollection.where({
-      _id: _id
+      trip_name: trip_name,
+      zhanghao: zhanghao
     }).get({
       success: res => {
-        if (res.data.length > 0) {
-          const mapData = res.data[0];
+        const mapData = res.data[0];
           
-          // 将数据赋值给全局变量
-          app.globalData.tripMarkers = mapData.tripMarkers;
-          app.globalData.collectMarkers = mapData.collectMarkers;
-          app.globalData.fixedLatitude = mapData.fixedLatitude;
-          app.globalData.fixedLongitude = mapData.fixedLongitude;
-          app.globalData.markerId = mapData.markerId;
-          app.globalData.paths = mapData.paths;
+        // 将数据赋值给全局变量
+        app.globalData.tripMarkers = mapData.tripMarkers;
+        app.globalData.collectMarkers = mapData.collectMarkers;
+        app.globalData.fixedLatitude = mapData.fixedLatitude;
+        app.globalData.fixedLongitude = mapData.fixedLongitude;
+        app.globalData.markerId = mapData.markerId;
+        app.globalData.paths = mapData.paths;
 
-          wx.showToast({
-            title: '历史数据已获取',
-            icon: 'success',
-            duration: 2000
-          });
-        } else {
-          // 初始化地图画布
-          const tripMarkers = [];
-          const collectMarkers = [];
-          const fixedLat = 30.512015580071605;
-          const fixedLng = 114.40807827869122;
-          const paths = [];
-          this.setData({
-            markers: tripMarkers,
-            collectMarkers: collectMarkers,
-            chosenFixedLongitude: fixedLng,
-            chosenFixedLatitude: fixedLat,
-            latitude: fixedLat,
-            longitude: fixedLng,
-            paths: paths
-          });
-
-          wx.showToast({
-            title: '已新建行程',
-            icon: 'success',
-            duration: 2000
-          });
-        }
+        wx.showToast({
+          title: '历史数据已获取',
+          icon: 'success',
+          duration: 2000
+        });
       },
       fail: () => {
         wx.showToast({
@@ -173,6 +161,7 @@ Page({
   async onLoad(options) {
     // 从数据库中获取行程数据
     const trip_name = options.trip_name;
+    this.setData({ trip_name });
     this.getMapData(trip_name);
 
     const mapCtx = wx.createMapContext('map');
@@ -343,6 +332,7 @@ Page({
     const fixedLat = app.globalData.fixedLatitude;
     const fixedLng = app.globalData.fixedLongitude;
     const paths = JSON.parse(app.globalData.paths);
+    const markerId = app.globalData.markerId;
     this.setData({
       markers: tripMarkers,
       collectMarkers: collectMarkers,
@@ -350,7 +340,8 @@ Page({
       chosenFixedLatitude: fixedLat,
       latitude: fixedLat,
       longitude: fixedLng,
-      paths: paths
+      paths: paths,
+      markerId: markerId
     });
 
     await this.setCurrentCoordinate();

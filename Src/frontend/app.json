@@ -39,8 +39,8 @@
       },
       {
         "pagePath": "pages/AI/AI",
-        "iconPath": "images/search/search_dark.png",
-        "selectedIconPath": "images/search/search.png",
+        "iconPath": "images/tool/search_dark.png",
+        "selectedIconPath": "images/tool/search.png",
         "text": "AI问答"
       },
       {

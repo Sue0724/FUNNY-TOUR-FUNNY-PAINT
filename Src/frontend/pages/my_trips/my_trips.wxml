@@ -6,7 +6,18 @@
       <view wx:for="{{my_trips}}" wx:key="trip_name" 
             class="item">
         <view>
+          <!-- 显示行程名称 -->
           <text class="name">{{item.trip_name}}</text>
+          <!-- 编辑图标 -->
+          <image src="../../images/tool/edit.png" class="icon" bindtap="showEditInput" data-trip-name="{{item.trip_name}}" />
+          <!-- 编辑输入框和提交按钮 -->
+          <view wx:if="{{edit_trip_name === item.trip_name}}">
+            <input placeholder="输入新的行程名称"
+                   value="{{inputTripName || ''}}" 
+                   bindinput="onTripNameInputChange" />
+            <button bindtap="submitTripName">提交</button>
+          </view>
+          <!-- 跳转到地图的图标 -->
           <image src="../../images/tabbar/icon_map.png" class="icon" bindtap="navigateToMapCanvas" data-trip-name="{{item.trip_name}}" />
         </view>
       </view>
