@@ -44,7 +44,7 @@ Page({
     enableOverlooking: false,
     enableZoom: true,
     enableScroll: true,
-    enableRotate: true,
+    enableRotate: false,
     drawPolygon: false,
     enableSatellite: false,
     enableTraffic: false,
