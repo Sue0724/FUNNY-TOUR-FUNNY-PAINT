@@ -1,9 +1,16 @@
 <!--pages/my_trips/my_trips.wxml-->
 <view class="main">
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <input placeholder="搜索行程名称" 
+           bindinput="onSearchInputChange" 
+           value="{{searchQuery}}" />
+  </view>
+
   <!-- 行程列表 -->
   <view>
    <scroll-view scroll-y="true" style="height: calc(100% - 50px);">
-      <view wx:for="{{my_trips}}" wx:key="trip_name" 
+      <view wx:for="{{filteredTrips}}" wx:key="trip_name" 
             class="item">
         <view>
           <!-- 显示行程名称 -->

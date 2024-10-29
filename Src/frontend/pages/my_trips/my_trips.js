@@ -5,8 +5,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-    my_trips: [],        // 存放行程列表
-    edit_trip_name: '',  // 当前编辑的行程项
+    searchQuery: '',      // 搜索输入的内容
+    my_trips: [],         // 存放行程列表
+    filteredTrips: [],    // 经过搜索过滤的行程列表
+    edit_trip_name: '',   // 当前编辑的行程项
     inputTripName: '',    // 输入的行程名称
     default_show: { trip_name: '修改命名后创建新行程demo', },
   },
@@ -28,7 +30,8 @@ Page({
       .then(res => {
         // 将查询结果中的trip_name集合保存到my_trips
         this.setData({
-          my_trips: [this.data.default_show].concat(res.data)
+          my_trips: [this.data.default_show].concat(res.data),
+          filteredTrips: [this.data.default_show].concat(res.data)
         });
         console.log('查询成功:', res.data);
       })
@@ -42,6 +45,26 @@ Page({
    */
   onLoad(options) {
     this.getMyTrips();   // 加载行程数据
+  },
+
+  // 搜索输入框内容变化时触发
+  onSearchInputChange(e) {
+    const searchQuery = e.detail.value;
+    this.setData({ searchQuery });
+    if (searchQuery === '') {
+      this.setData({ filteredTrips: this.data.my_trips });
+    }
+    else {
+      this.filterTrips();
+    }
+  },
+
+  // 根据搜索内容过滤行程
+  filterTrips() {
+    const filteredTrips = this.data.my_trips.filter(trip => 
+      trip.trip_name.includes(this.data.searchQuery)
+    );
+    this.setData({ filteredTrips });
   },
 
   // 显示输入框

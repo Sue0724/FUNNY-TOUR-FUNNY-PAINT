@@ -28,4 +28,16 @@
     margin-left: 10rpx; /* 图标与文字之间的间距 */
     vertical-align: middle; /* 图标垂直居中 */
   }
+
+  .search-bar {
+    padding: 10px;
+    background-color: #f2f2f2;
+  }
+  
+  .search-bar input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
   
