@@ -21,6 +21,7 @@ Page({
     longitude: 114.40807827869122,
     
     markers: [],
+    collectMarkers: [],
     chosenFixedLatitude: 30.512015580071605,
     chosenFixedLongitude: 114.40807827869122,
 
@@ -58,13 +59,123 @@ Page({
 
   // 保存地图
   saveMap() {
+    // 获取全局变量
+    const app = getApp();
+    const { tripMarkers, collectMarkers, fixedLatitude, fixedLongitude, markerId, paths, zhanghao } = app.globalData;
+    const trip_name = 'test'; // 需改为选择的行程的名字
+    const _id = `${trip_name}_${zhanghao}`; // 主键
 
+    // 调用云数据库
+    const db = wx.cloud.database();
+    const mapsCollection = db.collection('trips');
+
+    // 创建保存的数据对象
+    const dataToSave = {
+      _id,
+      tripMarkers,
+      collectMarkers,
+      fixedLatitude,
+      fixedLongitude,
+      markerId,
+      paths,
+      zhanghao,
+      trip_name,
+      saveTime: new Date() // 保存时间戳，可选
+    };
+
+    // 保存数据到数据库
+    mapsCollection.add({
+      data: dataToSave,
+      success: () => {
+        wx.showToast({
+          title: '保存成功',
+          icon: 'success',
+          duration: 2000
+        });
+      },
+      fail: () => {
+        wx.showToast({
+          title: '保存失败',
+          icon: 'none',
+          duration: 2000
+        });
+      }
+    });
+  },
+
+  // 从数据库中获取行程数据
+  getMapData() {
+    // 获取云数据库实例
+    const db = wx.cloud.database();
+    const mapsCollection = db.collection('trips');
+    const app = getApp();
+    const trip_name = 'test';  // 需改为选择的行程的名字
+    const zhanghao = app.globalData.zhanghao;
+    const _id = `${trip_name}_${zhanghao}`; // 主键
+
+    // 查询条件
+    mapsCollection.where({
+      _id: _id
+    }).get({
+      success: res => {
+        if (res.data.length > 0) {
+          const mapData = res.data[0];
+          
+          // 将数据赋值给全局变量
+          app.globalData.tripMarkers = mapData.tripMarkers;
+          app.globalData.collectMarkers = mapData.collectMarkers;
+          app.globalData.fixedLatitude = mapData.fixedLatitude;
+          app.globalData.fixedLongitude = mapData.fixedLongitude;
+          app.globalData.markerId = mapData.markerId;
+          app.globalData.paths = mapData.paths;
+          app.globalData.zhanghao = mapData.zhanghao;
+
+          wx.showToast({
+            title: '历史数据获取成功',
+            icon: 'success',
+            duration: 2000
+          });
+        } else {
+          // 初始化地图画布
+          const tripMarkers = [];
+          const collectMarkers = [];
+          const fixedLat = 30.512015580071605;
+          const fixedLng = 114.40807827869122;
+          const paths = [];
+          this.setData({
+            markers: tripMarkers,
+            collectMarkers: collectMarkers,
+            chosenFixedLongitude: fixedLng,
+            chosenFixedLatitude: fixedLat,
+            latitude: fixedLat,
+            longitude: fixedLng,
+            paths: paths
+          });
+
+          wx.showToast({
+            title: '新建行程地图成功',
+            icon: 'success',
+            duration: 2000
+          });
+        }
+      },
+      fail: () => {
+        wx.showToast({
+          title: '数据获取失败',
+          icon: 'none',
+          duration: 2000
+        });
+      }
+    });
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   async onLoad(options) {
+    // 从数据库中获取行程数据
+    this.getMapData();
+
     const mapCtx = wx.createMapContext('map');
     this.setData({ mapCtx: mapCtx });
 
@@ -76,21 +187,6 @@ Page({
         size: true,
       })
       .exec(this.init.bind(this));
-
-    // 传参
-    const app = getApp();
-    const tripMarkers = JSON.parse(app.globalData.tripMarkers);
-    const fixedLat = app.globalData.fixedLatitude;
-    const fixedLng = app.globalData.fixedLongitude;
-    const paths = JSON.parse(app.globalData.paths);
-    this.setData({
-      markers: tripMarkers,
-      chosenFixedLongitude: fixedLng,
-      chosenFixedLatitude: fixedLat,
-      latitude: fixedLat,
-      longitude: fixedLng,
-      paths: paths
-    });
 
     await this.setCurrentCoordinate();
 
@@ -244,11 +340,13 @@ Page({
     // 传参
     const app = getApp();
     const tripMarkers = JSON.parse(app.globalData.tripMarkers);
+    const collectMarkers = JSON.parse(app.globalData.collectMarkers);
     const fixedLat = app.globalData.fixedLatitude;
     const fixedLng = app.globalData.fixedLongitude;
     const paths = JSON.parse(app.globalData.paths);
     this.setData({
       markers: tripMarkers,
+      collectMarkers: collectMarkers,
       chosenFixedLongitude: fixedLng,
       chosenFixedLatitude: fixedLat,
       latitude: fixedLat,
@@ -272,7 +370,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload() {
-
+    
   },
 
   /**
