@@ -50,7 +50,7 @@ Page({
     });
   },
 
-  // 跳转行程模式
+  // 跳转日程模式
   navigateToTripMode() {
     wx.navigateTo({
       url: `/pages/map/trip/trip`
@@ -104,12 +104,11 @@ Page({
   },
 
   // 从数据库中获取行程数据
-  getMapData() {
+  getMapData(trip_name) {
     // 获取云数据库实例
     const db = wx.cloud.database();
     const mapsCollection = db.collection('trips');
     const app = getApp();
-    const trip_name = 'test';  // 需改为选择的行程的名字
     const zhanghao = app.globalData.zhanghao;
     const _id = `${trip_name}_${zhanghao}`; // 主键
 
@@ -130,7 +129,7 @@ Page({
           app.globalData.paths = mapData.paths;
 
           wx.showToast({
-            title: '历史数据获取成功',
+            title: '历史数据已获取',
             icon: 'success',
             duration: 2000
           });
@@ -152,7 +151,7 @@ Page({
           });
 
           wx.showToast({
-            title: '新建行程地图成功',
+            title: '已新建行程',
             icon: 'success',
             duration: 2000
           });
@@ -173,7 +172,8 @@ Page({
    */
   async onLoad(options) {
     // 从数据库中获取行程数据
-    this.getMapData();
+    const trip_name = options.trip_name;
+    this.getMapData(trip_name);
 
     const mapCtx = wx.createMapContext('map');
     this.setData({ mapCtx: mapCtx });

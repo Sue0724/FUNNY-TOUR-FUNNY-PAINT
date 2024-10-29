@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/my_trips/my_trips",
     "pages/center/center",
     "pages/login/login",
     "pages/signup/signup",
@@ -31,10 +32,10 @@
     "backgroundColor": "@tabBarBackgroundColor",
     "list": [
       {
-        "pagePath": "pages/map/map_index/map_index",
-        "iconPath": "@iconPathMap",
-        "selectedIconPath": "@selectedIconPathMap",
-        "text": "地图"
+        "pagePath": "pages/my_trips/my_trips",
+        "iconPath": "@iconPathHome",
+        "selectedIconPath": "@selectedIconPathHome",
+        "text": "我的行程"
       },
       {
         "pagePath": "pages/AI/AI",
