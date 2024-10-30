@@ -262,13 +262,17 @@ Page({
     // 传参
     const app = getApp();
     const tripMarkers = JSON.parse(app.globalData.tripMarkers);
-    const allMarkers = JSON.parse(app.globalData.allMarkers);
+    let allMarkers = JSON.parse(app.globalData.allMarkers);
     const selfAddedMarkers = JSON.parse(app.globalData.selfAddedMarkers);
     const recommendMarkers = JSON.parse(app.globalData.recommendMarkers);
     const collectMarkers = JSON.parse(app.globalData.collectMarkers);
     const fixedLat = app.globalData.fixedLatitude;
     const fixedLng = app.globalData.fixedLongitude;
     const markerId = app.globalData.markerId;
+
+    if (allMarkers.length === 0) {
+      allMarkers = tripMarkers.concat(collectMarkers);
+    }
 
     this.setData({
       markers: allMarkers,

@@ -33,7 +33,6 @@ Page({
           my_trips: [this.data.default_show].concat(res.data),
           filteredTrips: [this.data.default_show].concat(res.data)
         });
-        console.log('查询成功:', res.data);
       })
       .catch(err => {
         console.error('查询失败:', err);
@@ -93,7 +92,7 @@ Page({
       wx.showToast({
         title: '修改失败，请先登录！',
         icon: 'none',
-        duration: 2000
+        duration: 1000
       });
     }
 

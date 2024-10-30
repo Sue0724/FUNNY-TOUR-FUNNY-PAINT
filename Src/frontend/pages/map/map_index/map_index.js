@@ -70,7 +70,7 @@ Page({
       wx.showToast({
         title: '保存失败，请先登录！',
         icon: 'none',
-        duration: 2000
+        duration: 1000
       });
       return;
     }
@@ -102,7 +102,7 @@ Page({
         wx.showToast({
           title: '保存成功',
           icon: 'success',
-          duration: 2000
+          duration: 1000
         });
       })
       .catch(() => {
@@ -110,7 +110,7 @@ Page({
         wx.showToast({
           title: '保存失败',
           icon: 'none',
-          duration: 2000
+          duration: 1000
         });
       });
   },
@@ -119,12 +119,11 @@ Page({
   getMapData(trip_name) {
     // 获取云数据库实例
     const db = wx.cloud.database();
-    const mapsCollection = db.collection('trips');
     const app = getApp();
     const zhanghao = app.globalData.zhanghao;
 
     // 查询条件
-    mapsCollection.where({
+    db.collection('trips').where({
       trip_name: trip_name,
       zhanghao: zhanghao
     }).get({
@@ -132,24 +131,44 @@ Page({
         const mapData = res.data[0];
           
         // 将数据赋值给全局变量
-        app.globalData.tripMarkers = mapData.tripMarkers;
-        app.globalData.collectMarkers = mapData.collectMarkers;
-        app.globalData.fixedLatitude = mapData.fixedLatitude;
-        app.globalData.fixedLongitude = mapData.fixedLongitude;
-        app.globalData.markerId = mapData.markerId;
-        app.globalData.paths = mapData.paths;
+        app.setTripMarkers(mapData.tripMarkers);
+        app.setCollectMarkers(mapData.collectMarkers);
+        app.setFixedLatitude(mapData.fixedLatitude);
+        app.setFixedLongitude(mapData.fixedLongitude);
+        app.setMarkerId(mapData.markerId);
+        app.setPaths(mapData.paths);
+
+        console.log(app.globalData);
+
+        const tripMarkers = JSON.parse(app.globalData.tripMarkers);
+        const collectMarkers = JSON.parse(app.globalData.collectMarkers);
+        const fixedLat = app.globalData.fixedLatitude;
+        const fixedLng = app.globalData.fixedLongitude;
+        const paths = JSON.parse(app.globalData.paths);
+        const markerId = app.globalData.markerId;
+
+        this.setData({
+          markers: tripMarkers,
+          collectMarkers: collectMarkers,
+          chosenFixedLongitude: fixedLng,
+          chosenFixedLatitude: fixedLat,
+          latitude: fixedLat,
+          longitude: fixedLng,
+          paths: paths,
+          markerId: markerId
+        });
 
         wx.showToast({
           title: '历史数据已获取',
           icon: 'success',
-          duration: 2000
+          duration: 1000
         });
       },
       fail: () => {
         wx.showToast({
           title: '数据获取失败',
           icon: 'none',
-          duration: 2000
+          duration: 1000
         });
       }
     });
