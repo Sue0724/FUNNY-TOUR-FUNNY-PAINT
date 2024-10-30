@@ -271,9 +271,14 @@ Page({
     const markerId = app.globalData.markerId;
 
     if (allMarkers.length === 0) {
-      allMarkers = tripMarkers.concat(collectMarkers);
+      allMarkers = tripMarkers.concat(
+        collectMarkers.filter(collectMarker => 
+            !tripMarkers.some(tripMarker => tripMarker.name === collectMarker.name)
+        )
+      )
     }
 
+    console.log(allMarkers);
     this.setData({
       markers: allMarkers,
       tripPlanMarkers: tripMarkers,
