@@ -1,7 +1,9 @@
 <!--index.wxml-->
 <view class="container">
-  <image src="../../images/icon.jpg" mode="aspectFit" class="logo"></image>
-  <view class="whiteLine"></view>
+  <image src="../../images/iconlogo.png" mode="aspectFit" class="logo"></image>
+  <!-- <image src="../../images/icon.jpg" mode="aspectFit" class="logo"></image> -->
+  <!-- <view class="name">欢迎来到趣游绘</view> -->
+  <!-- <view class="whiteLine"></view> -->
 
   <block>
     <input type="text" bindinput="getZhanghao"  placeholder="Id" placeholder-class="ph" />

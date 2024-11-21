@@ -1,9 +1,13 @@
 page {
-  opacity: 0.75; /* 页面透明度 */
-  background: -webkit-linear-gradient(top, #330033 0%, #CCCCCC 100%); /* Webkit浏览器的渐变背景 */
-  background: -o-linear-gradient(top, #330033 0%, #CCCCCC 100%); /* Opera浏览器的渐变背景 */
-  background: -ms-linear-gradient(top, #330033 0%, #CCCCCC 100%); /* IE浏览器的渐变背景 */
-  background: linear-gradient(to bottom, #330033 0%, #99CCFF 100%); /* 现代浏览器的渐变背景 */
+  padding-bottom: 50rpx;
+  background: -webkit-linear-gradient(top, #82af8a 0%, #CCCCCC 100%);
+  background: -o-linear-gradient(top, #82af8a 0%, #CCCCCC 100%);
+  background: -ms-linear-gradient(top, #82af8a 0%, #CCCCCC 100%);
+  /* background: linear-gradient(to bottom, #a7d4c3 0%, #ffffff 100%); */
+  background: linear-gradient(to bottom, #82af8a 0%, #ffffff 100%);
+  /* background: linear-gradient(to bottom, #bae4f7 0%, #ffffff 100%); */
+  /* background: linear-gradient(to bottom, #7db0da 0%, #ffffff 100%); */
+  /*配色直接找现成的*/
 }
 
 .row {
@@ -67,7 +71,7 @@ input {
   color: #fff; /* 输入框文字颜色 */
   width: 60%; /* 输入框宽度 */
   height: 80rpx; /* 输入框高度 */
-  border: 3rpx #fff solid; /* 边框样式 */
+  border: 4rpx #fff solid; /* 边框样式 */
   border-radius: 10rpx; /* 边框圆角 */
   margin-top: 50rpx; /* 上外边距 */
   padding: 5px 15px; /* 内边距 */

@@ -1,14 +1,18 @@
 page {
   padding-bottom: 50rpx;
-  background: -webkit-linear-gradient(top, #330033 0%, #CCCCCC 100%);
-  background: -o-linear-gradient(top, #330033 0%, #CCCCCC 100%);
-  background: -ms-linear-gradient(top, #330033 0%, #CCCCCC 100%);
-  background: linear-gradient(to bottom, #330033 0%, #99CCFF 100%);
+  background: -webkit-linear-gradient(top, #82af8a 0%, #CCCCCC 100%);
+  background: -o-linear-gradient(top, #82af8a 0%, #CCCCCC 100%);
+  background: -ms-linear-gradient(top, #82af8a 0%, #CCCCCC 100%);
+  /* background: linear-gradient(to bottom, #a7d4c3 0%, #ffffff 100%); */
+  background: linear-gradient(to bottom, #82af8a 0%, #ffffff 100%);
+  /* background: linear-gradient(to bottom, #bae4f7 0%, #ffffff 100%); */
+  /* background: linear-gradient(to bottom, #7db0da 0%, #ffffff 100%); */
+  /*配色直接找现成的*/
 }
 
 .header {
   padding: 0 25rpx;
-  padding-top: 40rpx;
+  padding-top: 30rpx;
   padding-bottom: 50rpx;
   width: 100%;
 }
@@ -24,11 +28,13 @@ page {
 .user_box {
   display: flex;
   align-items: center;
+  border-radius: 30px;/*边框圆角*/
   /* width: calc(94%- 40px); 减去增加的间距再*96%，保证跟nav项同宽
    */
   width: 94%;
   height: 120px;
   background: rgba(255, 255, 255, 0.7);
+  
   /* padding-left: 20px; 添加左内边距，防止太靠边 */
   /* padding: 0 20px; 左右均添加内边距 */
 }
@@ -37,7 +43,8 @@ page {
   width: 150rpx; /* 确保保持一致 */
   height: 150rpx; /* 确保保持一致 */
   border-radius: 50%; /* 保持圆形 */
-  background: #fff;
+  /* background: #fff;??? */
+  background: rgba(255, 255, 255, 0.7);
   overflow: hidden; /* 防止内容溢出 */
   display: flex; /* 使用 flex 来中心对齐图片 */
   justify-content: center;
@@ -58,8 +65,10 @@ page {
   align-items: center;
   font-size: 36rpx;
   font-weight: bold;
-  color: #fff;
+  /* color: #fff; ???*/
+  color: rgba(255, 255, 255, 0.7);
 }
+
 
 .user_name image {
   margin-left: 16rpx;
@@ -68,15 +77,29 @@ page {
 }
 
 .headname {
-  margin-left: 5px;
+  /* margin-left: 3px; */
+  /* margin-top: 2px; */
+  /* padding-right: 70px; */
+  /*这里改位置尝试*/
+  /* padding-left: 0px; */
+  padding-right: 30px;
+  padding-top: 0px;
   font-size: 20px;
 }
 
+.briefintr{
+  /* padding-left: 0px; */
+  padding-right: 30px;
+  /* padding-bottom: 5px; */
+  padding-top: 10px;
+  font-size: 12px;
+}
 .nav {
   margin-top: 20px;
   font-size: 34rpx;
   background: rgba(255, 255, 255, 0.7);
   width: 94%;
+  border-radius: 30px;/*边框圆角*/
 }
 
 .nav .item {
@@ -93,3 +116,4 @@ page {
   overflow: hidden;
   object-fit: cover; /* 保持图片比例，防止拉伸 */
 }
+

@@ -153,6 +153,14 @@ Page({
     });
   },
 
+
+  onPageScroll: function (e) {//监听页面滚动
+    this.setData({
+      scrollTop: e.scrollTop
+    })
+  },
+  
+  
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

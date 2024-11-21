@@ -4,13 +4,21 @@
     <view class="logo">
       <image class="avatar" src="{{avatarUrl}}" mode="aspectFill"></image>
     </view>
-    <text class='headname'>
-      {{isLoggedIn ? zhanghao : '编辑个人信息'}}
-    </text>
+    <!-- <text class='headname'>
+      {{isLoggedIn ? zhanghao : '请点击这里登录'}}
+    </text> -->
+    <view class='flex' style="flex-direction: column;">
+      <view class='headname'>
+      {{isLoggedIn ? zhanghao : '请点击这里登录'}}
+      </view>
+      <view class='briefintr'>
+      添加简短的介绍，让更多人了解你的兴趣
+      </view>
+    </view>
   </view>
   <view class="nav">
     <view class="item">
-      <view class='wallet' bindtap='myFriends'>
+      <view class='wallet'>
         <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
         <image src='../../images/fri.png' class='iimg'></image>
         <text>我的好友</text>

@@ -1,11 +1,50 @@
 <!--pages/my_trips/my_trips.wxml-->
 <view class="main">
+<!-- 轮播图 -->
+  <view class="banner">
+     <swiper class="swiper" indicator-dots indicator-color="#66bfbf"
+    indicator-active-color="#c7f5fe" circular autoplay interval="3000">
+    <swiper-item><image src="../../images/view/1.png"></image></swiper-item>
+    <swiper-item><image src="../../images/view/2.jpg"></image></swiper-item>
+    <swiper-item><image src="../../images/view/3.jpg"></image></swiper-item>
+    <swiper-item><image src="../../images/view/4.jpg"></image></swiper-item>
+    <swiper-item><image src="../../images/view/5.jpg"></image></swiper-item>
+    <swiper-item><image src="../../images/view/6.jpg"></image></swiper-item>
+     </swiper>
+  </view>
+
+
   <!-- 搜索栏 -->
-  <view class="search-bar">
-    <input placeholder="搜索行程名称" 
+  <!-- <view class="{{scrollTop>170 ? 'search-bar-Fixed' : 'search-bar-Absolute'}}" ></view> -->
+
+  <view class="{{scrollTop>170 ? 'search-bar-Fixed' : 'search-bar-Absolute'}}">
+      <image src="../../images/tool/search_dark.png" class='search_icon'></image>
+      <input placeholder="搜索行程名称" 
            bindinput="onSearchInputChange" 
            value="{{searchQuery}}" />
-  </view>
+      <view class="search_btn">搜索</view>
+      <!-- <button class="search_btn" bindtap="performSearch">搜索</button> -->
+    </view>
+  
+
+<!--pages/index/index.wxml-->
+
+
+  <!-- <view>
+     <view>
+        <view class="weui-search-bar">
+            <view class="weui-search-bar__form">
+
+                <view class="weui-search-bar__box">
+                    <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+                    <input type="text" class="weui-search-bar__input" placeholder="请输入搜索内容"/>
+                </view>
+            </view>
+
+            <view class="weui-search-bar__cancel-btn" bindtap='方法名a'>搜索</view>
+        </view>
+    </view>
+</view> -->
 
   <!-- 行程列表 -->
   <view>
@@ -22,7 +61,8 @@
             <input placeholder="输入新的行程名称"
                    value="{{inputTripName || ''}}" 
                    bindinput="onTripNameInputChange" />
-            <button bindtap="submitTripName">提交</button>
+            <button class="button1" bindtap="submitTripName">提交</button>
+            <button class="button2" bindtap="submitcancel">取消</button>
           </view>
           <!-- 跳转到地图的图标 -->
           <image src="../../images/tabbar/icon_map.png" class="icon" bindtap="navigateToMapCanvas" data-trip-name="{{item.trip_name}}" />
