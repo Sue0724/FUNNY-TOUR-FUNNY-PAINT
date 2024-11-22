@@ -37,7 +37,19 @@ Page({
     screenXDiff: 0,
     screenYDiff: 0,
   },
+// 打开侧边栏
+openSidebar() {
+  this.setData({
+    isSidebarOpen: true
+  });
+},
 
+// 关闭侧边栏
+closeSidebar() {
+  this.setData({
+    isSidebarOpen: false
+  });
+},
   // 跳转绘画模式
   navigateToDrawMode() {
     wx.navigateTo({

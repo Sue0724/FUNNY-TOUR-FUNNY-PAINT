@@ -12,20 +12,47 @@
     height: 100%;
     z-index: 1;
   }
-  
-  .sidebar {
+  .list-icon {
+    width: 30px;
+    height: 30px;
     position: absolute;
-    top: 0px;
-    right: 5px;
+    top: 10px;
+    right: 10px;
     z-index: 10;
-    background-color: white;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    max-height: 20%; /* 固定高度 */
-    overflow-y: auto; /* 启用垂直滚动 */
+    background-color: white; /* 设置白色背景 */
+    display: flex;          /* 居中内容 */
   }
-  
+
+  .sidebar {
+    width: 40%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #ffffff;
+    box-shadow: -4px 0 8px rgba(0, 0, 0, 0.2);
+    z-index: 20;
+  }
+  .close-icon {
+    width: 30px;
+    height: 30px;
+    margin-top: 10rpx;
+    margin-left: -20rpx;
+  }
+  .sidebar-header {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    background-color: #f5f5f5;
+  }
+  .sidebar .item{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #82af8a;
+    /* padding: 30rpx 0; */
+    padding: 16px;
+  } 
   button {
     width: 100px;
     height: 40px;

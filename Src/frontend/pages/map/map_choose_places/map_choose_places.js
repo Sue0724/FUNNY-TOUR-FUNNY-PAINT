@@ -124,7 +124,19 @@ Page({
       }
     });
   },
+// 打开侧边栏
+openSidebar() {
+  this.setData({
+    isSidebarOpen: true
+  });
+},
 
+// 关闭侧边栏
+closeSidebar() {
+  this.setData({
+    isSidebarOpen: false
+  });
+},
   // 自选地点
   choosePlace() {
     const that = this;

@@ -14,41 +14,18 @@
   </view>
 
 
-  <!-- 搜索栏 -->
-  <!-- <view class="{{scrollTop>170 ? 'search-bar-Fixed' : 'search-bar-Absolute'}}" ></view> -->
-
-  <view class="{{scrollTop>170 ? 'search-bar-Fixed' : 'search-bar-Absolute'}}">
+  <view class="{{scrollTop>190 ? 'search-bar-Fixed' : 'search-bar-Absolute'}}">
       <image src="../../images/tool/search_dark.png" class='search_icon'></image>
       <input placeholder="搜索行程名称" 
            bindinput="onSearchInputChange" 
            value="{{searchQuery}}" />
       <view class="search_btn">搜索</view>
-      <!-- <button class="search_btn" bindtap="performSearch">搜索</button> -->
-    </view>
-  
+    </view>  
 
-<!--pages/index/index.wxml-->
-
-
-  <!-- <view>
-     <view>
-        <view class="weui-search-bar">
-            <view class="weui-search-bar__form">
-
-                <view class="weui-search-bar__box">
-                    <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
-                    <input type="text" class="weui-search-bar__input" placeholder="请输入搜索内容"/>
-                </view>
-            </view>
-
-            <view class="weui-search-bar__cancel-btn" bindtap='方法名a'>搜索</view>
-        </view>
-    </view>
-</view> -->
 
   <!-- 行程列表 -->
-  <view>
-   <scroll-view scroll-y="true" style="height: calc(100% - 50px);">
+  <view style="margin-top: 50rpx;">
+   <scroll-view scroll-y="true">
       <view wx:for="{{filteredTrips}}" wx:key="trip_name" 
             class="item">
         <view>

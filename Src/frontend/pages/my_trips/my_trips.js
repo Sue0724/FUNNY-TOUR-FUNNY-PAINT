@@ -5,6 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    scrollTop: 0, // 页面滚动位置
     searchQuery: '',      // 搜索输入的内容
     my_trips: [],         // 存放行程列表
     filteredTrips: [],    // 经过搜索过滤的行程列表
@@ -12,7 +13,11 @@ Page({
     inputTripName: '',    // 输入的行程名称
     default_show: { trip_name: '修改命名后创建新行程demo', },
   },
-
+  onScroll(e) {
+    this.setData({
+      scrollTop: e.detail.scrollTop, // 获取滚动位置
+    });
+  },
   // 从数据库查询我创建的行程数据
   getMyTrips() {
     const db = wx.cloud.database(); // 获取云数据库实例
