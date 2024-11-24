@@ -40,6 +40,7 @@ Page({
       allMarkers: '../../../images/marker/all.png'
     },
     searchIcon: '../../../images/tool/search_dark.png',
+    flag: 0, // 是否已设定行程中心
 
     allMarkers: [], // 全部地点
     selfAddedMarkers: [],  // 自选地点
@@ -119,7 +120,8 @@ Page({
           longitude: longitude,
           markerId: newId,
           markers: [newMarker].concat(updatedMarkers),
-          allMarkers: [newMarker].concat(updatedAllMarkers)
+          allMarkers: [newMarker].concat(updatedAllMarkers),
+          flag: 1
         });
       }
     });
@@ -195,7 +197,17 @@ closeSidebar() {
     });
 
     if (this.data.searchQuery) {
-      this.onSearchNearby();
+      if (this.data.flag === 0) {
+        wx.showToast({
+          title: '请先设定行程中心！',
+          icon: 'none',
+          duration: 1000
+        });
+        return;
+      }
+      else {
+        this.onSearchNearby();
+      }
     }
 
     // 更换图标
