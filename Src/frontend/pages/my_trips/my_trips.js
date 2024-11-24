@@ -178,6 +178,18 @@ Page({
    */
   onShow() {
     this.getMyTrips();
+
+    // 清空全局变量
+    const app = getApp();
+    app.setTripMarkers("[]");
+    app.setAllMarkers("[]");
+    app.setSelfAddedMarkers("[]");
+    app.setRecommendMarkers("[]");
+    app.setCollectMarkers("[]");
+    app.setFixedLatitude(30.512015580071605);
+    app.setFixedLongitude(114.40807827869122);
+    app.setMarkerId(0);
+    app.setPaths("[]");
   },
 
   /**
