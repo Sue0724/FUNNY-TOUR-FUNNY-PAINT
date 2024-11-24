@@ -90,6 +90,8 @@ Page({
         // 删除 id 为 0 的 marker
         const updatedMarkers = that.data.markers.filter(marker => marker.id !== 0);
         const updatedAllMarkers = that.data.allMarkers.filter(marker => marker.id !== 0);
+        const updatedTripMarkers = that.data.tripPlanMarkers.filter(marker => marker.id !== 0);
+        const updatedCollectMarkers = that.data.tripCollectedMarkers.filter(marker => marker.id !== 0);
 
         const newId = Math.max(that.data.markerId, 0);
         if (newId > 0) {
@@ -119,7 +121,9 @@ Page({
           longitude: longitude,
           markerId: newId,
           markers: [newMarker].concat(updatedMarkers),
-          allMarkers: [newMarker].concat(updatedAllMarkers)
+          allMarkers: [newMarker].concat(updatedAllMarkers),
+          tripPlanMarkers: [newMarker].concat(updatedTripMarkers),
+          tripCollectedMarkers: [newMarker].concat(updatedCollectMarkers)
         });
       }
     });
