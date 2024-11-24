@@ -40,7 +40,6 @@ Page({
       allMarkers: '../../../images/marker/all.png'
     },
     searchIcon: '../../../images/tool/search_dark.png',
-    flag: 0, // 是否已设定行程中心
 
     allMarkers: [], // 全部地点
     selfAddedMarkers: [],  // 自选地点
@@ -120,8 +119,7 @@ Page({
           longitude: longitude,
           markerId: newId,
           markers: [newMarker].concat(updatedMarkers),
-          allMarkers: [newMarker].concat(updatedAllMarkers),
-          flag: 1
+          allMarkers: [newMarker].concat(updatedAllMarkers)
         });
       }
     });
@@ -197,16 +195,22 @@ closeSidebar() {
     });
 
     if (this.data.searchQuery) {
-      if (this.data.flag === 0) {
+      if (!this.data.allMarkers.some(marker => marker.id === 0)) {
         wx.showToast({
           title: '请先设定行程中心！',
           icon: 'none',
-          duration: 1000
+          duration: 2000
         });
         return;
       }
       else {
         this.onSearchNearby();
+        wx.showToast({
+          title: '周边推荐成功！',
+          icon: 'none',
+          duration: 2000
+        });
+        return;
       }
     }
 
@@ -658,9 +662,28 @@ closeSidebar() {
 
   // 加入行程
   addPlace() {
-    this.setData({
-      tripPlanMarkers: [this.data.currentMarker].concat(this.data.tripPlanMarkers)
-    });
+    const currentMarker = this.data.currentMarker;
+    const tripPlanMarkers = this.data.tripPlanMarkers;
+
+    // 检查当前 marker 是否已经在 tripPlanMarkers 中
+    const exists = tripPlanMarkers.some(marker => marker.id === currentMarker.id);
+
+    if (!exists) {
+      this.setData({
+        tripPlanMarkers: [currentMarker].concat(tripPlanMarkers)
+      });
+      wx.showToast({
+        title: '地点已加入行程！',
+        icon: 'success',
+        duration: 1000
+      });
+    } else {
+      wx.showToast({
+        title: '行程已包含该地点！',
+        icon: 'none',
+        duration: 1000
+      });
+    }
   },
 
   // 跳转外部导航
