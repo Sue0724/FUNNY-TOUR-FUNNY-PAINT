@@ -100,7 +100,16 @@ closeSidebar() {
       paths
     };
 
-    console.log(dataToSave);
+    const jsonString = JSON.stringify(dataToSave);
+    // console.log(`dataToSave 的字节量: ${jsonString.length} bytes`);
+
+    if (jsonString.length > 174221) {
+      wx.showToast({
+        title: '数据量太大了，请删除一些绘画或行程地点再试试哦~',
+        icon: 'none',
+        duration: 3000
+      });
+    }
 
     // 更新数据到数据库
     db.collection('trips')

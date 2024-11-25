@@ -484,8 +484,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-    console.log(this.data.paths.length);
-
     this.setCurrentCoordinate();
 
     this.renderPaths(this.data.ctx);
