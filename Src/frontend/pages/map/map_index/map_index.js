@@ -109,6 +109,7 @@ closeSidebar() {
         icon: 'none',
         duration: 3000
       });
+      return;
     }
 
     // 更新数据到数据库
