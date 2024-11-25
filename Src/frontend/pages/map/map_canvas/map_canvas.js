@@ -330,6 +330,8 @@ Page({
 
   // 渲染全部路径
   renderPaths(ctx) {
+    ctx.clearRect(0, 0, this.data.w, this.data.h);
+
     this.data.paths.forEach(path => {
       // 将路径的起点和终点经纬度转换为屏幕坐标
       const start = this.convertLatLngToScreen(path.startLng, path.startLat);
@@ -374,8 +376,6 @@ Page({
     });
 
     this.setData({ paths: newPaths });
-    const ctx = this.data.ctx;
-    ctx.clearRect(0, 0, this.data.w, this.data.h); // 清空画布
     this.renderPaths(this.data.ctx); // 重新渲染路径
   },
 
@@ -484,7 +484,11 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-    
+    console.log(this.data.paths.length);
+
+    this.setCurrentCoordinate();
+
+    this.renderPaths(this.data.ctx);
   },
 
   /**

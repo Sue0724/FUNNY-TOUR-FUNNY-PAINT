@@ -100,6 +100,8 @@ closeSidebar() {
       paths
     };
 
+    console.log(dataToSave);
+
     // 更新数据到数据库
     db.collection('trips')
       .where({
@@ -117,7 +119,8 @@ closeSidebar() {
           duration: 1000
         });
       })
-      .catch(() => {
+      .catch((error) => {
+        console.error('更新失败:', error);
         // 更新失败
         wx.showToast({
           title: '保存失败',
