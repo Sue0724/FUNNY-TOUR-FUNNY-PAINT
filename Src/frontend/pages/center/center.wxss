@@ -15,7 +15,6 @@ page {
   padding-top: 30rpx;
   padding-bottom: 50rpx;
   width: 100%;
-  height: 30%;
 }
 
 .iimg {
@@ -33,7 +32,7 @@ page {
   /* width: calc(94%- 40px); 减去增加的间距再*96%，保证跟nav项同宽
    */
   width: 94%;
-  height: 120px;
+  height: 150px;
   background: rgba(255, 255, 255, 0.7);
   
   /* padding-left: 20px; 添加左内边距，防止太靠边 */
@@ -96,19 +95,18 @@ page {
   font-size: 12px;
 }
 .nav {
-  margin-top: 20px;
-  font-size: 34rpx;
+  margin-top: 50px;
+  font-size: 40rpx;
   background: rgba(255, 255, 255, 0.7);
   width: 94%;
   border-radius: 30px;/*边框圆角*/
-  height: 70%;
 }
 
 .nav .item {
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid #e5e5e5;
-  padding: 30rpx 0;
+  padding: 50rpx 0;
 }
 
 .avatar {
