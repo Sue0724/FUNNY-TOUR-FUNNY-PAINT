@@ -69,5 +69,6 @@
   "darkmode": true,
   "useExtendedLib": {
     "weui": true
-  }
+  },
+  "lazyCodeLoading": "requiredComponents"
 }
