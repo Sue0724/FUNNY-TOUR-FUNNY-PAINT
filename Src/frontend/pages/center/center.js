@@ -131,5 +131,12 @@ Page({
     wx.navigateTo({
       url: '../myFriends/myFriends',
     });
-  }
+  },
+
+  // 导航到意见反馈界面
+  giveComments: function(){
+    wx.navigateTo({
+      url: '../giveComments/giveComments',
+    });
+  },
 });

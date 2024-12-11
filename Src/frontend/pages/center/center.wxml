@@ -11,26 +11,17 @@
       <view class='headname'>
       {{isLoggedIn ? zhanghao : '请点击这里登录'}}
       </view>
-      <view class='briefintr'>
-      添加简短的介绍，让更多人了解你的兴趣
-      </view>
     </view>
   </view>
   <view class="nav">
     <view class="item">
-      <view class='wallet'>
+      <view class='wallet' bindtap = 'myFriends'>
         <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
         <image src='../../images/fri.png' class='iimg'></image>
         <text>我的好友</text>
       </view>
     </view>
-    <view class="item">
-      <view class='wallet'>
-        <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
-        <image src='../../images/shou.png' class='iimg'></image>
-        <text>我的收藏</text>
-      </view>
-    </view>
+
     <view class="item">
       <view class='wallet'>
         <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
@@ -46,23 +37,16 @@
       </view>
     </view>
     <view class="item">
-      <view class='wallet'>
+      <view class='wallet' bindtap='giveComments'>
         <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
         <image src='../../images/yijian.png' class='iimg'></image>
         <text>意见反馈</text>
       </view>
     </view>
     <view class="item">
-      <view class='wallet'>
-        <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
-        <image src='../../images/kefu.png' class='iimg'></image>
-        <text>联系客服</text>
-      </view>
-    </view>
-    <view class="item">
       <view class='wallet' bindtap = 'confirmLogout'>
         <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
-        <image src='../../images/kefu.png' class='iimg'></image>
+        <image src='../../images/exit.png' class='iimg'></image>
         <text>退出登录</text>
       </view>
     </view>

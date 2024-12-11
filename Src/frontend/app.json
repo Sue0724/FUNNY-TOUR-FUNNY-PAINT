@@ -17,7 +17,9 @@
     "pages/map/trip/trip",
     "pages/myFriends/myFriends",
     "pages/addFriend/addFriend",
-    "pages/messages/messages"
+    "pages/messages/messages",
+    "pages/giveComments",
+    "pages/giveComments/giveComments"
   ],
   "window": {
     "navigationBarTextStyle": "@navigationBarTextStyle",
