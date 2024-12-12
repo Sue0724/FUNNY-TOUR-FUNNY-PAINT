@@ -11,7 +11,7 @@ Page({
     filteredTrips: [],    // 经过搜索过滤的行程列表
     edit_trip_name: '',   // 当前编辑的行程项
     inputTripName: '',    // 输入的行程名称
-    default_show: { trip_name: '修改命名后创建新行程demo', },
+    default_show: { trip_name: '创建新行程', },
   },
   onScroll(e) {
     this.setData({
@@ -116,7 +116,7 @@ Page({
       return;
     }
 
-    if (newTripName === '修改命名后创建新行程demo') {
+    if (newTripName === '创建新行程') {
       wx.showToast({
         title: '不能使用这个名称，换一个试试吧~',
         icon: 'none',
