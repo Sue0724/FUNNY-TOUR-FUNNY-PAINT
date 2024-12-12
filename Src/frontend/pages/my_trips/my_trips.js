@@ -102,6 +102,15 @@ Page({
       return;
     }
 
+    if (newTripName === '修改命名后创建新行程demo') {
+      wx.showToast({
+        title: '不能使用这个名称，换一个试试吧~',
+        icon: 'none',
+        duration: 1000
+      });
+      return;
+    }
+
     const db = wx.cloud.database();
 
     // 更新数据库中的 trip_name 字段
