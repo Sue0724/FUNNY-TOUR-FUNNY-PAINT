@@ -23,9 +23,9 @@
     </view>
 
     <view class="item">
-      <view class='wallet'>
+      <view class='wallet' bindtap = 'more'>
         <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
-        <image src='../../images/fuzhu.png' class='iimg'></image>
+        <image src='../../images/fuzhu.png'  class='iimg'></image>
         <text>更多设置</text>
       </view>
     </view>

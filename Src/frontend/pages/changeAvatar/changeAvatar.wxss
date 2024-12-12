@@ -1,4 +1,15 @@
 /* pages/changeAvatar/changeAvatar.wxss */
+page {
+  padding-bottom: 50rpx;
+  background: -webkit-linear-gradient(top, #82af8a 0%, #CCCCCC 100%);
+  background: -o-linear-gradient(top, #82af8a 0%, #CCCCCC 100%);
+  background: -ms-linear-gradient(top, #82af8a 0%, #CCCCCC 100%);
+  /* background: linear-gradient(to bottom, #a7d4c3 0%, #ffffff 100%); */
+  background: linear-gradient(to bottom, #82af8a 0%, #ffffff 100%);
+  /* background: linear-gradient(to bottom, #bae4f7 0%, #ffffff 100%); */
+  /* background: linear-gradient(to bottom, #7db0da 0%, #ffffff 100%); */
+  /*配色直接找现成的*/
+}
 
 /* 容器，使用flex布局使内容居中 */
 .container {

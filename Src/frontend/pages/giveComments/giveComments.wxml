@@ -1,4 +1,5 @@
 <!--pages/giveComments/giveComments.wxml-->
 <view class="container">
   <image src="../../images/contact.jpg" mode="aspectFill" class="image" />
+  <text class="overlay-text">加入我们开发者交流群反馈您的问题！</text>
 </view>

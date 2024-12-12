@@ -139,4 +139,12 @@ Page({
       url: '../giveComments/giveComments',
     });
   },
+
+  // // 导航到更多设置界面
+  // more: function(){
+  //   wx.navigateTo({
+  //     url: '../more/more',
+  //   });
+  // },
+
 });
