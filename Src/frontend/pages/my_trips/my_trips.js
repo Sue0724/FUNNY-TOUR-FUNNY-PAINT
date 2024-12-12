@@ -96,7 +96,7 @@ Page({
     this.setData({ inputTripName: event.detail.value });
   },
 
-  // 提交更新 trip_name
+  // 提交更新trip_name
   submitTripName() {
     const app = getApp();
     const newTripName = this.data.inputTripName;
@@ -110,6 +110,15 @@ Page({
     if (zhanghao === '') {
       wx.showToast({
         title: '修改失败，请先登录！',
+        icon: 'none',
+        duration: 1000
+      });
+      return;
+    }
+
+    if (newTripName === '修改命名后创建新行程demo') {
+      wx.showToast({
+        title: '不能使用这个名称，换一个试试吧~',
         icon: 'none',
         duration: 1000
       });
