@@ -28,7 +28,7 @@
     color: #333;
     font-size: 18px;           /* 放大字体 */
     line-height: 1.5;          /* 调整行高，增加行间距 */
-    margin-right: 156px;        /* 文字和图标之间的间距 */
+    margin-right: 155px;        /* 文字和图标之间的间距 */
     margin-bottom: 20px;       /* 当前行和下一行之间的间距 */
     display: block;            /* 确保在单独一行 */
   }
