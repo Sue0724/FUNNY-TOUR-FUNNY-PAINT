@@ -1,3 +1,4 @@
+
 <view class="container"style="{{gradientStyle}}">
   <text class="message-header">消息列表</text>
   <view class="list">

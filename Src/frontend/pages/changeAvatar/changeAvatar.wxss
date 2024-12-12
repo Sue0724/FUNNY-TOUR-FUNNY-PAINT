@@ -1,5 +1,4 @@
 /* pages/changeAvatar/changeAvatar.wxss */
-
 /* 容器，使用flex布局使内容居中 */
 .main-container {
   width: 100%;
@@ -25,13 +24,11 @@
   margin-top: 40px; /* 上边距 */
   width: 100px; /* 按钮宽度 */
   padding: 10px; /* 内边距 */
+
   color: white; /* 按钮字体颜色 */
   border: none; /* 去除边框 */
   border-radius: 5px; /* 圆角边框 */
 }
-
-
-
 /* logo样式，确保图片占满父容器 */
 .logo image {
   width: 100%; /* 占满父容器 */

@@ -29,15 +29,6 @@
     <text>距离：{{distance}} 米</text>
     <text>时间：{{duration}} 分钟</text>
   </view>
-
-  <!-- 工具栏 -->
-  <!-- <view class="sidebar">
-    <button bindtap="navigateDriving">驾车路线规划</button>
-    <button bindtap="navigateWalking">步行路线规划</button>
-    <button bindtap="navigateBicycling">自行车路线规划</button>
-    <button bindtap="navigateEbicycling">电动车路线规划</button>
-    <button bindtap="toggleShowPlaceList">{{showPlaceList ? '隐藏地点列表' : '显示地点列表'}}</button>
-  </view> -->
   <!-- 右上角图标 -->
   <image class="list-icon" src="/images/list.png" bindtap="openSidebar" />
     <!-- 边栏 -->

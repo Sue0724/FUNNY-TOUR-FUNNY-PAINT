@@ -28,8 +28,6 @@ canvas {
     z-index: 5; /* 确保 canvas 在 map 上层 */
     background-color: transparent; /* 设置画布背景为透明 */
   }
-  
-  
   .list-icon {
     width: 30px;
     height: 30px;
@@ -96,7 +94,6 @@ canvas {
     flex-direction: column;
     align-items: center;
     flex: 1;
-    /* margin-left: 10px; */
   }
   
   /* 颜色预览框 */

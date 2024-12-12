@@ -6,12 +6,12 @@
   <!-- <view class="whiteLine"></view> -->
 
   <block>
-    <input type="text" bindinput="getZhanghao"  placeholder="Id" placeholder-class="ph" />
-    <input type="text" bindinput="getMima"  placeholder="Password" placeholder-class="ph" password="true"/>
+    <input type="text" bindinput="getZhanghao"  placeholder="账号名" placeholder-class="ph" />
+    <input type="text" bindinput="getMima"  placeholder="密码" placeholder-class="ph" password="true"/>
   </block>
   
-  <button class="loginBtn" bindtap="login" plain="true" hover-class="btnHover">Login</button>
-  <a bindtap="register" class="info"style="color: {{themeColor}};">Register</a>
+  <button class="loginBtn" bindtap="login" plain="true" hover-class="btnHover">登录</button>
+  <a bindtap="register" class="info"style="color: {{themeColor}};">注册</a>
 </view>
 
 <loading hidden="{{loadingHidden}}" bindchange="loadingChange">

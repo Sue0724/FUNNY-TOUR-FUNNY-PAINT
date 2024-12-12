@@ -41,7 +41,6 @@ page {
   border: 5rpx #fff solid !important; /* 边框样式 */
   color: #fff !important; /* 文字颜色 */
 }
-
 input {
   color: #fff; /* 输入框文字颜色 */
   width: 60%; /* 输入框宽度 */

@@ -537,4 +537,3 @@ closeSidebar() {
 
   }
 })
-

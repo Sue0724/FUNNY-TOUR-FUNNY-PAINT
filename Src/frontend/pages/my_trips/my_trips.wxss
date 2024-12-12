@@ -6,7 +6,11 @@
     height: 100%; /* 让页面占满整个视口 */
     overflow: hidden; /* 避免内容超出 */
   }
-
+  .name-and-icon {
+    display: flex;              /* 使用 flexbox 布局 */
+    align-items: center;        /* 垂直居中对齐 */
+    justify-content: flex-start; /* 默认从左开始排列 */
+  }
   .item {
     padding: 10px;
     border-bottom: 1px solid #ddd;
@@ -20,15 +24,25 @@
   .name {
     font-weight: bold;
     color: #333;
-    display: block; /* 确保在单独一行 */
+    font-size: 18px;           /* 放大字体 */
+    line-height: 1.5;          /* 调整行高，增加行间距 */
+    margin-right: 150px;        /* 文字和图标之间的间距 */
+    margin-bottom: 20px;       /* 当前行和下一行之间的间距 */
+    display: block;            /* 确保在单独一行 */
   }
 
-  .icon {
-    width: 40rpx;      /* 图标宽度 */
-    height: 40rpx;     /* 图标高度 */
-    margin-left: 10rpx; /* 图标与文字之间的间距 */
-    vertical-align: middle; /* 图标垂直居中 */
+  .icon-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
   }
+  
+  .icon {
+    width: 24px; /* 调整图标的宽度 */
+    height: 24px; /* 调整图标的高度 */
+    margin: 0 50px; /* 为图标之间添加间距 */
+    margin-bottom: 20px;
+  }  
 
 .banner{
   width: 100%;

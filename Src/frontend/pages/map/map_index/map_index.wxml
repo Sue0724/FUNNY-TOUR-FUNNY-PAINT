@@ -56,4 +56,10 @@
         </view>
       </view>
     </view>
+    <!-- <view class="sidebar">
+        <button bindtap="navigateToPlaceMode">地点选择模式</button>
+        <button bindtap="navigateToDrawMode">绘画模式</button>
+        <button bindtap="navigateToTripMode">日程模式</button>
+        <button bindtap="saveMap">保存地图</button>
+    </view> -->
 </view>

@@ -125,6 +125,21 @@ scroll-view {
   line-height: 55rpx;
   cursor: pointer;
 }
+/* .search-bar {
+  position: absolute;
+  top: 0px;
+  left: 58%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 40px;
+  background-color: #fff;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 999; 
+} */
 
 .search-bar input {
   flex: 1;

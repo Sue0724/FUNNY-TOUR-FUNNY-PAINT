@@ -109,5 +109,4 @@ closeSidebar() {
       showSidebar: false // 关闭边栏
     });
   }
-  
 });

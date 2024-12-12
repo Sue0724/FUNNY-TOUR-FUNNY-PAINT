@@ -11,7 +11,7 @@ Page({
     filteredTrips: [],    // 经过搜索过滤的行程列表
     edit_trip_name: '',   // 当前编辑的行程项
     inputTripName: '',    // 输入的行程名称
-    default_show: { trip_name: '修改命名后创建新行程demo', },
+    default_show: { trip_name: '创建新行程', },
     themeColor: '#82af8a'
   },
     //背景颜色
@@ -23,33 +23,45 @@ Page({
         gradientStyle: `background: linear-gradient(to bottom, ${themeColor}, #ffffff);`
       });
     },
-
   onScroll(e) {
     this.setData({
       scrollTop: e.detail.scrollTop, // 获取滚动位置
     });
     this.setTheme();
   },
-  // 从数据库查询我创建的行程数据
-  getMyTrips() {
+
+  // 从数据库查询自己和朋友的行程数据
+  getMyAndFriendsTrips() {
     const db = wx.cloud.database(); // 获取云数据库实例
     const app = getApp();           // 获取全局应用实例
     const zhanghao = app.globalData.zhanghao; // 获取当前账号的zhanghao
-
-    db.collection('trips')
-      .where({
-        zhanghao: zhanghao   // 查询条件
-      })
-      .field({
-        trip_name: true      // 仅返回trip_name字段
-      })
+    // 查询用户的好友列表
+    db.collection('users')
+      .where({ zhanghao: zhanghao })
       .get()
       .then(res => {
+        if (res.data.length > 0) {
+          const friends = res.data[0].friends || []; // 获取当前用户的朋友列表
+
+          // 扩展查询条件，包括当前用户和朋友的行程
+          return db.collection('trips')
+            .where({
+              zhanghao: db.command.in([zhanghao, ...friends])  // 查询自己和朋友创建的行程
+            })
+            .field({
+              trip_name: true      // 仅返回trip_name字段
+            })
+            .get();
+        }
+      })
+      .then(res => {
         // 将查询结果中的trip_name集合保存到my_trips
-        this.setData({
-          my_trips: [this.data.default_show].concat(res.data),
-          filteredTrips: [this.data.default_show].concat(res.data)
-        });
+        if (res) {
+          this.setData({
+            my_trips: [this.data.default_show].concat(res.data),
+            filteredTrips: [this.data.default_show].concat(res.data)
+          });
+        }
       })
       .catch(err => {
         console.error('查询失败:', err);
@@ -59,10 +71,11 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad() {
-    this.getMyTrips();   // 加载行程数据
-    this.setTheme();
+
+  onLoad(options) {
+    this.getMyAndFriendsTrips();   // 加载自己和朋友的行程数据
   },
+
   // 搜索输入框内容变化时触发
   onSearchInputChange(e) {
     const searchQuery = e.detail.value;
@@ -93,8 +106,7 @@ Page({
   onTripNameInputChange(event) {
     this.setData({ inputTripName: event.detail.value });
   },
-
-  // 提交更新 trip_name
+  // 提交更新trip_name
   submitTripName() {
     const app = getApp();
     const newTripName = this.data.inputTripName;
@@ -111,6 +123,16 @@ Page({
         icon: 'none',
         duration: 1000
       });
+      return;
+    }
+
+    if (newTripName === '创建新行程') {
+      wx.showToast({
+        title: '不能使用这个名称，换一个试试吧~',
+        icon: 'none',
+        duration: 1000
+      });
+      return;
     }
 
     const db = wx.cloud.database();
@@ -153,7 +175,7 @@ Page({
       })
       .then(() => {
         // 更新或创建成功后，更新本地数据并隐藏输入框
-        this.getMyTrips();
+        this.getMyAndFriendsTrips();
         this.setData({
           edit_trip_name: '',    // 隐藏输入框
           inputTripName: ''      // 清空输入
@@ -162,6 +184,10 @@ Page({
       .catch(err => console.error(err));
   },
 
+  // 取消行程名称修改
+  submitCancel() {
+    this.setData( {edit_trip_name: '', inputTripName: ''} );
+  },
   // 跳转到地图画布页面
   navigateToMapCanvas(event) {
     const tripName = event.currentTarget.dataset.tripName;
@@ -169,9 +195,41 @@ Page({
       url: `/pages/map/map_index/map_index?trip_name=${tripName}`
     });
   },
+  // 删除行程
+  deleteTrip(e) {
+    const app = getApp();
+    const zhanghao = app.globalData.zhanghao;
+    const tripName = e.currentTarget.dataset.tripName;
+    
+    const db = wx.cloud.database();
 
+    // 删除数据库中行程表项
+    db.collection('trips')
+      .where({
+        trip_name: tripName,
+        zhanghao: zhanghao
+      })
+      .remove()
+      .then(() => {
+        this.getMyAndFriendsTrips(); // 更新显示列表
+        wx.showToast({
+          title: '行程删除成功！',
+          icon: 'success',
+          duration: 1000
+        });
+      })
+      .catch(err => {
+        console.error('行程删除失败！', err);
+        wx.showToast({
+          title: '删除失败',
+          icon: 'none',
+          duration: 1000
+        });
+      });
+  },
 
-  onPageScroll: function (e) {//监听页面滚动
+  // 监听页面滚动
+  onPageScroll(e) {
     this.setData({
       scrollTop: e.scrollTop
     })
@@ -189,8 +247,8 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-    this.getMyTrips();
-    
+    // this.getMyTrips();
+    this.getMyAndFriendsTrips();
     // 清空全局变量
     const app = getApp();
     app.setTripMarkers("[]");
