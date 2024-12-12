@@ -31,18 +31,25 @@
         <view>
           <!-- 显示行程名称 -->
           <text class="name">{{item.trip_name}}</text>
-          <!-- 编辑图标 -->
-          <image src="../../images/tool/edit.png" class="icon" bindtap="showEditInput" data-trip-name="{{item.trip_name}}" />
+
           <!-- 编辑输入框和提交按钮 -->
           <view wx:if="{{edit_trip_name === item.trip_name}}">
             <input placeholder="输入新的行程名称"
                    value="{{inputTripName || ''}}" 
                    bindinput="onTripNameInputChange" />
             <button class="button1" bindtap="submitTripName">提交</button>
-            <button class="button2" bindtap="submitcancel">取消</button>
+            <button class="button2" bindtap="submitCancel">取消</button>
           </view>
-          <!-- 跳转到地图的图标 -->
-          <image src="../../images/tabbar/icon_map.png" class="icon" bindtap="navigateToMapCanvas" data-trip-name="{{item.trip_name}}" />
+
+          <!-- 图标容器 -->
+          <view class="icon-container">
+            <!-- 编辑图标 -->
+            <image src="../../images/tool/edit.png" class="icon" bindtap="showEditInput" data-trip-name="{{item.trip_name}}" />
+            <!-- 跳转到地图的图标 -->
+            <image src="../../images/tabbar/icon_map.png" class="icon" bindtap="navigateToMapCanvas" data-trip-name="{{item.trip_name}}" />
+            <!-- 删除行程的图标 -->
+            <image src="../../images/tool/delete.png" class="icon" bindtap="deleteTrip" data-trip-name="{{item.trip_name}}" />
+          </view>
         </view>
       </view>
     </scroll-view>

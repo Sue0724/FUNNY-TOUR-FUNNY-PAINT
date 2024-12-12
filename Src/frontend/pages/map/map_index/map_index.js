@@ -172,6 +172,13 @@ closeSidebar() {
         const paths = JSON.parse(app.globalData.paths);
         const markerId = app.globalData.markerId;
 
+        // 提取行程地点中的自选地点和推荐地点
+        const selfAddedMarkers = tripMarkers.filter(marker => !marker.hasOwnProperty('category'));
+        const recommendMarkers = tripMarkers.filter(marker => marker.hasOwnProperty('category') && marker.category !== "行程中心");
+
+        app.setSelfAddedMarkers(JSON.stringify(selfAddedMarkers));
+        app.setRecommendMarkers(JSON.stringify(recommendMarkers));
+
         this.setData({
           markers: tripMarkers,
           collectMarkers: collectMarkers,
@@ -246,6 +253,8 @@ closeSidebar() {
 
   // 渲染全部路径
   renderPaths(ctx) {
+    ctx.clearRect(0, 0, this.data.w, this.data.h);  // 清空画布
+
     this.data.paths.forEach(path => {
       // 将路径的起点和终点经纬度转换为屏幕坐标
       const start = this.convertLatLngToScreen(path.startLng, path.startLat);

@@ -99,6 +99,7 @@ Page({
         icon: 'none',
         duration: 1000
       });
+      return;
     }
 
     const db = wx.cloud.database();
@@ -150,6 +151,11 @@ Page({
       .catch(err => console.error(err));
   },
 
+  // 取消行程名称修改
+  submitCancel() {
+    this.setData( {edit_trip_name: '', inputTripName: ''} );
+  },
+
   // 跳转到地图画布页面
   navigateToMapCanvas(event) {
     const tripName = event.currentTarget.dataset.tripName;
@@ -158,8 +164,41 @@ Page({
     });
   },
 
+  // 删除行程
+  deleteTrip(e) {
+    const app = getApp();
+    const zhanghao = app.globalData.zhanghao;
+    const tripName = e.currentTarget.dataset.tripName;
+    
+    const db = wx.cloud.database();
 
-  onPageScroll: function (e) {//监听页面滚动
+    // 删除数据库中行程表项
+    db.collection('trips')
+      .where({
+        trip_name: tripName,
+        zhanghao: zhanghao
+      })
+      .remove()
+      .then(() => {
+        this.getMyTrips(); // 更新显示列表
+        wx.showToast({
+          title: '行程删除成功！',
+          icon: 'success',
+          duration: 1000
+        });
+      })
+      .catch(err => {
+        console.error('行程删除失败！', err);
+        wx.showToast({
+          title: '删除失败',
+          icon: 'none',
+          duration: 1000
+        });
+      });
+  },
+
+  // 监听页面滚动
+  onPageScroll(e) {
     this.setData({
       scrollTop: e.scrollTop
     })

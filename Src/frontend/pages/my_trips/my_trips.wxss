@@ -23,12 +23,17 @@
     display: block; /* 确保在单独一行 */
   }
 
-  .icon {
-    width: 40rpx;      /* 图标宽度 */
-    height: 40rpx;     /* 图标高度 */
-    margin-left: 10rpx; /* 图标与文字之间的间距 */
-    vertical-align: middle; /* 图标垂直居中 */
+  .icon-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
   }
+  
+  .icon {
+    width: 24px; /* 调整图标的宽度 */
+    height: 24px; /* 调整图标的高度 */
+    margin: 0 50px; /* 为图标之间添加间距 */
+  }  
 
 .banner{
   width: 100%;
