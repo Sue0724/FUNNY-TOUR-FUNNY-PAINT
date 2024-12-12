@@ -82,7 +82,7 @@ Page({
     this.setData({ inputTripName: event.detail.value });
   },
 
-  // 提交更新 trip_name
+  // 提交更新trip_name
   submitTripName() {
     const app = getApp();
     const newTripName = this.data.inputTripName;
