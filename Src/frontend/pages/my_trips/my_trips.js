@@ -18,26 +18,40 @@ Page({
       scrollTop: e.detail.scrollTop, // 获取滚动位置
     });
   },
-  // 从数据库查询我创建的行程数据
-  getMyTrips() {
+
+  // 从数据库查询自己和朋友的行程数据
+  getMyAndFriendsTrips() {
     const db = wx.cloud.database(); // 获取云数据库实例
     const app = getApp();           // 获取全局应用实例
     const zhanghao = app.globalData.zhanghao; // 获取当前账号的zhanghao
 
-    db.collection('trips')
-      .where({
-        zhanghao: zhanghao   // 查询条件
-      })
-      .field({
-        trip_name: true      // 仅返回trip_name字段
-      })
+    // 查询用户的好友列表
+    db.collection('users')
+      .where({ zhanghao: zhanghao })
       .get()
       .then(res => {
+        if (res.data.length > 0) {
+          const friends = res.data[0].friends || []; // 获取当前用户的朋友列表
+
+          // 扩展查询条件，包括当前用户和朋友的行程
+          return db.collection('trips')
+            .where({
+              zhanghao: db.command.in([zhanghao, ...friends])  // 查询自己和朋友创建的行程
+            })
+            .field({
+              trip_name: true      // 仅返回trip_name字段
+            })
+            .get();
+        }
+      })
+      .then(res => {
         // 将查询结果中的trip_name集合保存到my_trips
-        this.setData({
-          my_trips: [this.data.default_show].concat(res.data),
-          filteredTrips: [this.data.default_show].concat(res.data)
-        });
+        if (res) {
+          this.setData({
+            my_trips: [this.data.default_show].concat(res.data),
+            filteredTrips: [this.data.default_show].concat(res.data)
+          });
+        }
       })
       .catch(err => {
         console.error('查询失败:', err);
@@ -48,7 +62,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    this.getMyTrips();   // 加载行程数据
+    this.getMyAndFriendsTrips();   // 加载自己和朋友的行程数据
   },
 
   // 搜索输入框内容变化时触发
@@ -216,7 +230,8 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-    this.getMyTrips();
+    // this.getMyTrips();
+    this.getMyAndFriendsTrips();
 
     // 清空全局变量
     const app = getApp();

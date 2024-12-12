@@ -112,95 +112,119 @@ closeSidebar() {
       return;
     }
 
-    // 更新数据到数据库
-    db.collection('trips')
+    // 假设用户信息存储在 "users" 集合里
+  db.collection('users').where({
+    zhanghao: zhanghao  // 查找当前用户的记录
+  })
+  .get()
+  .then(res => {
+    // 获取当前用户的朋友列表
+    const friendsList = res.data[0]?.friends || [];
+
+    // 将当前用户自己加入朋友列表
+    const userList = [zhanghao, ...friendsList];
+
+    // 使用这个朋友列表进行行程更新
+    return db.collection('trips')
       .where({
         trip_name: trip_name,
-        zhanghao: zhanghao
+        zhanghao: db.command.in(userList)  // 检查当前用户与朋友是否有权限
       })
       .update({
         data: dataToSave,
-      })
-      .then(() => {
-        // 更新成功
-        wx.showToast({
-          title: '保存成功',
-          icon: 'success',
-          duration: 1000
-        });
-      })
-      .catch((error) => {
-        console.error('更新失败:', error);
-        // 更新失败
-        wx.showToast({
-          title: '保存失败',
-          icon: 'none',
-          duration: 1000
-        });
       });
+  })
+  .then(() => {
+    wx.showToast({
+      title: '保存成功',
+      icon: 'success',
+      duration: 1000
+    });
+})
+  .catch((error) => {
+    console.error('更新失败:', error);
+    wx.showToast({
+      title: '保存失败',
+      icon: 'none',
+      duration: 1000
+    });
+  });
   },
 
-  // 从数据库中获取行程数据
+   // 从数据库中获取行程数据
   getMapData(trip_name) {
-    // 获取云数据库实例
     const db = wx.cloud.database();
     const app = getApp();
     const zhanghao = app.globalData.zhanghao;
 
-    // 查询条件
-    db.collection('trips').where({
-      trip_name: trip_name,
+    // 查询当前用户及好友的行程数据
+    db.collection('users').where({
       zhanghao: zhanghao
     }).get({
       success: res => {
-        const mapData = res.data[0];
-          
-        // 将数据赋值给全局变量
-        app.setTripMarkers(mapData.tripMarkers);
-        app.setCollectMarkers(mapData.collectMarkers);
-        app.setFixedLatitude(mapData.fixedLatitude);
-        app.setFixedLongitude(mapData.fixedLongitude);
-        app.setMarkerId(mapData.markerId);
-        app.setPaths(mapData.paths);
+        const userData = res.data[0];
+        const friends = userData.friends || [];
 
-        console.log(app.globalData);
+        // 查询该行程
+        db.collection('trips').where({
+          trip_name: trip_name,
+          zhanghao: db.command.in([zhanghao, ...friends])  // 查询当前用户和好友的行程
+        }).get({
+          success: res => {
+            const mapData = res.data[0];
 
-        const tripMarkers = JSON.parse(app.globalData.tripMarkers);
-        const collectMarkers = JSON.parse(app.globalData.collectMarkers);
-        const fixedLat = app.globalData.fixedLatitude;
-        const fixedLng = app.globalData.fixedLongitude;
-        const paths = JSON.parse(app.globalData.paths);
-        const markerId = app.globalData.markerId;
+            if (mapData) {
+              app.setTripMarkers(mapData.tripMarkers);
+              app.setCollectMarkers(mapData.collectMarkers);
+              app.setFixedLatitude(mapData.fixedLatitude);
+              app.setFixedLongitude(mapData.fixedLongitude);
+              app.setMarkerId(mapData.markerId);
+              app.setPaths(mapData.paths);
 
-        // 提取行程地点中的自选地点和推荐地点
-        const selfAddedMarkers = tripMarkers.filter(marker => !marker.hasOwnProperty('category'));
-        const recommendMarkers = tripMarkers.filter(marker => marker.hasOwnProperty('category') && marker.category !== "行程中心");
+              const tripMarkers = JSON.parse(app.globalData.tripMarkers);
+              const collectMarkers = JSON.parse(app.globalData.collectMarkers);
+              const fixedLat = app.globalData.fixedLatitude;
+              const fixedLng = app.globalData.fixedLongitude;
+              const paths = JSON.parse(app.globalData.paths);
+              const markerId = app.globalData.markerId;
 
-        app.setSelfAddedMarkers(JSON.stringify(selfAddedMarkers));
-        app.setRecommendMarkers(JSON.stringify(recommendMarkers));
+              const selfAddedMarkers = tripMarkers.filter(marker => !marker.hasOwnProperty('category'));
+              const recommendMarkers = tripMarkers.filter(marker => marker.hasOwnProperty('category') && marker.category !== "行程中心");
 
-        this.setData({
-          markers: tripMarkers,
-          collectMarkers: collectMarkers,
-          chosenFixedLongitude: fixedLng,
-          chosenFixedLatitude: fixedLat,
-          latitude: fixedLat,
-          longitude: fixedLng,
-          paths: paths,
-          markerId: markerId
-        });
+              app.setSelfAddedMarkers(JSON.stringify(selfAddedMarkers));
+              app.setRecommendMarkers(JSON.stringify(recommendMarkers));
 
-        wx.showToast({
-          title: '历史数据已获取',
-          icon: 'success',
-          duration: 1000
-        });
-      },
-      fail: () => {
-        wx.showToast({
-          title: '数据获取失败',
-          icon: 'none',
-          duration: 1000
+              this.setData({
+                markers: tripMarkers,
+                collectMarkers: collectMarkers,
+                chosenFixedLongitude: fixedLng,
+                chosenFixedLatitude: fixedLat,
+                latitude: fixedLat,
+                longitude: fixedLng,
+                paths: paths,
+                markerId: markerId
+              });
+
+              wx.showToast({
+                title: '历史数据已获取',
+                icon: 'success',
+                duration: 1000
+              });
+            } else {
+              wx.showToast({
+                title: '行程数据为空',
+                icon: 'none',
+                duration: 1000
+              });
+            }
+          },
+          fail: () => {
+            wx.showToast({
+              title: '数据获取失败',
+              icon: 'none',
+              duration: 1000
+            });
+          }
         });
       }
     });
