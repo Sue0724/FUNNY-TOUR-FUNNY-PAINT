@@ -246,6 +246,8 @@ closeSidebar() {
 
   // 渲染全部路径
   renderPaths(ctx) {
+    ctx.clearRect(0, 0, this.data.w, this.data.h);  // 清空画布
+
     this.data.paths.forEach(path => {
       // 将路径的起点和终点经纬度转换为屏幕坐标
       const start = this.convertLatLngToScreen(path.startLng, path.startLat);
