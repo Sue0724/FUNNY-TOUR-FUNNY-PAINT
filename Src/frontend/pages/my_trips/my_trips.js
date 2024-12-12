@@ -165,7 +165,7 @@ Page({
       })
       .then(() => {
         // 更新或创建成功后，更新本地数据并隐藏输入框
-        this.getMyTrips();
+        this.getMyAndFriendsTrips();
         this.setData({
           edit_trip_name: '',    // 隐藏输入框
           inputTripName: ''      // 清空输入
@@ -203,7 +203,7 @@ Page({
       })
       .remove()
       .then(() => {
-        this.getMyTrips(); // 更新显示列表
+        this.getMyAndFriendsTrips(); // 更新显示列表
         wx.showToast({
           title: '行程删除成功！',
           icon: 'success',
