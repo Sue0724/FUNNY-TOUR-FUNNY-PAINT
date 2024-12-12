@@ -1,0 +1,9 @@
+<!-- pages/changeAvatar/changeAvatar.wxml -->
+<view class="container" style="{{gradientStyle}}">
+  <!-- 显示当前头像，使用圆形样式 -->
+  <view class="logo">
+    <image class="avatar" src="{{avatarUrl}}" mode="aspectFill"></image>
+  </view>
+  <!-- 更换头像按钮 -->
+    <button class="btn-group" style="background-color: {{themeColor}};"bindtap="chooseImage" >选择图片</button>
+</view>

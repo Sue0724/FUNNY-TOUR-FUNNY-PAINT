@@ -1,0 +1,17 @@
+<!--pages/themeColorSet/themeColorSet.wxml-->
+<view class="container">
+  <view class="title">请选择主题颜色</view>
+  <view class="color-grid-wrapper">
+    <view class="color-grid">
+      <block wx:for="{{colors}}" wx:key="color">
+        <view
+          class="color-circle"
+          style="background-color: {{item}};"
+          bindtap="selectColor"
+          data-color="{{item}}">
+        </view>
+      </block>
+    </view>
+  </view>
+  <!-- <button class="return-button" style="background-color: {{selectedColor}};" bindtap="navigateToHome">返回主页面</button> -->
+</view>

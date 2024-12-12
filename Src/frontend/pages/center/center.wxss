@@ -1,0 +1,114 @@
+page {
+  padding-bottom: 50rpx;
+}
+
+.header {
+  padding: 0 25rpx;
+  padding-top: 80rpx;
+  padding-bottom: 20rpx;
+  width: 100%;
+  height: 80vh;
+}
+
+.iimg {
+  width: 45rpx;
+  height: 45rpx;
+  margin-right: 10rpx;
+  margin-left: 20rpx;
+  top: 10rpx;
+  position: relative;
+}
+
+.user_box {
+  display: flex;
+  align-items: center;
+  border-radius: 30px;/*边框圆角*/
+  /* width: calc(94%- 40px); 减去增加的间距再*96%，保证跟nav项同宽
+   */
+  width: 94%;
+  height: 120px;
+  background: rgba(255, 255, 255, 0.7);
+  
+  /* padding-left: 20px; 添加左内边距，防止太靠边 */
+  /* padding: 0 20px; 左右均添加内边距 */
+}
+
+.logo {
+  width: 150rpx; /* 确保保持一致 */
+  height: 150rpx; /* 确保保持一致 */
+  border-radius: 50%; /* 保持圆形 */
+  /* background: #fff;??? */
+  background: rgba(255, 255, 255, 0.7);
+  overflow: hidden; /* 防止内容溢出 */
+  display: flex; /* 使用 flex 来中心对齐图片 */
+  justify-content: center;
+  align-items: center;
+  margin-right: 40px; /*添加右边距*/
+  margin-left: 20px;
+}
+
+.logo image {
+  width: 100%; /* 占满父容器 */
+  height: 100%; /* 占满父容器 */
+  object-fit: cover; /* 保持图片比例，防止拉伸 */
+  border-radius: 50%; /* 确保图片为圆形 */
+}
+
+.user_name {
+  display: flex;
+  align-items: center;
+  font-size: 36rpx;
+  font-weight: bold;
+  /* color: #fff; ???*/
+  color: rgba(255, 255, 255, 0.7);
+}
+
+
+.user_name image {
+  margin-left: 16rpx;
+  width: 84rpx;
+  height: 31rpx;
+}
+
+.headname {
+  /* margin-left: 3px; */
+  /* margin-top: 2px; */
+  /* padding-right: 70px; */
+  /*这里改位置尝试*/
+  /* padding-left: 0px; */
+  padding-right: 30px;
+  padding-top: 0px;
+  font-size: 20px;
+}
+
+.briefintr{
+  /* padding-left: 0px; */
+  padding-right: 30px;
+  /* padding-bottom: 5px; */
+  padding-top: 10px;
+  font-size: 12px;
+}
+.nav {
+  margin-top: 40px;
+  font-size: 34rpx;
+  background: rgba(255, 255, 255, 0.7);
+  width: 94%;
+  border-radius: 30px;/*边框圆角*/
+  height: 70%;
+}
+
+.nav .item {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #e5e5e5;
+  padding: 30rpx 0;
+}
+
+.avatar {
+  width: 100%; /* 调整头像的宽度为250px */
+  height: 100%; /* 调整头像的高度为250px */
+  border-radius: 50%; /* 保持圆形 */
+  overflow: hidden;
+  object-fit: cover; /* 保持图片比例，防止拉伸 */
+}
+

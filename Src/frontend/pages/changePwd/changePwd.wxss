@@ -1,0 +1,39 @@
+/* pages/changePwd/changePwd.wxss */
+.container {
+  padding: 20px;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.input-group {
+  margin-bottom: 20px;
+  color: #000000;
+}
+
+.input-group text {
+  display: inline-block;
+  width: 100px;
+}
+
+.input-group input {
+  border: 2px solid #ffffff;
+  padding: 10px;
+  width: 200px;
+  /* border-radius: 3%;
+  border-end-end-radius: 5%; */
+}
+
+.btn-group {
+  margin-top: 20px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}

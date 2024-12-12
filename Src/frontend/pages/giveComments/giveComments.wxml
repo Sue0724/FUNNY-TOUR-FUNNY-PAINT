@@ -1,0 +1,4 @@
+<!--pages/giveComments/giveComments.wxml-->
+<view class="container" style="{{gradientStyle}}">
+  <image src="../../images/contact.jpg" mode="aspectFill" class="image" />
+</view>

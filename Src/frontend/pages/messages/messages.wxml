@@ -1,0 +1,29 @@
+<view class="container"style="{{gradientStyle}}">
+  <text class="message-header">消息列表</text>
+  <view class="list">
+    <view wx:for="{{requests}}" wx:key="index"  class="request-item" >
+      
+    <!-- <view class="swipe-buttons" style="transform: translateX({{activeRequestIndex === index ? '-100px' : '0'}});">
+      <button bindtap="acceptRequest" data-id="{{item.from}}">接受</button>
+      <button bindtap="declineRequest" data-id="{{item.from}}">拒绝</button>
+    </view> -->
+    <view class="fixed-buttons"style="background-color: {{themeColor}};">
+      <button class="my-button" bindtap="acceptRequest" data-id="{{item.from}}"style="background-color: {{themeColor}};" >接受</button>
+      <button class="my-button" bindtap="declineRequest" data-id="{{item.from}}"style="background-color: {{themeColor}};" >拒绝</button>
+    </view>
+    <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+    <text>{{item.from}}</text>
+  </view>
+  <!-- <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text> -->
+  <view wx:for="{{messages}}" wx:key="index" class="message-item" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd" data-index="{{index}}" data-type="message">
+    <!-- <view class="swipe-buttons2" style="transform: translateX({{activeMessageIndex === index ? '-100px' : '0'}});">
+      <button bindtap="deleteMessage" data-id="{{item._id}}">删除</button>
+    </view> -->
+    <view class="fixed-button"style="background-color: {{themeColor}};">
+      <button class="my-button" bindtap="deleteMessage" data-id="{{item._id}}"style="background-color: {{themeColor}};" >删除</button>
+    </view>
+    <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+    <text> {{item.content}}</text>
+  </view>
+  </view>
+</view>

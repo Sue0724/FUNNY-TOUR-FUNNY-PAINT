@@ -1,0 +1,93 @@
+<!--pages/map/map_canvas/map_canvas.wxml-->
+<view class="main">
+  <map id="map" 
+    subkey="{{subKey}}"
+    latitude="{{latitude}}"
+    longitude="{{longitude}}"
+    scale="{{scale}}"
+    markers="{{markers}}"
+    circles="{{circles}}"
+    polyline="{{polylines}}"
+    polygons="{{polygons}}"
+    enable-3D="{{enable3d}}"
+    show-location="{{showLocation}}"
+    show-scale="{{showScale}}"
+    enable-zoom="{{enableZoom}}"
+    enable-scroll="{{enableScroll}}"
+    enable-rotate="{{enableRotate}}"
+    enable-overlooking="{{enableOverlooking}}"
+    enable-satellite="{{enableSatellite}}"
+    enable-traffic="{{enableTraffic}}"
+    bindregionchange="onMapMove"
+  >
+  </map>
+  <!-- show-compass="{{showCompass}}" -->
+
+  <!-- Canvas 透明层覆盖在地图上 -->
+  <canvas type="2d" id="myCanvas" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd" style="pointer-events: {{drawMode ? 'all' : 'none'}};"></canvas>
+ 
+ <!-- 右上角图标 -->
+ <image class="list-icon" src="/images/list.png" bindtap="openSidebar" />
+<!-- 左下角移动 -->
+<view class="icon-container">
+<view class="icon">
+  <image class="icon-up" src="/images/angle/up.png" bindtap="moveUp"></image>
+  <image class="icon-down" src="/images/angle/down.png" bindtap="moveDown"></image>
+  <image class="icon-left" src="/images/angle/left.png" bindtap="moveLeft"></image>
+  <image class="icon-right" src="/images/angle/right.png" bindtap="moveRight"></image>
+</view>
+</view>
+<view class="iicon">
+  <image class="brush" src="/images/brush.png"bindtap="selectBrush"></image>
+<image class="eraser" src="/images/eraser.png"bindtap="selectEraser"></image>
+</view>
+
+    <!-- 边栏 -->
+    <view class="sidebar" wx:if="{{isSidebarOpen}}">
+      <view class="sidebar-header">
+        <image class="close-icon" src="/images/close-icon.png" bindtap="closeSidebar" />
+      </view>
+      <view class="item">
+        <view class='wallet' bindtap="toggleShowMarkers">
+          <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+          <text>{{showMarkers ? '隐藏地点标记' : '显示地点标记'}}</text>
+        </view>
+      </view>
+      <view class="item">
+        <view class='wallet' bindtap="toggleDrawMode">
+          <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+          <text>{{drawMode ? '退出编辑' : '进入编辑'}}</text>
+        </view>
+      </view>
+      <view class="item">
+        <view class='wallet' bindtap="toggleHideDrawing">
+          <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+          <text>{{hideDrawing ? '显示绘画' : '隐藏绘画'}}</text>
+        </view>
+      </view>
+      <view class="item">
+        <view class='wallet' bindtap="clearCanvas">
+          <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+          <text>清空画布</text>
+        </view>
+      </view>
+    </view>
+  <view class="toolbar">
+    <!-- 颜色选择器 -->
+    <view class="color-picker">
+      <text>R</text>
+      <slider min="0" max="255" value="{{r}}" show-value bindchange="changeColor" data-type="r"></slider>
+      <text>G</text>
+      <slider min="0" max="255" value="{{g}}" show-value bindchange="changeColor" data-type="g"></slider>
+      <text>B</text>
+      <slider min="0" max="255" value="{{b}}" show-value bindchange="changeColor" data-type="b"></slider>
+      <view class="color-preview" style="background-color: rgb({{r}}, {{g}}, {{b}});"></view>
+    </view>
+
+    <!-- 线条粗细选择 -->
+    <view class="line-width-picker">
+      <text>粗细</text>
+      <slider min="1" max="10" value="{{lineWidth}}" show-value bindchange="changeLineWidth"></slider>
+    </view>
+  </view>
+</view>

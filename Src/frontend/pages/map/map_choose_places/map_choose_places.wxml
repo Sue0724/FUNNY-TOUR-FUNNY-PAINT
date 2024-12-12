@@ -1,0 +1,124 @@
+<!--pages/map/map_choose_places/map_choose_places.wxml-->
+<view class="main">
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <!-- <input type="text" placeholder="搜索地点或输入关键字" bindinput="onSearchInput" />
+    <image src="{{searchIcon}}" mode="widthFix" class="search-icon" bindtap="onSearchNearbySubmit" />
+     -->
+    <image src="../../../images/tool/search_dark.png" class='search_icon'></image>
+      <input placeholder="搜索地点或输入关键字" 
+           bindinput="onSearchInput" />
+      <view class="search_btn" bindtap="onSearchNearbySubmit" >搜索</view>
+  </view>
+
+  <!-- <view class="{{scrollTop>190 ? 'search-bar-Fixed' : 'search-bar-Absolute'}}">
+      <image src="../../images/tool/search_dark.png" class='search_icon'></image>
+      <input placeholder="搜索行程名称" 
+           bindinput="onSearchInputChange" 
+           value="{{searchQuery}}" />
+      <view class="search_btn">搜索</view>
+    </view>   -->
+
+  <map id="map" 
+    subkey="{{subKey}}"
+    latitude="{{latitude}}"
+    longitude="{{longitude}}"
+    scale="{{scale}}"
+    markers="{{markers}}"
+    circles="{{circles}}"
+    polyline="{{polylines}}"
+    polygons="{{polygons}}"
+    enable-3D="{{enable3d}}"
+    show-location="{{showLocation}}"
+    show-scale="{{showScale}}"
+    
+    enable-zoom="{{enableZoom}}"
+    enable-scroll="{{enableScroll}}"
+    enable-rotate="{{enableRotate}}"
+    enable-overlooking="{{enableOverlooking}}"
+    enable-satellite="{{enableSatellite}}"
+    enable-traffic="{{enableTraffic}}"
+    bindmarkertap="onMarkerTap"
+    bindtap="onTapMap"
+		bindpoitap="onTapPoi"
+  >
+  <!-- show-compass="{{showCompass}}" -->
+  </map>
+  <image class="list-icon" src="/images/list.png" bindtap="openSidebar" />
+  <!-- 工具栏 -->
+  <view class="sidebar" wx:if="{{isSidebarOpen}}">
+      <view class="sidebar-header">
+        <image class="close-icon" src="/images/close-icon.png" bindtap="closeSidebar" />
+      </view>
+      <view class="item">
+        <view class='wallet' bindtap="chooseCenter">
+          <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+          <text>设定行程中心</text>
+        </view>
+      </view>
+      <view class="item">
+        <view class='wallet' bindtap="toggleShowPlaceList">
+          <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+          <text>{{showPlaceList ? '隐藏地点列表' : '显示地点列表'}}</text>
+        </view>
+      </view>
+      <view class="item">
+        <view class='wallet' bindtap="choosePlace">
+          <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+          <text>自选地点</text>
+        </view>
+      </view>
+      <view class="item">
+        <view class='wallet' bindtap="toggleShowMarkers">
+          <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+          <text>{{showMarkers ? '隐藏地点标记' : '显示地点标记'}}</text>
+        </view>
+      </view>
+    </view>
+  <!-- 地点列表 -->
+  <view wx:if="{{showPlaceList}}" class="place-list">
+    <view class="icon-switcher">
+      <view class="icon-button" bindtap="switchMarkers" data-type="allMarkers">
+        <image src="{{markersIcons.allMarkers}}" mode="aspectFit" />
+        <text>全部地点</text>
+      </view>
+      <view class="icon-button" bindtap="switchMarkers" data-type="selfAddedMarkers">
+        <image src="{{markersIcons.selfAddedMarkers}}" mode="aspectFit" />
+        <text>自选地点</text>
+      </view>
+      <view class="icon-button" bindtap="switchMarkers" data-type="recommendMarkers">
+        <image src="{{markersIcons.recommendMarkers}}" mode="aspectFit" />
+        <text>推荐地点</text>
+      </view>
+      <view class="icon-button" bindtap="switchMarkers" data-type="tripCollectedMarkers">
+        <image src="{{markersIcons.tripCollectedMarkers}}" mode="aspectFit" />
+        <text>收藏地点</text>
+      </view>
+      <view class="icon-button" bindtap="switchMarkers" data-type="tripPlanMarkers">
+        <image src="{{markersIcons.tripPlanMarkers}}" mode="aspectFit" />
+        <text>行程地点</text>
+      </view>
+    </view>
+
+    <scroll-view scroll-y="true" style="height: calc(100% - 50px);">
+      <view wx:for="{{markers}}" wx:key="id" 
+            bindtap="onPlaceTap"
+            class="place-item {{selectedMarkerId === item.id ? 'active' : ''}}"
+            data-id="{{item.id}}">
+        <view class="place-info">
+          <text class="place-name">{{item.name}}</text>
+          <text class="place-category">{{item.distance}}米 | {{item.category || '自选地点'}}</text>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+  
+  <!-- 地点操作菜单 -->
+  <mp-actionSheet 
+    show="{{showDialog}}" 
+    bindactiontap="onActionTap" 
+    title="{{currentMarker.name}}" 
+    actions="{{actions}}" 
+    show-cancel="true">
+  </mp-actionSheet>
+</view>

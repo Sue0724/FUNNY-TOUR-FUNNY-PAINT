@@ -1,0 +1,8 @@
+<view class="container" style="{{gradientStyle}}">
+  <view class="item" bindtap="changePassword">
+    <text>修改密码</text>
+  </view>
+  <view class="item" bindtap="switchAccount">
+    <text>切换账户</text>
+  </view>
+</view>

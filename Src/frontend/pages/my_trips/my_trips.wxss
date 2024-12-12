@@ -1,0 +1,138 @@
+/* pages/my_trips/my_trips.wxss */
+
+.main {
+    position: flex;
+    width: 100%;
+    height: 100%; /* 让页面占满整个视口 */
+    overflow: hidden; /* 避免内容超出 */
+  }
+
+  .item {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 3;
+  }
+  
+  .name {
+    font-weight: bold;
+    color: #333;
+    display: block; /* 确保在单独一行 */
+  }
+
+  .icon {
+    width: 40rpx;      /* 图标宽度 */
+    height: 40rpx;     /* 图标高度 */
+    margin-left: 10rpx; /* 图标与文字之间的间距 */
+    vertical-align: middle; /* 图标垂直居中 */
+  }
+
+.banner{
+  width: 100%;
+  height: 450rpx;
+}
+.banner swiper{
+  height: 100%;
+  width: 100%;
+}
+.banner image{
+  width: 100%;
+  height: 100%;
+}
+
+
+.search-bar-Fixed {
+    display: flex;
+    align-items: center;
+    justify-content:space-between;
+    padding:20px 20px ;
+    box-sizing: border-box;
+    height: 70rpx;
+    width: 750rpx;
+    background-color: #ffffff;
+    border-top-left-radius:35rpx;
+    border-top-right-radius:35rpx;
+    position: fixed;
+    top: 0px;
+    z-index: 1;
+    /* position: absolute;
+    top: 150px; 
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: white;
+    z-index: 2; */
+  }
+  
+.search-bar-Absolute {
+  display: flex;
+  align-items: center;
+  justify-content:space-between;
+  padding:20px 20px ;
+  box-sizing: border-box;
+  height: 70rpx;
+  width: 750rpx;
+  background-color: #ffffff;
+  /* border-radius: 35rpx; */
+  border-top-left-radius:35rpx;
+  border-top-right-radius:35rpx;
+  position: absolute;
+  top: 200px;
+  z-index: 1;
+  /* position: absolute;
+  top: 150px; 
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  background-color: white;
+  z-index: 2; */
+}
+.search_icon {
+  height: 45rpx;
+  width: 45rpx;
+}
+.search-bar-Absolute  input {
+  width: 480rpx;
+}
+.search-bar-Fixed  input {
+  width: 480rpx;
+}
+.search-bar-Absolute  .search_btn {
+  height: 55rpx;
+  width: 110rpx;
+  border-radius: 55rpx;
+  background-color: #66bfbf;
+  color: #ffffff;
+  text-align: center;
+  line-height: 55rpx;
+  cursor: pointer;
+}
+.search-bar-Fixed  .search_btn {
+  height: 55rpx;
+  width: 110rpx;
+  border-radius: 55rpx;
+  background-color: #66bfbf;
+  color: #ffffff;
+  text-align: center;
+  line-height: 55rpx;
+  cursor: pointer;
+}
+.button{
+  /* padding: 2px 2px;
+  width: 3px;
+  height: 30px;
+  color: #fff;
+  background-color: #66bfbf; */
+  
+  height: 55rpx;
+  width: 110rpx;
+  border-radius: 55rpx;
+  background-color: #66bfbf;
+  color: #ffffff;
+  text-align: center;
+  line-height: 55rpx;
+  cursor: pointer;
+}

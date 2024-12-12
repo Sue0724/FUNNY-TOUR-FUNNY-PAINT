@@ -1,0 +1,75 @@
+{
+  "pages": [
+    "pages/my_trips/my_trips",
+    "pages/center/center",
+    "pages/login/login",
+    "pages/signup/signup",
+    "pages/changeAvatar/changeAvatar",
+    "pages/accountManage/accountManage",
+    "pages/changePwd/changePwd",
+    "pages/home/home",
+    "pages/map/map_index/map_index",
+    "pages/logs/logs",
+    "pages/AI/AI",
+    "pages/map/map_canvas/map_canvas",
+    "pages/map/map_choose_places/map_choose_places",
+    "pages/map/map_choose_places/place_detail/place_detail",
+    "pages/map/trip/trip",
+    "pages/myFriends/myFriends",
+    "pages/addFriend/addFriend",
+    "pages/messages/messages",
+    "pages/giveComments",
+    "pages/giveComments/giveComments",
+    "pages/themeColorSet/themeColorSet"
+  ],
+  "window": {
+    "navigationBarTextStyle": "@navigationBarTextStyle",
+    "navigationBarTitleText": "趣游绘",
+    "navigationBarBackgroundColor": "@navigationBarBackgroundColor",
+    "backgroundColor": "@backgroundColor"
+  },
+  "tabBar": {
+    "color": "@tabBarColor",
+    "selectedColor": "@tabBarSelectedColor",
+    "borderStyle": "@tabBarBorderStyle",
+    "backgroundColor": "@tabBarBackgroundColor",
+    "list": [
+      {
+        "pagePath": "pages/my_trips/my_trips",
+        "iconPath": "@iconPathHome",
+        "selectedIconPath": "@selectedIconPathHome",
+        "text": "我的行程"
+      },
+      {
+        "pagePath": "pages/AI/AI",
+        "iconPath": "images/tool/search_dark.png",
+        "selectedIconPath": "images/tool/search.png",
+        "text": "AI问答"
+      },
+      {
+        "pagePath": "pages/center/center",
+        "iconPath": "@iconPathMe",
+        "selectedIconPath": "@selectedIconPathMe",
+        "text": "我的"
+      }
+    ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序定位"
+    }
+  },
+  "requiredPrivateInfos": [
+    "getLocation",
+    "chooseLocation"
+  ],
+  "plugins": {},
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "themeLocation": "demo.theme.json",
+  "darkmode": true,
+  "useExtendedLib": {
+    "weui": true
+  },
+  "lazyCodeLoading": "requiredComponents"
+}

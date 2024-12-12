@@ -1,0 +1,18 @@
+{
+  "name": "lesson-02",
+  "version": "1.0.0",
+  "description": "01. 全局配置\r 02. 应用组件\r 03. wx:for\r 04. html+js+css（wxml+js+wxss）\r 05. Grid布局",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/greengis/lesson-wechat.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "moment": "^2.30.1"
+  }
+}

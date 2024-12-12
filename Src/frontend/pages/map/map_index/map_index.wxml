@@ -1,0 +1,59 @@
+<!--pages/map/map_index/map_index.wxml-->
+<view class="main">
+    <map id="map" 
+        latitude="{{latitude}}"
+        longitude="{{longitude}}"
+        scale="{{scale}}"
+        markers="{{markers}}"
+        enable-3D="{{enable3d}}"
+        show-location="{{showLocation}}"
+        show-scale="{{showScale}}"
+        
+        enable-zoom="{{enableZoom}}"
+        enable-scroll="{{enableScroll}}"
+        enable-rotate="{{enableRotate}}"
+        enable-overlooking="{{enableOverlooking}}"
+        enable-satellite="{{enableSatellite}}"
+        enable-traffic="{{enableTraffic}}"
+        bindregionchange="onMapMove"
+    >
+    </map>
+<!-- show-compass="{{showCompass}}" -->
+
+
+      <!-- 右上角图标 -->
+    <image class="list-icon" src="/images/list.png" bindtap="openSidebar" />
+    <!-- Canvas 透明层覆盖在地图上 -->
+    <canvas type="2d" id="myCanvas" style="pointer-events: none;"></canvas>
+
+    <!-- 边栏 -->
+    <view class="sidebar" wx:if="{{isSidebarOpen}}">
+      <view class="sidebar-header">
+        <image class="close-icon" src="/images/close-icon.png" bindtap="closeSidebar" />
+      </view>
+      <view class="item">
+        <view class='wallet' bindtap="navigateToPlaceMode">
+          <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+          <text>地点选择模式</text>
+        </view>
+      </view>
+      <view class="item">
+        <view class='wallet' bindtap="navigateToDrawMode">
+          <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+          <text>绘画模式</text>
+        </view>
+      </view>
+      <view class="item">
+        <view class='wallet' bindtap="navigateToTripMode">
+          <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+          <text>日程模式</text>
+        </view>
+      </view>
+      <view class="item">
+        <view class='wallet' bindtap="saveMap">
+          <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+          <text>保存地图</text>
+        </view>
+      </view>
+    </view>
+</view>

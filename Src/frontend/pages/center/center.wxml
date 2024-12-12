@@ -1,0 +1,54 @@
+<!--pages/center/center.wxml-->
+<view class="header" style="{{gradientStyle}}">
+  <view class="user_box" bindtap='tapAvatar'>
+    <view class="logo">
+      <image class="avatar" src="{{avatarUrl}}" mode="aspectFill"></image>
+    </view>
+    <!-- <text class='headname'>
+      {{isLoggedIn ? zhanghao : '请点击这里登录'}}
+    </text> -->
+    <view class='flex' style="flex-direction: column;">
+      <view class='headname'>
+      {{isLoggedIn ? zhanghao : '请点击这里登录'}}
+      </view>
+    </view>
+  </view>
+  <view class="nav">
+    <view class="item">
+      <view class='wallet' bindtap = 'myFriends'>
+        <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+        <image src='../../images/fri.png' class='iimg'></image>
+        <text>我的好友</text>
+      </view>
+    </view>
+
+    <view class="item">
+      <view class='wallet' bindtap="navigateToSettings">
+        <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+        <image src='../../images/ChangeColor.png' class='iimg'></image>
+        <text>自定义主题</text>
+      </view>
+    </view>
+    <view class="item">
+      <view class='wallet' bindtap = 'accountManage'>
+        <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+        <image src='../../images/AccountManage.png' class='iimg'></image>
+        <text>账号管理</text>
+      </view>
+    </view>
+    <view class="item">
+      <view class='wallet' bindtap='giveComments'>
+        <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+        <image src='../../images/yijian.png' class='iimg'></image>
+        <text>意见反馈</text>
+      </view>
+    </view>
+    <view class="item">
+      <view class='wallet' bindtap = 'confirmLogout'>
+        <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+        <image src='../../images/exit.png' class='iimg'></image>
+        <text>退出登录</text>
+      </view>
+    </view>
+  </view>
+</view>

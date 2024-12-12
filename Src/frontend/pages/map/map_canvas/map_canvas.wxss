@@ -1,0 +1,199 @@
+/* pages/map/map_canvas/map_canvas.wxss */
+
+.main {
+    position: fixed;
+    width: 100%;
+    height: 100%; /* 让页面占满整个视口 */
+    overflow: hidden; /* 避免内容超出 */
+}
+  
+map {
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+scroll-view {
+    height: 100%; /* 确保可滚动区域占满列表 */
+}
+
+/*************************************************************/
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5; /* 确保 canvas 在 map 上层 */
+    background-color: transparent; /* 设置画布背景为透明 */
+  }
+  
+  
+  .list-icon {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+    display: flex;          /* 居中内容 */
+  }
+
+  .sidebar {
+    width: 40%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #ffffff;
+    box-shadow: -4px 0 8px rgba(0, 0, 0, 0.2);
+    z-index: 20;
+  }
+  .close-icon {
+    width: 30px;
+    height: 30px;
+    margin-top: 10rpx;
+    margin-left: -20rpx;
+  }
+  .sidebar-header {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    background-color: #f5f5f5;
+  }
+  .sidebar .item{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #82af8a;
+    /* padding: 30rpx 0; */
+    padding: 16px;
+  } 
+  button:active {
+    background-color: #ff9800; /* 高亮选中的工具 */
+    color: white;
+  }
+  
+  /* 工具栏的总体布局 */
+  .toolbar {
+    position: fixed; /* 固定定位 */
+    bottom: 0;
+    right: 0;
+    width: auto;      /* 工具栏的宽度 */
+    height: auto;    /* 自动高度适应内容 */
+    display: flex;
+    flex-direction: column;  /* 将内容从上到下排列 */
+    padding: 10px;
+    background-color: white;
+    border-bottom: 1px solid #ddd; /* 底部分隔线 */
+    z-index: 999;   /* 确保工具栏浮在其他内容之上 */
+  }
+  
+  /* 颜色选择器容器 */
+  .color-picker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    /* margin-left: 10px; */
+  }
+  
+  /* 颜色预览框 */
+  .color-preview {
+    width: 30px;
+    height: 30px;
+    margin: 10px 0;
+    border: 1px solid #0000000e;
+    border-radius: 8px;
+  }
+  
+  /* 线条粗细选择器容器 */
+  .line-width-picker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+  }
+  
+  /* 滑动条的样式 */
+  slider {
+    width: 200px;
+    margin: 0 0;
+    transform: scale(0.7); /* 缩小滑动条及其圆点 */
+  }
+/* 左上角图标 */
+.iicon{
+  position: absolute; /* 使容器定位 */
+    top: 10px; /* 距离页面底部 */
+    left: 10px; /* 距离页面左侧 */
+    width: 120px; /* 设置容器宽度 */
+    height: 120px; /* 设置容器高度 */
+    z-index: 9;
+}
+.brush{
+  width: 40px;
+  height: 40px;
+}
+.eraser{
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  left: 60px;
+}
+  /* 左下角图标 */
+  .icon-container {
+    position: absolute; /* 使容器定位 */
+    bottom: 50px; /* 距离页面底部 */
+    left: 10px; /* 距离页面左侧 */
+    width: 120px; /* 设置容器宽度 */
+    height: 120px; /* 设置容器高度 */
+    display: grid; /* 使用网格布局 */
+    grid-template-columns: 1fr 1fr 1fr; /* 定义九宫格列 */
+    grid-template-rows: 1fr 1fr 1fr; /* 定义九宫格行 */
+    background-color: rgb(0, 0,0,0); /* 设置背景色，方便调试 */
+    z-index: 9;
+  }
+  
+  .icon {
+    display: contents; /* 保证子项直接参与网格布局 */
+  }
+  
+  .icon-up {
+    grid-area: 1 / 2; /* 在第1行第2列 */
+    background-size: cover;
+    width: 40px;
+    height: 40px;
+    justify-self: center; /* 水平居中 */
+    align-self: center; /* 垂直居中 */
+    z-index: 999;
+  }
+  
+  .icon-down {
+    grid-area: 3 / 2; /* 在第3行第2列 */
+    background-size: cover;
+    width: 40px;
+    height: 40px;
+    justify-self: center; /* 水平居中 */
+    align-self: center; /* 垂直居中 */
+    z-index: 999;
+  }
+  
+  .icon-left {
+    grid-area: 2 / 1; /* 在第2行第1列 */
+    background-size: cover;
+    width: 40px;
+    height: 40px;
+    justify-self: center; /* 水平居中 */
+    align-self: center; /* 垂直居中 */
+  }
+  
+  .icon-right {
+    grid-area: 2 / 3; /* 在第2行第3列 */
+    background-size: cover;
+    width: 40px;
+    height: 40px;
+    justify-self: center; /* 水平居中 */
+    align-self: center; /* 垂直居中 */
+  }
+  

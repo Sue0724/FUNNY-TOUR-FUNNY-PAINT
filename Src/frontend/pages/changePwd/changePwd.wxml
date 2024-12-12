@@ -1,0 +1,25 @@
+<!-- pages/changePwd/changePwd.wxml -->
+<view class="container" style="{{gradientStyle}}">
+  <!-- 当前密码输入框 -->
+  <view class="input-group">
+    <text>旧密码</text>
+    <input type="password" placeholder="请输入当前密码" bindinput="getCurrentPwd" />
+  </view>
+
+  <!-- 新密码输入框 -->
+  <view class="input-group">
+    <text>新密码</text>
+    <input type="password" placeholder="请输入新密码" bindinput="getNewPwd" />
+  </view>
+
+  <!-- 确认新密码输入框 -->
+  <view class="input-group">
+    <text>确认新密码</text>
+    <input type="password" placeholder="请确认新密码" bindinput="getConfirmPwd" />
+  </view>
+
+  <!-- 确认修改按钮 -->
+  <view class="btn-group">
+    <button bindtap="confirmChangePwd" type="primary"  style="background-color: {{themeColor}};" >确认修改密码</button>
+  </view>
+</view>

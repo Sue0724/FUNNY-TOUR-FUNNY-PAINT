@@ -1,0 +1,63 @@
+
+.container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.message-header
+{
+  position: absolute;
+  top: 10px;
+  right:42%;
+  z-index: 10;
+  display: flex;          /* 居中内容 */
+  color:#ffffff;
+}
+.list
+{
+  position: absolute;
+  padding: 10rpx;
+  top: 40px;
+  width: 97%;
+}
+.request-item, .message-item {
+  /* position: relative; */
+  position: relative;
+  overflow: hidden;
+  display: flex;
+
+  align-items: center;
+  background-color: #f5f5f5; /* 设置背景颜色 */
+  border-radius: 5px;
+  width: 97%;
+  margin: 5px 0; /* 保持好友项之间的间距 */
+  padding: 10rpx; /* 减少内边距以适应更好的布局 */
+  height: 50rpx; /* 设置固定高度 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+}
+.my-button {
+  margin-left: 5px;
+  font-size: 16px;
+  color: #fff;
+}
+.fixed-buttons {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 160px; /* 根据按钮宽度调整 */
+  height: 100%; /* 按钮的高度与列表项一致 */
+  display: flex;
+  align-items: center;
+}
+.fixed-button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 80px; /* 根据按钮宽度调整 */
+  height: 100%; /* 按钮的高度与列表项一致 */
+  display: flex;
+  align-items: center;
+}
+

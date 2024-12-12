@@ -1,0 +1,183 @@
+/* pages/map/map_choose_places/map_choose_places.wxss */
+  
+.main {
+  position: fixed;
+  width: 100%;
+  height: 100%; /* 让页面占满整个视口 */
+  overflow: hidden; /* 避免内容超出 */
+}
+
+map {
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+
+/***********************************/
+
+/* 地点列表样式 */
+.place-list {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40%;
+  background-color: white;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  padding: 10px;
+  overflow: hidden;
+  border-radius: 10px 10px 0 0; /* 圆角 */
+}
+
+.place-item {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.place-item.active {
+  background-color: #ffeb3b; /* 选中后的高亮背景色 */
+}
+
+.place-info {
+  display: block; /* 确保子元素占据整行 */
+}
+
+.place-name {
+  font-weight: bold;
+  color: #333;
+  display: block; /* 确保在单独一行 */
+}
+
+.place-category {
+  font-size: 14px;
+  color: #666;
+  display: block; /* 确保在单独一行 */
+}
+
+scroll-view {
+  height: 100%; /* 确保可滚动区域占满列表 */
+}
+
+/*****************/
+
+.icon-switcher {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  background-color: #fff;
+  flex-wrap: nowrap; /* 防止换行 */
+}
+
+.icon-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 20%; /* 控制每个按钮的宽度 */
+}
+
+.icon-button image {
+  width: 24px; /* 调整图标大小 */
+  height: 24px; /* 调整图标大小 */
+}
+
+.icon-button text {
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/************************************************/
+.search-bar {
+  display: flex;
+  align-items: center;
+  justify-content:space-between;
+  padding:20px 20px ;
+  box-sizing: border-box;
+  height: 70rpx;
+  width: 750rpx;
+  background-color: #ffffff;
+  border-radius:35rpx;
+  position: fixed;
+  top: 0px;
+  z-index: 9;/* 确保在地图上方显示 */
+}
+.search_icon {
+  height: 45rpx;
+  width: 45rpx;
+  z-index: 9;
+}
+.search-bar  input {
+  width: 480rpx;
+  z-index: 9;
+}
+.search_btn {
+  height: 55rpx;
+  width: 110rpx;
+  border-radius: 55rpx;
+  background-color: #66bfbf;
+  color: #ffffff;
+  text-align: center;
+  line-height: 55rpx;
+  cursor: pointer;
+}
+
+.search-bar input {
+  flex: 1;
+  height: 100%;
+  border: none;
+  outline: none;
+  padding-left: 10px;
+  font-size: 16px;
+}
+
+.search-icon {
+  width: 24px;
+  height: 24px;
+  margin-left: 8px;
+  cursor: pointer; /* 鼠标悬停显示为可点击 */
+}
+.list-icon {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 50px;
+  right: 10px;
+  z-index: 10;
+  display: flex;          /* 居中内容 */
+}
+.sidebar {
+  width: 40%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #ffffff;
+  box-shadow: -4px 0 8px rgba(0, 0, 0, 0.2);
+  z-index: 20;
+}
+.close-icon {
+  width: 30px;
+  height: 30px;
+  margin-top: 10rpx;
+  margin-left: -20rpx;
+  
+}
+.sidebar-header {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  background-color: #f5f5f5;
+}
+.sidebar .item{
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #82af8a;
+  /* padding: 30rpx 0; */
+  padding: 16px;
+} 

@@ -1,0 +1,16 @@
+page {
+  padding-bottom: 50rpx;
+}
+
+/* 给容器设置宽高为100% */
+.container {
+  width: 100%;
+  height: 100vh;  /* 100vh表示占满整个屏幕的高度 */
+  position: relative;
+}
+
+/* 设置图片样式，确保图片填充容器并保持比例 */
+.image {
+  width: 100%;
+  height: 100%;
+}
