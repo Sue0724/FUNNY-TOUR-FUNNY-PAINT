@@ -183,7 +183,14 @@ Page({
           inputTripName: ''      // 清空输入
         });
       })
-      .catch(err => console.error(err));
+      .catch(err => {
+        console.error(err);
+        wx.showToast({
+          title: '名称重复了，换一个试试吧~',
+          icon: 'none',
+          duration: 1000
+        });
+      });
   },
 
   // 取消行程名称修改
