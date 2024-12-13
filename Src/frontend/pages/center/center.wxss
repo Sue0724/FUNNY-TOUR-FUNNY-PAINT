@@ -1,20 +1,26 @@
 page {
   padding-bottom: 50rpx;
+  background: -webkit-linear-gradient(top, #82af8a 0%, #CCCCCC 100%);
+  background: -o-linear-gradient(top, #82af8a 0%, #CCCCCC 100%);
+  background: -ms-linear-gradient(top, #82af8a 0%, #CCCCCC 100%);
+  /* background: linear-gradient(to bottom, #a7d4c3 0%, #ffffff 100%); */
+  background: linear-gradient(to bottom, #82af8a 0%, #ffffff 100%);
+  /* background: linear-gradient(to bottom, #bae4f7 0%, #ffffff 100%); */
+  /* background: linear-gradient(to bottom, #7db0da 0%, #ffffff 100%); */
+  /*配色直接找现成的*/
 }
 
 .header {
   padding: 0 25rpx;
-  padding-top: 80rpx;
-  padding-bottom: 20rpx;
+  padding-top: 30rpx;
+  padding-bottom: 50rpx;
   width: 100%;
-  height: 80vh;
 }
 
 .iimg {
   width: 45rpx;
   height: 45rpx;
   margin-right: 10rpx;
-  margin-left: 20rpx;
   top: 10rpx;
   position: relative;
 }
@@ -26,7 +32,7 @@ page {
   /* width: calc(94%- 40px); 减去增加的间距再*96%，保证跟nav项同宽
    */
   width: 94%;
-  height: 120px;
+  height: 150px;
   background: rgba(255, 255, 255, 0.7);
   
   /* padding-left: 20px; 添加左内边距，防止太靠边 */
@@ -90,18 +96,19 @@ page {
 }
 .nav {
   margin-top: 40px;
-  font-size: 34rpx;
+  font-size: 40rpx;
   background: rgba(255, 255, 255, 0.7);
   width: 94%;
   border-radius: 30px;/*边框圆角*/
-  height: 70%;
+  overflow: hidden; /* 确保圆角效果不会被边框覆盖 */
+  box-shadow: 0 1px 0 0 #e5e5e5; /* 模拟底部边框 */
 }
 
 .nav .item {
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid #e5e5e5;
-  padding: 30rpx 0;
+  padding: 50rpx 0;
 }
 
 .avatar {
