@@ -1,5 +1,0 @@
-<!--pages/AI/AI.wxml-->
-
-<view class="container">
-  <web-view src="https://kimi.moonshot.cn/"></web-view>
-</view>

@@ -10,7 +10,6 @@
     "pages/home/home",
     "pages/map/map_index/map_index",
     "pages/logs/logs",
-    "pages/AI/AI",
     "pages/map/map_canvas/map_canvas",
     "pages/map/map_choose_places/map_choose_places",
     "pages/map/map_choose_places/place_detail/place_detail",
@@ -38,12 +37,6 @@
         "iconPath": "@iconPathHome",
         "selectedIconPath": "@selectedIconPathHome",
         "text": "我的行程"
-      },
-      {
-        "pagePath": "pages/AI/AI",
-        "iconPath": "images/tool/search_dark.png",
-        "selectedIconPath": "images/tool/search.png",
-        "text": "AI问答"
       },
       {
         "pagePath": "pages/center/center",
