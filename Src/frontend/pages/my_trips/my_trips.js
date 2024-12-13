@@ -12,7 +12,8 @@ Page({
     edit_trip_name: '',   // 当前编辑的行程项
     inputTripName: '',    // 输入的行程名称
     default_show: { trip_name: '创建新行程', },
-    themeColor: '#82af8a'
+    themeColor: '#82af8a',
+    zhanghao: ''
   },
     //背景颜色
     setTheme() {
@@ -59,7 +60,8 @@ Page({
         if (res) {
           this.setData({
             my_trips: [this.data.default_show].concat(res.data),
-            filteredTrips: [this.data.default_show].concat(res.data)
+            filteredTrips: [this.data.default_show].concat(res.data),
+            zhanghao
           });
         }
       })
@@ -188,6 +190,7 @@ Page({
   submitCancel() {
     this.setData( {edit_trip_name: '', inputTripName: ''} );
   },
+
   // 跳转到地图画布页面
   navigateToMapCanvas(event) {
     const tripName = event.currentTarget.dataset.tripName;
@@ -195,37 +198,56 @@ Page({
       url: `/pages/map/map_index/map_index?trip_name=${tripName}`
     });
   },
+
   // 删除行程
   deleteTrip(e) {
     const app = getApp();
     const zhanghao = app.globalData.zhanghao;
     const tripName = e.currentTarget.dataset.tripName;
-    
+
     const db = wx.cloud.database();
 
-    // 删除数据库中行程表项
-    db.collection('trips')
-      .where({
-        trip_name: tripName,
-        zhanghao: zhanghao
-      })
-      .remove()
-      .then(() => {
-        this.getMyAndFriendsTrips(); // 更新显示列表
-        wx.showToast({
-          title: '行程删除成功！',
-          icon: 'success',
-          duration: 1000
-        });
-      })
-      .catch(err => {
-        console.error('行程删除失败！', err);
-        wx.showToast({
-          title: '删除失败',
-          icon: 'none',
-          duration: 1000
-        });
-      });
+    // 弹出确认框
+    wx.showModal({
+      title: '确认删除',
+      content: `您确定要删除行程"${tripName}"吗？删除后无法恢复！`,
+      confirmText: '删除',
+      cancelText: '取消',
+      success: (res) => {
+        if (res.confirm) {
+          // 用户点击了确认删除
+          db.collection('trips')
+            .where({
+              trip_name: tripName,
+              zhanghao: zhanghao
+            })
+            .remove()
+            .then(() => {
+              this.getMyAndFriendsTrips(); // 更新显示列表
+              wx.showToast({
+                title: '行程删除成功！',
+                icon: 'success',
+                duration: 1000
+              });
+            })
+            .catch((err) => {
+              console.error('行程删除失败！', err);
+              wx.showToast({
+                title: '删除失败',
+                icon: 'none',
+                duration: 1000
+              });
+            });
+        } else if (res.cancel) {
+          // 用户点击了取消删除
+          wx.showToast({
+            title: '已取消删除',
+            icon: 'none',
+            duration: 1000
+          });
+        }
+      }
+    });
   },
 
   // 监听页面滚动
@@ -247,7 +269,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-    // this.getMyTrips();
     this.getMyAndFriendsTrips();
     // 清空全局变量
     const app = getApp();

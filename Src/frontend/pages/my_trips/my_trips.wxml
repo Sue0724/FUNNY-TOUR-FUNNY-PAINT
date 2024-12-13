@@ -23,18 +23,17 @@
 
 
   <!-- 行程列表 -->
-  <view style="padding: 10rpx; background-color: {{themeColor}};">
-    <view style="margin-top: 15rpx; padding: 10rpx; background-color: rgba(255, 255, 255, 0.7); border-radius: 10px;">
+  <view style="padding: 10rpx; background-color: {{themeColor}}; min-height: calc(100vh - 500rpx);">
+    <view style="margin-top: 15rpx; padding: 10rpx; background-color: rgba(255, 255, 255, 0.7); border-radius: 10px; min-height: calc(100vh - 500rpx);">
       <scroll-view scroll-y="true">
-        <view wx:for="{{filteredTrips}}" wx:key="trip_name" 
-              class="item">
+        <view wx:for="{{filteredTrips}}" wx:key="trip_name" class="item">
           <view>
             <view class="name-and-icon">
               <!-- 显示行程名称 -->
               <text class="name">{{item.trip_name}}</text>
 
               <!-- 编辑图标 -->
-              <image wx:if="{{item.trip_name === '创建新行程'}}" src="../../images/marker/add_dark.png" class="icon" bindtap="showEditInput" data-trip-name="{{item.trip_name}}" />
+              <image wx:if="{{item.trip_name === '创建新行程'}}" src="../../images/marker/add_dark.png" class="icon2" bindtap="showEditInput" data-trip-name="{{item.trip_name}}" />
             </view>
             <!-- 编辑输入框和提交按钮 -->
             <view wx:if="{{edit_trip_name === item.trip_name}}">

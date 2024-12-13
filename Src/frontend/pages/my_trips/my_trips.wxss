@@ -12,11 +12,11 @@
     justify-content: flex-start; /* 默认从左开始排列 */
   }
   .item {
+    position: relative; /* 确保子元素可以相对定位 */
     padding: 10px;
     border-bottom: 1px solid #ddd;
     font-size: 16px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     z-index: 3;
   }
@@ -26,7 +26,6 @@
     color: #333;
     font-size: 18px;           /* 放大字体 */
     line-height: 1.5;          /* 调整行高，增加行间距 */
-    margin-right: 110px;        /* 文字和图标之间的间距 */
     margin-top: 10px;
     margin-bottom: 10px;       /* 当前行和下一行之间的间距 */
     display: block;            /* 确保在单独一行 */
@@ -45,6 +44,15 @@
     margin-top: 10px;
     margin-bottom: 10px;
   }  
+
+  .icon2 {
+    position: absolute;
+    right: 10%; /* 距离右边 10% */
+    top: 50%;
+    transform: translateY(-50%); /* 垂直居中 */
+    width: 24px; /* 控制图标大小 */
+    height: 24px;
+  }
 
 .banner{
   width: 100%;
