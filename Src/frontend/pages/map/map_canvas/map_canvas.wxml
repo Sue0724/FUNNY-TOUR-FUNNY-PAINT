@@ -29,7 +29,7 @@
  <!-- 右上角图标 -->
  <image class="list-icon" src="/images/list.png" bindtap="openSidebar" />
 <!-- 左下角移动 -->
-<view class="icon-container">
+<view class="icon-container" wx:if="{{drawMode === true}}">
 <view class="icon">
   <image class="icon-up" src="/images/angle/up.png" bindtap="moveUp"></image>
   <image class="icon-down" src="/images/angle/down.png" bindtap="moveDown"></image>
@@ -37,7 +37,7 @@
   <image class="icon-right" src="/images/angle/right.png" bindtap="moveRight"></image>
 </view>
 </view>
-<view class="iicon">
+<view class="iicon" wx:if="{{drawMode === true}}">
   <image class="brush" src="/images/brush.png"bindtap="selectBrush"></image>
 <image class="eraser" src="/images/eraser.png"bindtap="selectEraser"></image>
 </view>
@@ -48,21 +48,9 @@
         <image class="close-icon" src="/images/close-icon.png" bindtap="closeSidebar" />
       </view>
       <view class="item">
-        <view class='wallet' bindtap="toggleShowMarkers">
-          <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
-          <text>{{showMarkers ? '隐藏地点标记' : '显示地点标记'}}</text>
-        </view>
-      </view>
-      <view class="item">
         <view class='wallet' bindtap="toggleDrawMode">
           <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
           <text>{{drawMode ? '退出编辑' : '进入编辑'}}</text>
-        </view>
-      </view>
-      <view class="item">
-        <view class='wallet' bindtap="toggleHideDrawing">
-          <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
-          <text>{{hideDrawing ? '显示绘画' : '隐藏绘画'}}</text>
         </view>
       </view>
       <view class="item">
@@ -71,8 +59,20 @@
           <text>清空画布</text>
         </view>
       </view>
+      <view class="item" wx:if="{{drawMode === false}}">
+        <view class='wallet' bindtap="toggleShowMarkers">
+          <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+          <text>{{showMarkers ? '隐藏地点标记' : '显示地点标记'}}</text>
+        </view>
+      </view>
+      <view class="item" wx:if="{{drawMode === false}}">
+        <view class='wallet' bindtap="toggleHideDrawing">
+          <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
+          <text>{{hideDrawing ? '显示绘画' : '隐藏绘画'}}</text>
+        </view>
+      </view>
     </view>
-  <view class="toolbar">
+  <view class="toolbar" wx:if="{{drawMode === true}}">
     <!-- 颜色选择器 -->
     <view class="color-picker">
       <text>R</text>
