@@ -26,8 +26,9 @@
     color: #333;
     font-size: 18px;           /* 放大字体 */
     line-height: 1.5;          /* 调整行高，增加行间距 */
-    margin-right: 150px;        /* 文字和图标之间的间距 */
-    margin-bottom: 20px;       /* 当前行和下一行之间的间距 */
+    margin-right: 110px;        /* 文字和图标之间的间距 */
+    margin-top: 10px;
+    margin-bottom: 10px;       /* 当前行和下一行之间的间距 */
     display: block;            /* 确保在单独一行 */
   }
 
@@ -41,7 +42,8 @@
     width: 24px; /* 调整图标的宽度 */
     height: 24px; /* 调整图标的高度 */
     margin: 0 50px; /* 为图标之间添加间距 */
-    margin-bottom: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
   }  
 
 .banner{
