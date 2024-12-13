@@ -254,13 +254,6 @@ Page({
                 duration: 1000
               });
             });
-        } else if (res.cancel) {
-          // 用户点击了取消删除
-          wx.showToast({
-            title: '已取消删除',
-            icon: 'none',
-            duration: 1000
-          });
         }
       }
     });
@@ -286,7 +279,8 @@ Page({
    */
   onShow() {
     this.getMyAndFriendsTrips();
-    // 清空全局变量
+    this.setTheme();
+    const app = getApp();
     app.setTripMarkers("[]");
     app.setAllMarkers("[]");
     app.setSelfAddedMarkers("[]");
@@ -296,7 +290,6 @@ Page({
     app.setFixedLongitude(114.40807827869122);
     app.setMarkerId(0);
     app.setPaths("[]");
-    this.setTheme();
   },
 
   /**
