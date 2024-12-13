@@ -6,7 +6,7 @@
     <image src="{{searchIcon}}" mode="widthFix" class="search-icon" bindtap="onSearchNearbySubmit" />
      -->
     <image src="../../../images/tool/search_dark.png" class='search_icon'></image>
-      <input placeholder="搜索地点或输入关键字" 
+      <input placeholder="输入关键字" 
            bindinput="onSearchInput" />
       <view class="search_btn" bindtap="onSearchNearbySubmit" >搜索</view>
   </view>

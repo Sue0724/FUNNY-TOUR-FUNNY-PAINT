@@ -77,11 +77,10 @@
     height: 70rpx;
     width: 750rpx;
     background-color: #ffffff;
-    border-top-left-radius:35rpx;
-    border-top-right-radius:35rpx;
+    border-radius: 35rpx;
     position: fixed;
     top: 0px;
-    z-index: 1;
+    z-index: 99;
     /* position: absolute;
     top: 150px; 
     width: 100%;
@@ -105,7 +104,7 @@
   border-top-right-radius:35rpx;
   position: absolute;
   top: 200px;
-  z-index: 1;
+  z-index: 99;
   /* position: absolute;
   top: 150px; 
   width: 100%;

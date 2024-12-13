@@ -286,7 +286,7 @@ Page({
    */
   onShow() {
     this.getMyAndFriendsTrips();
-    // 清空全局变量
+    this.setTheme();
     app.setTripMarkers("[]");
     app.setAllMarkers("[]");
     app.setSelfAddedMarkers("[]");
@@ -296,7 +296,6 @@ Page({
     app.setFixedLongitude(114.40807827869122);
     app.setMarkerId(0);
     app.setPaths("[]");
-    this.setTheme();
   },
 
   /**
