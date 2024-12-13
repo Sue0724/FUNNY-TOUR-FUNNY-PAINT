@@ -254,13 +254,6 @@ Page({
                 duration: 1000
               });
             });
-        } else if (res.cancel) {
-          // 用户点击了取消删除
-          wx.showToast({
-            title: '已取消删除',
-            icon: 'none',
-            duration: 1000
-          });
         }
       }
     });
@@ -287,6 +280,7 @@ Page({
   onShow() {
     this.getMyAndFriendsTrips();
     this.setTheme();
+    const app = getApp();
     app.setTripMarkers("[]");
     app.setAllMarkers("[]");
     app.setSelfAddedMarkers("[]");
