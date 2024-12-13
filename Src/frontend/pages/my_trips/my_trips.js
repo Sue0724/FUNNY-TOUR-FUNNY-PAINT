@@ -36,6 +36,15 @@ Page({
     const db = wx.cloud.database(); // 获取云数据库实例
     const app = getApp();           // 获取全局应用实例
     const zhanghao = app.globalData.zhanghao; // 获取当前账号的zhanghao
+
+    if (zhanghao === '') {
+      this.setData({
+        my_trips: [this.data.default_show],
+        filteredTrips: [this.data.default_show]
+      });
+      return;
+    }
+
     // 查询用户的好友列表
     db.collection('users')
       .where({ zhanghao: zhanghao })
@@ -278,7 +287,6 @@ Page({
   onShow() {
     this.getMyAndFriendsTrips();
     // 清空全局变量
-    const app = getApp();
     app.setTripMarkers("[]");
     app.setAllMarkers("[]");
     app.setSelfAddedMarkers("[]");
