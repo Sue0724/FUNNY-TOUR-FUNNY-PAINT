@@ -25,13 +25,15 @@ Page({
 
   addFriend: function() {
     const { inputId } = this.data;
+    console.log("inputId is", inputId);
 
     // 先在数据库中查找该用户
     wx.cloud.database().collection('users').where({
       zhanghao: inputId // 查询条件
     }).get()
     .then(res => {
-      if (res.data.length > 0) {
+      // if (res.data.length > 0) {
+      if (res.data.length > 0){
         // 用户存在，检查是否已是好友
         this.checkIfAlreadyFriend(inputId);
       } else {
