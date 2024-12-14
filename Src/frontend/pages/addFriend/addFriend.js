@@ -33,8 +33,9 @@ Page({
     }).get()
     .then(res => {
       // if (res.data.length > 0) {
-      if (res.data.length > 0){
+      if (res.data){
         // 用户存在，检查是否已是好友
+        console.log("用户存在，现在去检查是否已经是好友");
         this.checkIfAlreadyFriend(inputId);
       } else {
         wx.showToast({
