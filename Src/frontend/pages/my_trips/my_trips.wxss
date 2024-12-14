@@ -69,49 +69,34 @@
 
 
 .search-bar-Fixed {
-    display: flex;
-    align-items: center;
-    justify-content:space-between;
-    padding:20px 20px ;
-    box-sizing: border-box;
-    height: 70rpx;
-    width: 750rpx;
-    background-color: #ffffff;
-    border-radius: 35rpx;
-    position: fixed;
-    top: 0px;
-    z-index: 99;
-    /* position: absolute;
-    top: 150px; 
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-    background-color: white;
-    z-index: 2; */
-  }
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  box-sizing: border-box;
+  height: 70rpx;
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 35rpx;
+  position: fixed;
+  top: 0;
+  z-index: 99;
+}
   
 .search-bar-Absolute {
   display: flex;
   align-items: center;
-  justify-content:space-between;
-  padding:20px 20px ;
+  justify-content: space-between;
+  padding: 20px;
   box-sizing: border-box;
   height: 70rpx;
-  width: 750rpx;
-  background-color: #ffffff;
-  /* border-radius: 35rpx; */
-  border-top-left-radius:35rpx;
-  border-top-right-radius:35rpx;
-  position: absolute;
-  top: 200px;
-  z-index: 99;
-  /* position: absolute;
-  top: 150px; 
   width: 100%;
-  padding: 10px;
-  box-sizing: border-box;
-  background-color: white;
-  z-index: 2; */
+  background-color: #ffffff;
+  border-top-left-radius: 35rpx;
+  border-top-right-radius: 35rpx;
+  position: absolute;
+  top: 380rpx; /* 使用相对的单位 */
+  z-index: 99;
 }
 .search_icon {
   height: 45rpx;
