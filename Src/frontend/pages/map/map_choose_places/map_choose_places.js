@@ -52,6 +52,7 @@ Page({
     showDialog: false,
     currentMarker: null,
     actions: [
+      { text: '查看详情', value: 'showDetail' },
       { text: '加入行程', value: 'add' },
       { text: '收藏地点', value: 'collect' },
       { text: '外部导航', value: 'outerNavigate' },
