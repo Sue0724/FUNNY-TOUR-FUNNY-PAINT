@@ -77,7 +77,8 @@ Page({
       wx.showToast({
         title: '密码长度不少于6位数',
         icon: 'none'
-      })
+      });
+      return;
     }
 
     if (newPwd == currentPwd){

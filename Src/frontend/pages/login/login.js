@@ -39,11 +39,11 @@ Page({
 
   // 点击登陆
   login() {
-    let zhanghao = this.data.zhanghao;
-    let mima = this.data.mima;
-    console.log('账号', zhanghao, '密码', mima);
+    let input_zhanghao = this.data.zhanghao;
+    let input_mima = this.data.mima;
+    console.log('账号', input_zhanghao, '密码', input_mima);
 
-    if (zhanghao.length == 0) {
+    if (input_zhanghao.length == 0) {
       wx.showToast({
         icon: 'none',
         title: '请输入账号！',
@@ -53,11 +53,11 @@ Page({
 
     // 登陆
     wx.cloud.database().collection('users').where({
-      zhanghao: zhanghao
+      zhanghao: input_zhanghao
     }).get({
       success(res) {
         console.log("获取数据成功", res);
-
+        // console.log(res);
         if (res.data.length == 0) {
           // 用户未注册
           console.log("该用户未注册");
@@ -71,7 +71,7 @@ Page({
         let user = res.data[0];
         console.log("user", user);
 
-        if (mima == user.mima) {
+        if (input_mima == user.mima) {
           console.log('登陆成功');
           
           // // 显示加载提示
@@ -86,7 +86,7 @@ Page({
 
           // 保存用户登陆状态到全局
           app.globalData.isLoggedIn = true;
-          app.globalData.zhanghao = zhanghao; // 保存账号
+          app.globalData.zhanghao = input_zhanghao; // 保存账号
           app.globalData.avatarUrl = user.avatar || 'cloud://cloud-3ggj70dl61976054.636c-cloud-3ggj70dl61976054-1330345883/person.png'; // 保存头像
           app.globalData.loginTime = Date.now();
 
