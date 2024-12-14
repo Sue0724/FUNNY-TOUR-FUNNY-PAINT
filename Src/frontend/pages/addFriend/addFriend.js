@@ -115,7 +115,7 @@ Page({
         icon: 'success'
       });
       // 清空输入框
-      this.setData({ inputId: '' });
+      // this.setData({ inputId: '' });
     })
     .catch(err => {
       console.error("发送请求失败:", err);
