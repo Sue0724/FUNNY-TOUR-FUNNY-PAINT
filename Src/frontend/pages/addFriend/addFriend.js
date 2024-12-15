@@ -1,3 +1,5 @@
+
+
 var app = getApp();
 
 Page({
@@ -33,7 +35,9 @@ Page({
     }).get()
     .then(res => {
       // if (res.data.length > 0) {
-      if (res.data){
+      console.log(res.data.length);
+      console.log("res.data是", res.data);
+      if (res.data.length > 0){
         // 用户存在，检查是否已是好友
         console.log("用户存在，现在去检查是否已经是好友");
         this.checkIfAlreadyFriend(inputId);
