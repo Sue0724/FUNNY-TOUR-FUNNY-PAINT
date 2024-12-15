@@ -1,44 +1,37 @@
 <view class="container" style="{{gradientStyle}}">
-  <!-- <view class="header">
-    <image class="menu-icon" src="../../images/classify.png" bindtap="toggleSidebar" />
-  </view> -->
-      <!-- 右上角图标 -->
-      <image class="list-icon" src="/images/list.png" bindtap="openSidebar" />
-      <!-- 居中标题 -->
-      <text class="friends-header">好友列表</text>
-  <!-- <view class="sidebar" wx:if="{{showSidebar}}">
-    <view class="sidebar-item" bindtap="addFriend">添加好友</view>
-    <view class="sidebar-item" bindtap="navigateToMessages">我的消息</view>
-  </view> -->
-<!-- 边栏 -->
-<view class="sidebar" wx:if="{{isSidebarOpen}}">
-      <view class="sidebar-header">
-        <image class="close-icon" src="/images/close-icon.png" bindtap="closeSidebar" />
-      </view>
-      <view class="item">
-        <view class='wallet' bindtap="addFriend">
-          <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
-          <text>添加好友</text>
-        </view>
-      </view>
-      <view class="item">
-        <view class='wallet' bindtap="navigateToMessages">
-          <text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>
-          <text>我的消息</text>
-        </view>
+  <!-- 右上角图标 -->
+  <image class="list-icon" src="/images/list.png" bindtap="openSidebar" />
+  <!-- 居中标题 -->
+  <text class="friends-header">好友列表</text>
+
+  <!-- 边栏 -->
+  <view class="sidebar" wx:if="{{isSidebarOpen}}">
+    <view class="sidebar-header">
+      <image class="close-icon" src="/images/close-icon.png" bindtap="closeSidebar" />
+    </view>
+    <view class="item">
+      <view class='wallet' bindtap="addFriend">
+        <text>添加好友</text>
       </view>
     </view>
+    <view class="item">
+      <view class='wallet' bindtap="navigateToMessages">
+        <text>我的消息</text>
+      </view>
+    </view>
+  </view>
 
+  <!-- 好友列表 -->
   <view class="friends-list">
     <block wx:for="{{friendList}}" wx:key="index">
-      <movable-view class="friend-item" direction="horizontal" out-of-bounds="none">
+      <view class="friend-item">
         <view class="friend-info">
           <text>{{item}}</text> <!-- 显示好友的账号或名字 -->
         </view>
         <view class="delete-btn" style="background-color: {{themeColor}};" bindtap="deleteFriend" data-id="{{item}}">
           <text>删除</text>
         </view>
-      </movable-view>
+      </view>
     </block>
   </view>
 </view>

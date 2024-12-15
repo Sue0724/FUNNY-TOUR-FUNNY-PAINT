@@ -16,6 +16,7 @@ Page({
     this.loadMessages(); // 加载消息
     this.setTheme();
   },
+    
   setTheme() {
     const app = getApp();
     const themeColor = app.globalData.themeColor;

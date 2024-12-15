@@ -35,6 +35,7 @@ Page({
       if (res.data.length > 0) {
         const friendsList = res.data[0].friends || []; // 如果没有，默认为空数组
         this.setData({ friendList: friendsList.length > 0 ? friendsList : [] }); // 确保 friendList 不为 null
+        // console.log("friendList:", this.data.friendList);
       } else {
         console.error("未找到用户:", app.globalData.zhanghao);
         this.setData({ friendList: [] }); // 确保 friendList 为一个空数组
