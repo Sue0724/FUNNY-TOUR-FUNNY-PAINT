@@ -146,6 +146,15 @@ Page({
       return;
     }
 
+    if (this.data.my_trips.some(trip => trip.trip_name === newTripName)) {
+      wx.showToast({
+        title: '名称重复了，换一个试试吧~',
+        icon: 'none',
+        duration: 1000
+      });
+      return;
+    }
+
     const db = wx.cloud.database();
 
     // 更新数据库中的 trip_name 字段
