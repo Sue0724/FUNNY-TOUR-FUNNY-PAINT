@@ -11,7 +11,7 @@ Page({
     filteredTrips: [],    // 经过搜索过滤的行程列表
     edit_trip_name: '',   // 当前编辑的行程项
     inputTripName: '',    // 输入的行程名称
-    default_show: { trip_name: '创建新行程', },
+    default_show: [{ trip_name: '体验版（无法保存行程哦~）', }, {trip_name: '创建新行程', }],
     themeColor: '#82af8a',
     zhanghao: ''
   },
@@ -39,8 +39,8 @@ Page({
 
     if (zhanghao === '') {
       this.setData({
-        my_trips: [this.data.default_show],
-        filteredTrips: [this.data.default_show]
+        my_trips: this.data.default_show,
+        filteredTrips: this.data.default_show
       });
       return;
     }
@@ -68,8 +68,8 @@ Page({
         // 将查询结果中的trip_name集合保存到my_trips
         if (res) {
           this.setData({
-            my_trips: [this.data.default_show].concat(res.data),
-            filteredTrips: [this.data.default_show].concat(res.data),
+            my_trips: this.data.default_show.concat(res.data),
+            filteredTrips: this.data.default_show.concat(res.data),
             zhanghao
           });
         }
@@ -137,7 +137,7 @@ Page({
       return;
     }
 
-    if (newTripName === '创建新行程') {
+    if (newTripName === '创建新行程' || newTripName === '体验版（无法保存行程哦~）') {
       wx.showToast({
         title: '不能使用这个名称，换一个试试吧~',
         icon: 'none',

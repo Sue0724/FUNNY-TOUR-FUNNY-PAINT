@@ -78,6 +78,15 @@ closeSidebar() {
     const { tripMarkers, collectMarkers, fixedLatitude, fixedLongitude, markerId, paths, zhanghao } = app.globalData;  // 如果是协作者，需改为修改collaborators
     const trip_name = this.data.trip_name;
 
+    if (trip_name === '体验版（无法保存行程哦~）') {
+      wx.showToast({
+        title: '体验版无法保存行程哦~',
+        icon: 'none',
+        duration: 1000
+      });
+      return;
+    }
+
     if (zhanghao === '') {
       wx.showToast({
         title: '保存失败，请先登录！',
@@ -152,6 +161,9 @@ closeSidebar() {
 
    // 从数据库中获取行程数据
   getMapData(trip_name) {
+    if (trip_name === '体验版（无法保存行程哦~）') {
+      return;
+    }
     const db = wx.cloud.database();
     const app = getApp();
     const zhanghao = app.globalData.zhanghao;
